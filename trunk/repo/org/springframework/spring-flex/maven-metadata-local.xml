@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><metadata>
-  <groupId>org.springframework.flex</groupId>
+  <groupId>org.springframework</groupId>
   <artifactId>spring-flex</artifactId>
   <version>1.0.0.RC1</version>
   <versioning>
