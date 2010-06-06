@@ -13,31 +13,51 @@
         <module>ria</module>
         <module>web</module>
     </modules>
+
+	
 	<repositories>
 		<repository>
 			<id>flex-mojos-repository</id>
-			<url>http://flex-mojos.googlecode.com/svn/trunk/repository/</url>
+			<url>http://repository.sonatype.org/content/groups/public</url>
+		</repository>
+		<repository>
+			<id>ObjectWEB</id>
+			<url>http://maven.ow2.org/maven2/</url>
 			<releases>
+				<enabled>true</enabled>
 			</releases>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
+		</repository>		
+		<repository>
+			<id>spring-repository</id>
+			<name>Spring Framework Repository</name>
+			<url>http://s3.amazonaws.com/maven.springframework.org/snapshot</url>
+		</repository>
+		<repository>
+			<id>semachina-repo</id>
+			<name>Semachina Google Code Repo</name>
+			<url>http://semachina.googlecode.com/svn/trunk/repo</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
 			<id>flex-mojos-repository</id>
-			<url>http://flex-mojos.googlecode.com/svn/trunk/repository/</url>
-			<releases>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
+			<url>http://repository.sonatype.org/content/groups/public</url>
 		</pluginRepository>
 	</pluginRepositories>
+
+
 	<build>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<!--  Faciliates build dependency analysis -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-reactor-plugin</artifactId>
+					<version>1.0</version>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>

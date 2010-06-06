@@ -11,6 +11,11 @@
 		<groupId>org.semachina</groupId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
+
+	<properties>
+		<spring.version>2.5.6.SEC01</spring.version>
+	</properties>
+
 	<build>
 		<finalName>semachina-server</finalName>
 		<plugins>
@@ -18,8 +23,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -53,17 +58,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>info.rvin.mojo</groupId>
-				<artifactId>flex-compiler-mojo</artifactId>
-				<version>1.0-beta7</version>
-				<extensions>true</extensions>
-				<configuration>
-					<locales>
-						<param>en_US</param>
-					</locales>
-				</configuration>
-			</plugin>
 		</plugins>
 		<resources>
 			<resource>
@@ -83,9 +77,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>ria</artifactId>
+			<artifactId>core</artifactId>
 			<version>1.0-SNAPSHOT</version>
-			<type>swf</type>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -94,31 +87,12 @@
 			<classifier>resources</classifier>
 			<type>zip</type>
 			<scope>provided</scope>
-		</dependency>
+		</dependency>		
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring</artifactId>
-			<version>2.5.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.adobe.blazeds</groupId>
-			<artifactId>blazeds-common</artifactId>
-			<version>3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.adobe.blazeds</groupId>
-			<artifactId>blazeds-core</artifactId>
-			<version>3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.adobe.blazeds</groupId>
-			<artifactId>blazeds-remoting</artifactId>
-			<version>3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>backport-util-concurrent</groupId>
-			<artifactId>backport-util-concurrent</artifactId>
-			<version>3.1</version>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>ria</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<type>swf</type>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -132,10 +106,90 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+
+
+		<!-- Java Compile and Runtime Dependencies -->
 		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>core</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.0.71</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core-tiger</artifactId>
+			<version>2.0.4</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-support</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-core</artifactId>
+			<version>1.0.2.SR1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.flex</groupId>
+			<artifactId>spring-flex</artifactId>
+			<version>1.0.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.6.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-core</artifactId>
+			<version>5.1.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.camel</groupId>
+					<artifactId>camel-core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 </project>
