@@ -1,6 +1,6 @@
 package org.semachina.core.db;
 
-import org.semachina.core.ModelMakerFactory;
+import org.semachina.jena.core.ModelMakerFactory;
 
 import com.hp.hpl.jena.db.DBConnection;
 import com.hp.hpl.jena.db.IDBConnection;
