@@ -34,20 +34,32 @@
 
 package org.semachina.jena.db;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.rdf.model.InfModel;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
+import com.hp.hpl.jena.reasoner.rulesys.GenericRuleReasoner;
+import com.hp.hpl.jena.reasoner.rulesys.Rule;
+import com.hp.hpl.jena.reasoner.rulesys.Rule.Parser;
 import com.hp.hpl.jena.sparql.util.Context;
 import com.hp.hpl.jena.sparql.util.Symbol;
+import com.hp.hpl.jena.util.FileManager;
 
 /**
  * A useful database abstraction that implements the details of the queries,
@@ -58,9 +70,12 @@ import com.hp.hpl.jena.sparql.util.Symbol;
  */
 public abstract class AbstractDatabase implements Database {
 
-    private Context context;
+    final static Logger log = LoggerFactory.getLogger(AbstractDatabase.class);
 
-	/**
+    private Context context;
+    private GenericRuleReasoner reasoner;
+
+    /**
      * Gets the data object of the database for querying
      *
      * @return The data object
@@ -69,7 +84,7 @@ public abstract class AbstractDatabase implements Database {
     public abstract Data getData() throws DataException;
 
     /**
-     * @see org.semachina.jena.db.Database#executeSelectQuery(java.lang.String,
+     * @see org.caboto.jena.db.Database#executeSelectQuery(java.lang.String,
      *      com.hp.hpl.jena.query.QuerySolution)
      */
     public Results executeSelectQuery(String sparql,
@@ -93,7 +108,7 @@ public abstract class AbstractDatabase implements Database {
         }
     }
     /**
-     * @see org.semachina.jena.db.Database#executeConstructQuery(com.hp.hpl.jena.query.Query,
+     * @see org.caboto.jena.db.Database#executeConstructQuery(com.hp.hpl.jena.query.Query,
      *      com.hp.hpl.jena.query.QuerySolution)
      */
     public Model executeConstructQuery(Query query,
@@ -120,7 +135,7 @@ public abstract class AbstractDatabase implements Database {
         }
     }
     /**
-     * @see org.semachina.jena.db.Database#executeConstructQuery(java.lang.String,
+     * @see org.caboto.jena.db.Database#executeConstructQuery(java.lang.String,
      *      com.hp.hpl.jena.query.QuerySolution)
      */
     public Model executeConstructQuery(String sparql,
@@ -130,22 +145,24 @@ public abstract class AbstractDatabase implements Database {
     }
 
     /**
-     * @see org.semachina.jena.db.Database#getUpdateModel()
+     * @see org.caboto.jena.db.Database#getUpdateModel()
      */
     public Model getUpdateModel() {
         return ModelFactory.createDefaultModel();
     }
 
     /**
-     * @see org.semachina.jena.db.Database#addModel(java.lang.String,
+     * @see org.caboto.jena.db.Database#addModel(java.lang.String,
      *      com.hp.hpl.jena.rdf.model.Model)
      */
     public boolean addModel(String uri, Model model) {
         try {
+            log.info("Adding data to model: " + uri + " " + reasoner);
             Data data = getData();
             Model m = data.getModel(uri);
             m.withDefaultMappings(model);
             m.add(model);
+            if (reasoner != null) redoInferred(uri, m, false);
             m.close();
             data.close();
             return true;
@@ -156,15 +173,17 @@ public abstract class AbstractDatabase implements Database {
     }
 
     /**
-     * @see org.semachina.jena.db.Database#deleteModel(java.lang.String,
+     * @see org.caboto.jena.db.Database#deleteModel(java.lang.String,
      *      com.hp.hpl.jena.rdf.model.Model)
      */
     public boolean deleteModel(String uri, Model model) {
         try {
+            log.info("Deleteing data in model: " + uri + " " + reasoner);
             Data data = getData();
             Model m = data.getModel(uri);
             m.withDefaultMappings(model);
             m.remove(model);
+            if (reasoner != null) redoInferred(uri, m, true);
             m.close();
             data.close();
             return true;
@@ -176,9 +195,11 @@ public abstract class AbstractDatabase implements Database {
 
     public boolean deleteAll(String uri) {
         try {
+            log.info("Deleting model: " + uri + " " + reasoner);
             Data data = getData();
             Model m = data.getModel(uri);
             m.removeAll();
+            if (reasoner != null) redoInferred(uri, m, true);
             m.close();
             data.close();
             return true;
@@ -190,7 +211,7 @@ public abstract class AbstractDatabase implements Database {
 
 
     /**
-     * @see org.semachina.jena.db.Database#updateProperty(java.lang.String,
+     * @see org.caboto.jena.db.Database#updateProperty(java.lang.String,
      *      java.lang.String,
      *      com.hp.hpl.jena.rdf.model.Property,
      *      com.hp.hpl.jena.rdf.model.RDFNode)
@@ -198,6 +219,7 @@ public abstract class AbstractDatabase implements Database {
     public boolean updateProperty(String uri, String resourceUri,
                                   Property property, RDFNode value) {
         try {
+            log.info("Updting property in model: " + uri + " " + reasoner);
             Data data = getData();
             Model m = data.getModel(uri);
             if (!m.containsResource(
@@ -230,4 +252,28 @@ public abstract class AbstractDatabase implements Database {
     }
     
     public Context getQueryContext() { return this.context; }
+
+    public void setRules(String rulesFile) {
+        try {
+            log.info("Trying to load rule file: " + rulesFile);
+            InputStream rulesStream = FileManager.get().open(rulesFile);
+            Parser rules = Rule.rulesParserFromReader(
+                    new BufferedReader(
+                    new InputStreamReader(rulesStream, "UTF-8")));
+            reasoner = new GenericRuleReasoner(Rule.parseRules(rules));
+            log.info("Loaded!");
+        } catch (Throwable ex) {
+            log.error("Problem loading rules <" + rulesFile + ">", ex);
+        }
+    }
+
+    public void redoInferred(String uri, Model m, boolean nonMon) throws DataException {
+        log.info("Running inferences on " + uri);
+        Data data = getData();
+        Model infData = data.getModel(uri + "-inferred");
+        if (nonMon) infData.removeAll(); // Truth maintenance grossly simplified
+        InfModel inf = ModelFactory.createInfModel(reasoner, m);
+        infData.add(inf.getDeductionsModel());
+        log.info("Inferencing done");
+    }
 }

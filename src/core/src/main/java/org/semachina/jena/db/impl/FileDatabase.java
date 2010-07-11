@@ -33,20 +33,19 @@
  */
 package org.semachina.jena.db.impl;
 
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.sparql.util.Context;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.semachina.jena.db.AbstractDatabase;
 import org.semachina.jena.db.Data;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
+import com.hp.hpl.jena.query.Dataset;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.sparql.util.Context;
 
 /**
  * A database represented by a set of files
@@ -92,14 +91,14 @@ public class FileDatabase extends AbstractDatabase {
      * @param namedGraphsDir   path to the directory holding the named graphs.
      * @throws IOException if the datasets cannot be loaded
      */
-    public FileDatabase(final String defaultModelFile,
-                        final String namedGraphsDir) throws IOException {
+    public FileDatabase(final File aDefaultModelFile,
+                        final File namedGraphsPath) throws IOException {
 
         try {
-            // get the default model
-             File aDefaultModelFile = new File(URLDecoder.decode(
-                    getClass().getResource(defaultModelFile).getPath(),
-                    "UTF-8"));
+//            // get the default model
+//             File aDefaultModelFile = new File(URLDecoder.decode(
+//                    getClass().getResource(defaultModelFile).getPath(),
+//                    "UTF-8"));
 
             if (!aDefaultModelFile.exists() || !aDefaultModelFile.isFile()) {
                 throw new IOException(new StringBuilder()
@@ -110,8 +109,8 @@ public class FileDatabase extends AbstractDatabase {
 
 
             // find the named graphs
-            File namedGraphsPath = new File(URLDecoder.decode(
-                    getClass().getResource(namedGraphsDir).getPath(), "UTF-8"));
+//            File namedGraphsPath = new File(URLDecoder.decode(
+//                    getClass().getResource(namedGraphsDir).getPath(), "UTF-8"));
 
             if (!namedGraphsPath.exists() || !namedGraphsPath.isDirectory()) {
                 throw new IOException(new StringBuilder()
@@ -138,7 +137,7 @@ public class FileDatabase extends AbstractDatabase {
     }
 
     /**
-     * @see org.semachina.jena.db.AbstractDatabase#getData()
+     * @see org.caboto.jena.db.AbstractDatabase#getData()
      */
     public Data getData() {
         return new FileData(getQueryContext());

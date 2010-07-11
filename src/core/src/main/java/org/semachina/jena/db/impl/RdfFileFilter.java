@@ -33,8 +33,8 @@
  */
 package org.semachina.jena.db.impl;
 
-import java.io.FileFilter;
 import java.io.File;
+import java.io.FileFilter;
 
 /**
  * <p>File filter for RDF files.</p>

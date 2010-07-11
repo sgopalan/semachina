@@ -33,19 +33,20 @@
  */
 package org.semachina.jena.db.impl;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
+import org.semachina.jena.db.Data;
+import org.semachina.jena.db.DataException;
+
 import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.sdb.SDBFactory;
 import com.hp.hpl.jena.sdb.Store;
 import com.hp.hpl.jena.sdb.StoreDesc;
 import com.hp.hpl.jena.sparql.util.Context;
-
-import org.semachina.jena.db.Data;
-import org.semachina.jena.db.DataException;
-
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * A database based on an SQL datasource
@@ -124,7 +125,7 @@ public class DatasourceDatabase extends SDBAbstractDatabase {
     }
 
     /**
-     * @see org.semachina.jena.db.AbstractDatabase#getData()
+     * @see org.caboto.jena.db.AbstractDatabase#getData()
      */
     public Data getData() throws DataException {
         try {

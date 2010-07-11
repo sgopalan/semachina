@@ -81,7 +81,6 @@ public class LarqIndexedDatabase implements Database {
 	private String indexDirectory;
 	private IndexBuilderModel ib;
 	private FSDirectory fsd;
-	
 	final private boolean cacheLARQ;
 	
 	public LarqIndexedDatabase(final Database db, final String indexDirectory) { this(db, indexDirectory, true, false); }
@@ -219,6 +218,10 @@ public class LarqIndexedDatabase implements Database {
 	private void setIndex(IndexLARQ index) {
 		database.setQueryContext(LARQ.indexKey, cacheIfRequired(index));
 	}
+
+    public void setRules(String rulesFile) {
+        database.setRules(rulesFile);
+    }
 	
 	static class IndexLARQCacher extends IndexLARQ {
 		
@@ -240,9 +243,12 @@ public class LarqIndexedDatabase implements Database {
 	}
 	
 	public void close() {
-		getIndexBuilder().closeWriter();
-		if( fsd != null ) {
-			fsd.close();
+		if (ib != null) {
+			ib.closeWriter();
+		}
+		
+		if( this.fsd != null ) {
+			this.fsd.close();
 		}
 	}
 
