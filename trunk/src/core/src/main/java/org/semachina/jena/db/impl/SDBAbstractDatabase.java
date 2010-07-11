@@ -33,23 +33,18 @@
  */
 package org.semachina.jena.db.impl;
 
-import com.hp.hpl.jena.query.Dataset;
+import java.io.InputStream;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import org.semachina.jena.db.AbstractDatabase;
+
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.sdb.SDBFactory;
 import com.hp.hpl.jena.sdb.Store;
 import com.hp.hpl.jena.sdb.StoreDesc;
 import com.hp.hpl.jena.sdb.sql.SDBConnection;
-
-import org.semachina.jena.db.AbstractDatabase;
-import org.semachina.jena.db.DataException;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * An abstract database for using SDB

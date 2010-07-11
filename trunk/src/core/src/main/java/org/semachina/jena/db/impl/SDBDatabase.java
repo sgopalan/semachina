@@ -33,9 +33,6 @@
  */
 package org.semachina.jena.db.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -164,11 +161,10 @@ public class SDBDatabase extends SDBAbstractDatabase {
      *
      * @param sdbConfigFile The path to the config file
      * @throws SQLException if there is an error.
-     * @throws FileNotFoundException 
      */
-    public SDBDatabase(File sdbConfigFile) throws SQLException, FileNotFoundException {
+    public SDBDatabase(String sdbConfigFile) throws SQLException {
         Model ttl = ModelFactory.createDefaultModel();
-        InputStream input = new FileInputStream( sdbConfigFile );
+        InputStream input = getClass().getResourceAsStream(sdbConfigFile);
         if (input == null) {
             throw new SQLException("Config file " + sdbConfigFile
                     + " not found in classpath");
@@ -207,7 +203,7 @@ public class SDBDatabase extends SDBAbstractDatabase {
     }
 
     /**
-     * @see org.semachina.jena.db.AbstractDatabase#getData()
+     * @see org.caboto.jena.db.AbstractDatabase#getData()
      */
     public Data getData() throws DataException {
         try {

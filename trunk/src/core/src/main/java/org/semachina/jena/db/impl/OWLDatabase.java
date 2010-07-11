@@ -85,4 +85,10 @@ public class OWLDatabase implements Database {
 		return false;
 	}
 
+	@Override
+	public void setRules(String rulesFile) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

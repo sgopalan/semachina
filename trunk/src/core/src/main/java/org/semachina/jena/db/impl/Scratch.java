@@ -5,15 +5,16 @@
  */
 package org.semachina.jena.db.impl;
 
-import com.hp.hpl.jena.sdb.Store;
-import com.hp.hpl.jena.sdb.layout2.TableDescNodes;
-import com.hp.hpl.jena.sdb.store.StoreFactory;
-import com.hp.hpl.jena.sdb.store.TableDesc;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashSet;
+
+import com.hp.hpl.jena.sdb.Store;
+import com.hp.hpl.jena.sdb.layout2.TableDescNodes;
+import com.hp.hpl.jena.sdb.store.StoreFactory;
+import com.hp.hpl.jena.sdb.store.TableDesc;
 
 public class Scratch {
     /** * @param args * @throws SQLException */
