@@ -27,37 +27,7 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>unpack-common</id>
-						<goals>
-							<goal>unpack-dependencies</goal>
-						</goals>
-						<phase>generate-resources</phase>
-						<configuration>
-							<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/flex</outputDirectory>
-							<includeArtifacIds>common</includeArtifacIds>
-							<includeGroupIds>${project.groupId}</includeGroupIds>
-							<includeClassifiers>resources</includeClassifiers>
-							<excludeTransitive>true</excludeTransitive>
-							<excludeTypes>jar,swf</excludeTypes>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy-swf</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
-							<includeTypes>swf</includeTypes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			
 		</plugins>
 		<resources>
 			<resource>
@@ -79,20 +49,6 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>core</artifactId>
 			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>common</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<classifier>resources</classifier>
-			<type>zip</type>
-			<scope>provided</scope>
-		</dependency>		
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>ria</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<type>swf</type>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -176,20 +132,6 @@
 			<artifactId>aspectjrt</artifactId>
 			<version>1.6.3</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-core</artifactId>
-			<version>5.1.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.camel</groupId>
-					<artifactId>camel-core</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+
 	</dependencies>
 </project>
