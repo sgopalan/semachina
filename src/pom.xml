@@ -9,8 +9,6 @@
     <description />
     <modules>
         <module>core</module>
-		<module>common</module>
-        <module>ria</module>
         <module>web</module>
     </modules>
 
