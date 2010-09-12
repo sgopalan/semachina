@@ -1,0 +1,572 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY test-data "http://semachina.org/test-data.owl#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://semachina.org/test-data.owl#"
+     xml:base="http://semachina.org/test-data.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:test-data="http://semachina.org/test-data.owl#">
+    <owl:Ontology rdf:about=""/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getTestClass -->
+
+    <owl:ObjectProperty rdf:about="#getTestClass">
+        <rdfs:range>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#getTestClass"/>
+                <owl:someValuesFrom rdf:resource="#TestClass"/>
+            </owl:Restriction>
+        </rdfs:range>
+        <rdfs:domain>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#getTestClass"/>
+                <owl:someValuesFrom rdf:resource="#TestClass"/>
+            </owl:Restriction>
+        </rdfs:domain>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getAnySimpleType -->
+
+    <owl:DatatypeProperty rdf:about="#getAnySimpleType">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;anySimpleType"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getAnyType -->
+
+    <owl:DatatypeProperty rdf:about="#getAnyType">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;anyType"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getAnyURI -->
+
+    <owl:DatatypeProperty rdf:about="#getAnyURI">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;anyType"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getBase64Binary -->
+
+    <owl:DatatypeProperty rdf:about="#getBase64Binary">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;base64Binary"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getBoolean -->
+
+    <owl:DatatypeProperty rdf:about="#getBoolean">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getByte -->
+
+    <owl:DatatypeProperty rdf:about="#getByte">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;byte"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getDate -->
+
+    <owl:DatatypeProperty rdf:about="#getDate">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;date"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getDateTime -->
+
+    <owl:DatatypeProperty rdf:about="#getDateTime">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;dateTime"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getDecimal -->
+
+    <owl:DatatypeProperty rdf:about="#getDecimal">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getDouble -->
+
+    <owl:DatatypeProperty rdf:about="#getDouble">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getDuration -->
+
+    <owl:DatatypeProperty rdf:about="#getDuration">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;duration"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getEntities -->
+
+    <owl:DatatypeProperty rdf:about="#getEntities">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;ENTITIES"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getEntity -->
+
+    <owl:DatatypeProperty rdf:about="#getEntity">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;ENTITY"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getFloat -->
+
+    <owl:DatatypeProperty rdf:about="#getFloat">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getGDay -->
+
+    <owl:DatatypeProperty rdf:about="#getGDay">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;gDay"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getGMonth -->
+
+    <owl:DatatypeProperty rdf:about="#getGMonth">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;gMonth"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getGMonthYear -->
+
+    <owl:DatatypeProperty rdf:about="#getGMonthYear">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;gMonthYear"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getGYear -->
+
+    <owl:DatatypeProperty rdf:about="#getGYear">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;gYear"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getGYearMonth -->
+
+    <owl:DatatypeProperty rdf:about="#getGYearMonth">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;gYearMonth"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getHexBinary -->
+
+    <owl:DatatypeProperty rdf:about="#getHexBinary">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;hexBinary"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getID -->
+
+    <owl:DatatypeProperty rdf:about="#getID">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;ID"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getIDRef -->
+
+    <owl:DatatypeProperty rdf:about="#getIDRef">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;IDREF"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getIDRefs -->
+
+    <owl:DatatypeProperty rdf:about="#getIDRefs">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;IDREFS"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getInt -->
+
+    <owl:DatatypeProperty rdf:about="#getInt">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getInteger -->
+
+    <owl:DatatypeProperty rdf:about="#getInteger">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getLanguage -->
+
+    <owl:DatatypeProperty rdf:about="#getLanguage">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;language"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getLiteral -->
+
+    <owl:DatatypeProperty rdf:about="#getLiteral">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getLong -->
+
+    <owl:DatatypeProperty rdf:about="#getLong">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;long"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getNCName -->
+
+    <owl:DatatypeProperty rdf:about="#getNCName">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;NCName"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getNMToken -->
+
+    <owl:DatatypeProperty rdf:about="#getNMToken">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;NMToken"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getName -->
+
+    <owl:DatatypeProperty rdf:about="#getName">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;Name"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getNegativeInteger -->
+
+    <owl:DatatypeProperty rdf:about="#getNegativeInteger">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;negativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getNonNegativeInteger -->
+
+    <owl:DatatypeProperty rdf:about="#getNonNegativeInteger">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getNonPositiveInteger -->
+
+    <owl:DatatypeProperty rdf:about="#getNonPositiveInteger">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;nonPositiveInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getNormalizedString -->
+
+    <owl:DatatypeProperty rdf:about="#getNormalizedString">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;normalizedString"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getNotation -->
+
+    <owl:DatatypeProperty rdf:about="#getNotation">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;NOTATION"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getPositiveInteger -->
+
+    <owl:DatatypeProperty rdf:about="#getPositiveInteger">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;positiveInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getQName -->
+
+    <owl:DatatypeProperty rdf:about="#getQName">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;QName"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getShort -->
+
+    <owl:DatatypeProperty rdf:about="#getShort">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;short"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getString -->
+
+    <owl:DatatypeProperty rdf:about="#getString">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getTime -->
+
+    <owl:DatatypeProperty rdf:about="#getTime">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;time"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getToken -->
+
+    <owl:DatatypeProperty rdf:about="#getToken">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;token"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getUnsignedByte -->
+
+    <owl:DatatypeProperty rdf:about="#getUnsignedByte">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;unsignedByte"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getUnsignedInt -->
+
+    <owl:DatatypeProperty rdf:about="#getUnsignedInt">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;unsignedInt"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getUnsignedLong -->
+
+    <owl:DatatypeProperty rdf:about="#getUnsignedLong">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;unsignedLong"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getUnsignedShort -->
+
+    <owl:DatatypeProperty rdf:about="#getUnsignedShort">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&xsd;unsignedShort"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#getXMLLiteral -->
+
+    <owl:DatatypeProperty rdf:about="#getXMLLiteral">
+        <rdfs:domain rdf:resource="#TestClass"/>
+        <rdfs:range rdf:resource="&rdf;XMLLiteral"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semachina.org/test-data.owl#TestClass -->
+
+    <owl:Class rdf:about="#TestClass">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semachina.org/test-data.owl#Test1 -->
+
+    <TestClass rdf:about="#Test1">
+        <getGDay rdf:datatype="&xsd;gDay">---01</getGDay>
+        <getGMonth rdf:datatype="&xsd;gMonth">--05</getGMonth>
+        <getNegativeInteger rdf:datatype="&xsd;negativeInteger">-1</getNegativeInteger>
+        <getNonPositiveInteger rdf:datatype="&xsd;nonPositiveInteger">0</getNonPositiveInteger>
+        <getDecimal rdf:datatype="&xsd;decimal">1.2</getDecimal>
+        <getDouble rdf:datatype="&xsd;double">1.22</getDouble>
+        <getInt rdf:datatype="&xsd;int">12345</getInt>
+        <getInteger rdf:datatype="&xsd;integer">12345</getInteger>
+        <getLong rdf:datatype="&xsd;long">123456</getLong>
+        <getTime rdf:datatype="&xsd;time">19:32:52</getTime>
+        <getGYear rdf:datatype="&xsd;gYear">2001+02:00</getGYear>
+        <getGYearMonth rdf:datatype="&xsd;gYearMonth">2001-10</getGYearMonth>
+        <getDate rdf:datatype="&xsd;date"
+            >2001-10-26+00:00</getDate>
+        <getDateTime rdf:datatype="&xsd;dateTime"
+            >2001-10-26T19:32:52</getDateTime>
+        <getFloat rdf:datatype="&xsd;float">3.3</getFloat>
+        <getShort rdf:datatype="&xsd;short">32767</getShort>
+        <getNonNegativeInteger rdf:datatype="&xsd;nonNegativeInteger">345345</getNonNegativeInteger>
+        <getString rdf:datatype="&xsd;string"
+            >34636346 chsdfhgd e5634</getString>
+        <getNormalizedString rdf:datatype="&xsd;normalizedString">4576456dfgsdg</getNormalizedString>
+        <getPositiveInteger rdf:datatype="&xsd;positiveInteger">546546</getPositiveInteger>
+        <getByte rdf:datatype="&xsd;byte">7</getByte>
+        <getDuration rdf:datatype="&xsd;duration">P5Y2M10DT15H</getDuration>
+        <getLiteral rdf:datatype="&rdfs;Literal">asgadg</getLiteral>
+        <getLanguage rdf:datatype="&xsd;language">en</getLanguage>
+        <getAnyURI rdf:datatype="&xsd;anyURI">http://espn.com</getAnyURI>
+        <getID rdf:datatype="&xsd;ID">id</getID>
+        <getBoolean rdf:datatype="&xsd;boolean">true</getBoolean>
+        <getTestClass rdf:resource="#Test2"/>
+    </TestClass>
+    
+
+
+    <!-- http://semachina.org/test-data.owl#Test2 -->
+
+    <TestClass rdf:about="#Test2"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1042) http://owlapi.sourceforge.net -->
+
