@@ -1,0 +1,537 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY des "http://dcgs.enterprise.spfg/20080324.owl#" >
+    <!ENTITY bah "http://boozallen.com/soa/metamodel.owl#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY service "http://www.daml.org/services/owl-s/1.1/Service.owl#" >
+    <!ENTITY profile "http://www.daml.org/services/owl-s/1.1/Profile.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://dcgs.enterprise.spfg/20080324.owl#"
+     xml:base="http://dcgs.enterprise.spfg/20080324.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:des="http://dcgs.enterprise.spfg/20080324.owl#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:bah="http://boozallen.com/soa/metamodel.owl#"
+     xmlns:service="http://www.daml.org/services/owl-s/1.1/Service.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:profile="http://www.daml.org/services/owl-s/1.1/Profile.owl#">
+    <owl:Ontology rdf:about="">
+        <owl:imports rdf:resource="http://boozallen.com/soa/metamodel.owl"/>
+    </owl:Ontology>
+  
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl#hasDouble -->
+
+    <owl:DatatypeProperty rdf:about="&des;hasDouble">
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://boozallen.com/soa/metamodel.owl#BusinessFunction -->
+
+    <owl:Class rdf:about="&bah;BusinessFunction"/>
+    
+
+
+    <!-- http://boozallen.com/soa/metamodel.owl#BusinessInteractionModel -->
+
+    <owl:Class rdf:about="&bah;BusinessInteractionModel"/>
+    
+
+
+    <!-- http://boozallen.com/soa/metamodel.owl#Capability -->
+
+    <owl:Class rdf:about="&bah;Capability"/>
+    
+
+
+    <!-- http://boozallen.com/soa/metamodel.owl#Layer -->
+
+    <owl:Class rdf:about="&bah;Layer"/>
+    
+
+
+    <!-- http://boozallen.com/soa/metamodel.owl#Portfolio -->
+
+    <owl:Class rdf:about="&bah;Portfolio"/>
+    
+
+
+    <!-- http://boozallen.com/soa/metamodel.owl#ReferenceArchitecture -->
+
+    <owl:Class rdf:about="&bah;ReferenceArchitecture"/>
+    
+
+
+    <!-- http://boozallen.com/soa/metamodel.owl#ServiceInteractionModel -->
+
+    <owl:Class rdf:about="&bah;ServiceInteractionModel"/>
+    
+
+
+    <!-- http://boozallen.com/soa/metamodel.owl#ServiceLine -->
+
+    <owl:Class rdf:about="&bah;ServiceLine"/>
+    
+
+
+    <!-- http://www.daml.org/services/owl-s/1.1/Profile.owl#Profile -->
+
+    <owl:Class rdf:about="&profile;Profile"/>
+    
+
+
+    <!-- http://www.daml.org/services/owl-s/1.1/Service.owl#ServiceProfile -->
+
+    <owl:Class rdf:about="&service;ServiceProfile"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Automated_Metadata_Tagging -->
+
+    <bah:BusinessFunction rdf:about="des:Automated_Metadata_Tagging">
+        <bah:broaderServiceLineFromBusinessFunction rdf:resource="des:Data_Metadata"/>
+        <bah:broaderServiceLine rdf:resource="des:Data_Metadata"/>
+    </bah:BusinessFunction>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Collection -->
+
+    <bah:ServiceLine rdf:about="des:Collection">
+        <bah:broaderLayer rdf:resource="des:CommonLayer"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:CommonLayer -->
+
+    <bah:Layer rdf:about="des:CommonLayer">
+        <bah:narrowerServiceLine rdf:resource="des:Collection"/>
+        <bah:broaderPortfolio rdf:resource="des:DESPortfolio"/>
+        <bah:broaderTransitive rdf:resource="des:DESPortfolio"/>
+        <bah:narrowerServiceLine rdf:resource="des:Dissemination"/>
+        <bah:narrowerTransitive rdf:resource="des:Dissemination"/>
+        <bah:narrowerServiceLine rdf:resource="des:Exploitation"/>
+        <bah:narrowerTransitive rdf:resource="des:Exploitation"/>
+        <bah:narrowerTransitive rdf:resource="des:Other"/>
+        <bah:narrowerServiceLine rdf:resource="des:Other"/>
+        <bah:narrowerTransitive rdf:resource="des:Processing"/>
+        <bah:narrowerServiceLine rdf:resource="des:Processing"/>
+        <bah:narrowerServiceLine rdf:resource="des:Tasking"/>
+        <bah:narrowerTransitive rdf:resource="des:Tasking"/>
+    </bah:Layer>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:DCGS_Empire_Challenge_Thread -->
+
+    <bah:BusinessInteractionModel rdf:about="des:DCGS_Empire_Challenge_Thread"/>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:DESPortfolio -->
+
+    <bah:Portfolio rdf:about="des:DESPortfolio">
+        <bah:narrowerLayer rdf:resource="des:CommonLayer"/>
+        <bah:narrowerTransitive rdf:resource="des:CommonLayer"/>
+        <bah:narrowerTransitive rdf:resource="des:FunctionalLayer"/>
+        <bah:narrowerLayer rdf:resource="des:FunctionalLayer"/>
+        <bah:narrowerLayer rdf:resource="des:InfrastructureLayer"/>
+        <bah:narrowerTransitive rdf:resource="des:InfrastructureLayer"/>
+    </bah:Portfolio>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:DSRA_Service_Interaction -->
+
+    <bah:ServiceInteractionModel rdf:about="des:DSRA_Service_Interaction">
+        <bah:involvesService rdf:resource="des:QueryManagementService"/>
+        <bah:involvesService rdf:resource="des:ReceiveService"/>
+        <bah:involvesService rdf:resource="des:RetrieveService"/>
+        <bah:involvesService rdf:resource="des:SearchAggregatorService"/>
+        <bah:involvesService rdf:resource="des:SearchService"/>
+    </bah:ServiceInteractionModel>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Data_Mediation -->
+
+    <bah:BusinessFunction rdf:about="des:Data_Mediation">
+        <bah:broaderServiceLine rdf:resource="des:Data_Metadata"/>
+        <bah:broaderServiceLineFromBusinessFunction rdf:resource="des:Data_Metadata"/>
+    </bah:BusinessFunction>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Data_Metadata -->
+
+    <bah:ServiceLine rdf:about="des:Data_Metadata">
+        <bah:narrowerBusinessFunction rdf:resource="des:Automated_Metadata_Tagging"/>
+        <bah:narrowerBusinessFunction rdf:resource="des:Data_Mediation"/>
+        <bah:narrowerBusinessFunction rdf:resource="des:Data_Metadata_Access"/>
+        <bah:narrowerBusinessFunction rdf:resource="des:Data_Metadata_Discovery"/>
+        <bah:narrowerBusinessFunction rdf:resource="des:Data_Metadata_Publishing"/>
+        <bah:narrowerReferenceArchitecture rdf:resource="des:Data_Service_Reference_Architecture"/>
+        <bah:describedByReferenceArchitecture rdf:resource="des:Data_Service_Reference_Architecture"/>
+        <bah:broaderLayer rdf:resource="des:InfrastructureLayer"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Data_Metadata_Access -->
+
+    <bah:BusinessFunction rdf:about="des:Data_Metadata_Access">
+        <bah:broaderServiceLine rdf:resource="des:Data_Metadata"/>
+        <bah:broaderServiceLineFromBusinessFunction rdf:resource="des:Data_Metadata"/>
+        <bah:narrowerServiceProfile rdf:resource="des:ReceiveService"/>
+        <bah:narrowerServiceProfile rdf:resource="des:RetrieveService"/>
+    </bah:BusinessFunction>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Data_Metadata_Discovery -->
+
+    <bah:BusinessFunction rdf:about="des:Data_Metadata_Discovery">
+        <bah:broaderServiceLine rdf:resource="des:Data_Metadata"/>
+        <bah:broaderServiceLineFromBusinessFunction rdf:resource="des:Data_Metadata"/>
+        <bah:narrowerServiceProfile rdf:resource="des:QueryManagementService"/>
+        <bah:narrowerServiceProfile rdf:resource="des:SearchAggregatorService"/>
+        <bah:narrowerServiceProfile rdf:resource="des:SearchService"/>
+    </bah:BusinessFunction>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Data_Metadata_Publishing -->
+
+    <bah:BusinessFunction rdf:about="des:Data_Metadata_Publishing">
+        <bah:broaderServiceLineFromBusinessFunction rdf:resource="des:Data_Metadata"/>
+        <bah:broaderServiceLine rdf:resource="des:Data_Metadata"/>
+    </bah:BusinessFunction>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Data_Service_Reference_Architecture -->
+
+    <bah:ReferenceArchitecture rdf:about="des:Data_Service_Reference_Architecture">
+        <bah:hasBusinessInteractionModel rdf:resource="des:DCGS_Empire_Challenge_Thread"/>
+        <bah:hasServiceInteractionModel rdf:resource="des:DSRA_Service_Interaction"/>
+        <bah:supportsServiceLine rdf:resource="des:Data_Metadata"/>
+        <bah:broaderServiceLine rdf:resource="des:Data_Metadata"/>
+        <bah:realizesCapability rdf:resource="des:DoD_Data_Strategy"/>
+        <bah:dependsOnReferenceArchitecture rdf:resource="des:Security_Reference_Architecture"/>
+        <bah:dependsOnReferenceArchitecture rdf:resource="des:Service_Discovery_Reference_Architecture"/>
+    </bah:ReferenceArchitecture>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Dissemination -->
+
+    <bah:ServiceLine rdf:about="des:Dissemination">
+        <bah:broaderTransitive rdf:resource="des:CommonLayer"/>
+        <bah:broaderLayer rdf:resource="des:CommonLayer"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:DoD_Data_Strategy -->
+
+    <bah:Capability rdf:about="des:DoD_Data_Strategy">
+        <bah:enabledByReferenceArchitecture rdf:resource="des:Data_Service_Reference_Architecture"/>
+    </bah:Capability>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Enterprise_Service_Mgmt -->
+
+    <bah:ServiceLine rdf:about="des:Enterprise_Service_Mgmt">
+        <bah:broaderLayer rdf:resource="des:InfrastructureLayer"/>
+        <bah:broaderTransitive rdf:resource="des:InfrastructureLayer"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Exploitation -->
+
+    <bah:ServiceLine rdf:about="des:Exploitation">
+        <bah:broaderLayer rdf:resource="des:CommonLayer"/>
+        <bah:broaderTransitive rdf:resource="des:CommonLayer"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:FunctionalLayer -->
+
+    <bah:Layer rdf:about="des:FunctionalLayer">
+        <bah:broaderPortfolio rdf:resource="des:DESPortfolio"/>
+        <bah:broaderTransitive rdf:resource="des:DESPortfolio"/>
+        <bah:narrowerTransitive rdf:resource="des:GEOINT"/>
+        <bah:narrowerServiceLine rdf:resource="des:GEOINT"/>
+        <bah:narrowerServiceLine rdf:resource="des:HUMINT"/>
+        <bah:narrowerTransitive rdf:resource="des:HUMINT"/>
+        <bah:narrowerTransitive rdf:resource="des:MASINT"/>
+        <bah:narrowerServiceLine rdf:resource="des:MASINT"/>
+        <bah:narrowerTransitive rdf:resource="des:OS_ASINT"/>
+        <bah:narrowerServiceLine rdf:resource="des:OS_ASINT"/>
+        <bah:narrowerServiceLine rdf:resource="des:SIGINT"/>
+        <bah:narrowerTransitive rdf:resource="des:SIGINT"/>
+    </bah:Layer>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:GEOINT -->
+
+    <bah:ServiceLine rdf:about="des:GEOINT">
+        <bah:broaderLayer rdf:resource="des:FunctionalLayer"/>
+        <bah:broaderTransitive rdf:resource="des:FunctionalLayer"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:HUMINT -->
+
+    <bah:ServiceLine rdf:about="des:HUMINT">
+        <bah:broaderTransitive rdf:resource="des:FunctionalLayer"/>
+        <bah:broaderLayer rdf:resource="des:FunctionalLayer"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:InfrastructureLayer -->
+
+    <bah:Layer rdf:about="des:InfrastructureLayer">
+        <bah:broaderTransitive rdf:resource="des:DESPortfolio"/>
+        <bah:broaderPortfolio rdf:resource="des:DESPortfolio"/>
+        <bah:narrowerServiceLine rdf:resource="des:Data_Metadata"/>
+        <bah:narrowerServiceLine rdf:resource="des:Enterprise_Service_Mgmt"/>
+        <bah:narrowerTransitive rdf:resource="des:Enterprise_Service_Mgmt"/>
+        <bah:narrowerTransitive rdf:resource="des:Messaging"/>
+        <bah:narrowerServiceLine rdf:resource="des:Messaging"/>
+        <bah:narrowerServiceLine rdf:resource="des:Security"/>
+        <bah:narrowerTransitive rdf:resource="des:Security"/>
+        <bah:narrowerServiceLine rdf:resource="des:Service_Discovery"/>
+        <bah:narrowerTransitive rdf:resource="des:Service_Discovery"/>
+        <bah:narrowerServiceLine rdf:resource="des:User_Mgmt"/>
+        <bah:narrowerTransitive rdf:resource="des:User_Mgmt"/>
+        <bah:narrowerTransitive rdf:resource="des:Workflow"/>
+        <bah:narrowerServiceLine rdf:resource="des:Workflow"/>
+    </bah:Layer>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:MASINT -->
+
+    <bah:ServiceLine rdf:about="des:MASINT">
+        <bah:broaderTransitive rdf:resource="des:FunctionalLayer"/>
+        <bah:broaderLayer rdf:resource="des:FunctionalLayer"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Messaging -->
+
+    <bah:ServiceLine rdf:about="des:Messaging">
+        <bah:broaderLayer rdf:resource="des:InfrastructureLayer"/>
+        <bah:broaderTransitive rdf:resource="des:InfrastructureLayer"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:OS_ASINT -->
+
+    <bah:ServiceLine rdf:about="des:OS_ASINT">
+        <bah:broaderTransitive rdf:resource="des:FunctionalLayer"/>
+        <bah:broaderLayer rdf:resource="des:FunctionalLayer"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Other -->
+
+    <bah:ServiceLine rdf:about="des:Other">
+        <bah:broaderLayer rdf:resource="des:CommonLayer"/>
+        <bah:broaderTransitive rdf:resource="des:CommonLayer"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Processing -->
+
+    <bah:ServiceLine rdf:about="des:Processing">
+        <bah:broaderLayer rdf:resource="des:CommonLayer"/>
+        <bah:broaderTransitive rdf:resource="des:CommonLayer"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:QueryManagementService -->
+
+    <profile:Profile rdf:about="des:QueryManagementService">
+        <profile:serviceName rdf:datatype="&xsd;string"
+            >Query Management Service</profile:serviceName>
+        <profile:textDescription rdf:datatype="&xsd;string"
+            >Query Management Service provides persistent query capabilities</profile:textDescription>
+        <bah:supportsServiceInteractionModel rdf:resource="des:DSRA_Service_Interaction"/>
+        <bah:broaderBusinessFunction rdf:resource="des:Data_Metadata_Discovery"/>
+    </profile:Profile>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:ReceiveService -->
+
+    <profile:Profile rdf:about="des:ReceiveService">
+        <profile:serviceName rdf:datatype="&xsd;string">Receive Service</profile:serviceName>
+        <profile:textDescription rdf:datatype="&xsd;string"
+            >Receive Service provides asynchonous callback capabilities</profile:textDescription>
+        <bah:supportsServiceInteractionModel rdf:resource="des:DSRA_Service_Interaction"/>
+        <bah:broaderBusinessFunction rdf:resource="des:Data_Metadata_Access"/>
+    </profile:Profile>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:RetrieveService -->
+
+    <profile:Profile rdf:about="des:RetrieveService">
+        <profile:serviceName rdf:datatype="&xsd;string"
+            >Retrieve Service</profile:serviceName>
+        <profile:textDescription rdf:datatype="&xsd;string"
+            >Retrieve Service provides retrieve capabilities</profile:textDescription>
+        <bah:supportsServiceInteractionModel rdf:resource="des:DSRA_Service_Interaction"/>
+        <bah:broaderBusinessFunction rdf:resource="des:Data_Metadata_Access"/>
+    </profile:Profile>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:SIGINT -->
+
+    <bah:ServiceLine rdf:about="des:SIGINT">
+        <bah:broaderTransitive rdf:resource="des:FunctionalLayer"/>
+        <bah:broaderLayer rdf:resource="des:FunctionalLayer"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:SearchAggregatorService -->
+
+    <profile:Profile rdf:about="des:SearchAggregatorService">
+        <profile:serviceName rdf:datatype="&xsd;string"
+            >Search Aggregator Service</profile:serviceName>
+        <profile:textDescription rdf:datatype="&xsd;string"
+            >Search Aggregator Service provides search aggregation capabilities</profile:textDescription>
+        <bah:supportsServiceInteractionModel rdf:resource="des:DSRA_Service_Interaction"/>
+        <bah:broaderBusinessFunction rdf:resource="des:Data_Metadata_Discovery"/>
+    </profile:Profile>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:SearchService -->
+
+    <profile:Profile rdf:about="des:SearchService">
+        <profile:serviceName rdf:datatype="&xsd;string">Search Service</profile:serviceName>
+        <profile:textDescription rdf:datatype="&xsd;string"
+            >Search Service provides data exposure capabiltiies</profile:textDescription>
+        <bah:supportsServiceInteractionModel rdf:resource="des:DSRA_Service_Interaction"/>
+        <bah:broaderBusinessFunction rdf:resource="des:Data_Metadata_Discovery"/>
+    </profile:Profile>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Security -->
+
+    <bah:ServiceLine rdf:about="des:Security">
+        <bah:broaderLayer rdf:resource="des:InfrastructureLayer"/>
+        <bah:broaderTransitive rdf:resource="des:InfrastructureLayer"/>
+        <bah:narrowerReferenceArchitecture rdf:resource="des:Security_Reference_Architecture"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Security_Reference_Architecture -->
+
+    <bah:ReferenceArchitecture rdf:about="des:Security_Reference_Architecture">
+        <bah:broaderServiceLineFromReferenceArchitecture rdf:resource="des:Security"/>
+    </bah:ReferenceArchitecture>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Service_Discovery -->
+
+    <bah:ServiceLine rdf:about="des:Service_Discovery">
+        <bah:broaderTransitive rdf:resource="des:InfrastructureLayer"/>
+        <bah:broaderLayer rdf:resource="des:InfrastructureLayer"/>
+        <bah:narrowerReferenceArchitecture rdf:resource="des:Service_Discovery_Reference_Architecture"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Service_Discovery_Reference_Architecture -->
+
+    <bah:ReferenceArchitecture rdf:about="des:Service_Discovery_Reference_Architecture">
+        <bah:broaderServiceLineFromReferenceArchitecture rdf:resource="des:Service_Discovery"/>
+    </bah:ReferenceArchitecture>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Tasking -->
+
+    <bah:ServiceLine rdf:about="des:Tasking">
+        <bah:broaderTransitive rdf:resource="des:CommonLayer"/>
+        <bah:broaderLayer rdf:resource="des:CommonLayer"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:User_Mgmt -->
+
+    <bah:ServiceLine rdf:about="des:User_Mgmt">
+        <bah:broaderTransitive rdf:resource="des:InfrastructureLayer"/>
+        <bah:broaderLayer rdf:resource="des:InfrastructureLayer"/>
+    </bah:ServiceLine>
+    
+
+
+    <!-- urn:dcgs:enterprise:spfg:20080324.owl:Workflow -->
+
+    <bah:ServiceLine rdf:about="des:Workflow">
+        <bah:broaderLayer rdf:resource="des:InfrastructureLayer"/>
+        <bah:broaderTransitive rdf:resource="des:InfrastructureLayer"/>
+    </bah:ServiceLine>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1042) http://owlapi.sourceforge.net -->
+
