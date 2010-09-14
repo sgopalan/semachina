@@ -71,6 +71,7 @@
         <maven.scala.plugin.version>2.13.1</maven.scala.plugin.version>
         <org.springframework.version>3.0.2.RELEASE</org.springframework.version>
         <slf4j-version>1.5.8</slf4j-version>
+        <slf4s-version>1.0.1</slf4s-version>
         <logback-version>0.9.24</logback-version>
         <cglib.version>2.2</cglib.version>
         <freemarker.version>2.3.16</freemarker.version>
@@ -79,10 +80,12 @@
         <jetty-port>8080</jetty-port>
         <!-- <scalate.editor>${env.SCALATE_EDITOR}</scalate.editor> -->
         <scalate.workdir>${basedir}/target/_scalate</scalate.workdir>
-        <scalate.package.resources>org.semachina.scalatetest.resources</scalate.package.resources>
-        <scalate.generate.src>${basedir}/src</scalate.generate.src>
+        <scalate.package.resources>org.semachina.web.resources</scalate.package.resources>
+        <scalate.generate.src>${basedir}/target/gen-src</scalate.generate.src>
         <junit-version>4.4</junit-version>
-
+        <specs-version>1.6.5</specs-version>
+        <scalatest-version>1.2</scalatest-version>
+        <scalacheck-version>1.7</scalacheck-version>
         <aspectj-version>1.6.7</aspectj-version>
 
         <!-- version info -->
@@ -114,25 +117,25 @@
             <dependency>
                 <groupId>org.scala-tools.testing</groupId>
                 <artifactId>specs_2.8.0</artifactId>
-                <version>1.6.5</version>
+                <version>${specs-version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.scalatest</groupId>
                 <artifactId>scalatest</artifactId>
-                <version>1.2</version>
+                <version>${scalatest-version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.scala-tools.testing</groupId>
                 <artifactId>scalacheck_2.8.0</artifactId>
-                <version>1.7</version>
+                <version>${scalacheck-version}</version>
                 <optional>true</optional>
             </dependency>
             <dependency>
                 <groupId>com.weiglewilczek.slf4s</groupId>
                 <artifactId>slf4s_2.8.0</artifactId>
-                <version>1.0.1</version>
+                <version>${slf4s-version}</version>
             </dependency>
 
             <!-- Scalate -->
