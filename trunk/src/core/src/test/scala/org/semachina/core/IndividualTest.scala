@@ -55,7 +55,7 @@ class IndividualTest {
     return store
   }
 
-  @Test
+  //@Test
   def testTransaction = {
     val store = createSDBModel
     var sdbModel: Model = SDBFactory.connectDefaultModel(store)
