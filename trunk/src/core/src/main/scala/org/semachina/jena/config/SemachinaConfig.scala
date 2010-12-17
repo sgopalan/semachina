@@ -5,14 +5,20 @@ import org.semachina.xml.types._
 import org.semachina.xml.utils.XMLDateUtils
 import java.util.Date
 import com.hp.hpl.jena.shared.impl.{JenaParameters}
-import com.hp.hpl.jena.enhanced.BuiltinPersonalities
-import com.hp.hpl.jena.ontology.{Individual, OntClass}
-import com.hp.hpl.jena.rdf.model.Literal
 import com.hp.hpl.jena.vocabulary.{RDFS, XSD}
 import javax.xml.namespace.QName
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
-import org.semachina.jena.core._
+import org.semachina.jena.impl._
+import com.hp.hpl.jena.sparql.pfunction.PropertyFunctionRegistry
+import com.hp.hpl.jena.query.larq3.library.TextMatch
+import com.hp.hpl.jena.enhanced.{EnhNode, EnhGraph, Implementation, BuiltinPersonalities}
+import com.hp.hpl.jena.graph.Node
+import com.hp.hpl.jena.rdf.model.{RDFNode, Literal}
+import com.hp.hpl.jena.ontology._
+import org.semachina.jena.impl.{SemachinaOntClassImpl, SemachinaTypedDatatypePropertyImpl, SemachinaResourcePropertyImpl, DefaultImplementationImpl}
+import org.semachina.jena.{SemachinaIndividual, SemachinaOntClass, ResourceProperty}
+import org.semachina.jena.config.OWLFactory._
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,123 +35,187 @@ object SemachinaConfig {
   val PREFIX: PrefixMapping = PrefixMapping.Factory.create
           .setNsPrefixes(PrefixMapping.Standard)
 
+  val factory = new DefaultSemachinaFactory()
+
   def init(): Unit = {
+
+    //register function... This should happen in config, not here
+    PropertyFunctionRegistry.get().put("http://jena.hpl.hp.com/ARQ/property#textMatch3", classOf[TextMatch])
+    
 
     JenaParameters.enableEagerLiteralValidation = true
     JenaParameters.enableSilentAcceptanceOfUnknownDatatypes = false
 
-    PelletReasoning.initPellet
+    factory.initImplementationClasses
+    factory.initDatatypes
 
-    BuiltinPersonalities.model
-            .add(classOf[Individual], ScalaIndividualImpl.factory)
-            .add(classOf[Literal], ScalaLiteralImpl.factory)
-            .add(classOf[OntClass], ScalaOntClassImpl.factory)
+//    BuiltinPersonalities.model
+//            .add(classOf[Individual],
+//              new DefaultImplementationImpl[SemachinaIndividualImpl](
+//                classOf[SemachinaIndividualImpl], classOf[Individual]) {
+//                  def create(node: Node, eg: EnhGraph) = new SemachinaIndividualImpl( node, eg )
+//              } )
+//            .add(classOf[SemachinaIndividual],
+//              new DefaultImplementationImpl[SemachinaIndividualImpl](
+//                classOf[SemachinaIndividualImpl], classOf[Individual]) {
+//                  def create(node: Node, eg: EnhGraph) = new SemachinaIndividualImpl( node, eg )
+//              } )
+//            .add(classOf[OntClass],
+//              new DefaultImplementationImpl[SemachinaOntClassImpl](
+//                classOf[SemachinaOntClassImpl], "It does not have rdf:type owl:Class or equivalent", classOf[OntClass]) {
+//                  def create(node: Node, eg: EnhGraph) = new SemachinaOntClassImpl( node, eg )
+//              } )
+//            .add(classOf[SemachinaOntClass],
+//              new DefaultImplementationImpl[SemachinaOntClassImpl](
+//                classOf[SemachinaOntClassImpl], "It does not have rdf:type owl:Class or equivalent", classOf[OntClass]) {
+//                  def create(node: Node, eg: EnhGraph) = new SemachinaOntClassImpl( node, eg )
+//              } )
+//            .add(classOf[DatatypeProperty],
+//              new DefaultImplementationImpl[SemachinaTypedDatatypePropertyImpl[Nothing]](
+//                classOf[SemachinaTypedDatatypePropertyImpl[Nothing]], classOf[DatatypeProperty]) {
+//                  def create(node: Node, eg: EnhGraph) = new SemachinaTypedDatatypePropertyImpl[Nothing]( node, eg )
+//              } )
+//            .add(classOf[ResourceProperty],
+//              new DefaultImplementationImpl[SemachinaResourcePropertyImpl](
+//                classOf[SemachinaResourcePropertyImpl], classOf[ResourceProperty]) {
+//                  def create(node: Node, eg: EnhGraph) = new SemachinaResourcePropertyImpl( node, eg )
+//              } )
 
 
-    ScalaRDFDatatype(
-      typeURI = XSD.date.getURI,
-      lexer = {(value: Date) => XMLDateUtils.toLexicalDate(value)},
-      parser = {lexicalForm => XMLDateUtils.parseDate(lexicalForm)})
+//    registerDatatype(
+//      typeURI = XSD.date.getURI,
+//      lexer = {(value: Date) => XMLDateUtils.toLexicalDate(value)},
+//      parser = {lexicalForm => X
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// LDateUtils.parseDate(lexicalForm)})
 
-    ScalaRDFDatatype(
-      typeURI = XSD.dateTime.getURI,
-      lexer = {(value: DateTime) => ISODateTimeFormat.dateTime().print(value)},
-      parser = {lexicalForm => ISODateTimeFormat.dateTime().parseDateTime(lexicalForm)})
+//    registerDatatype(
+//      typeURI = XSD.dateTime.getURI,
+//      lexer = {(value: DateTime) => ISODateTimeFormat.dateTime().print(value)},
+//      parser = {lexicalForm => ISODateTimeFormat.dateTime().parseDateTime(lexicalForm)})
 
-    ScalaRDFDatatype(
+//    registerDatatype(
+//      typeURI = XSD.time.getURI,
+//      parser = lexicalForm => new Time(lexicalForm))
+
+    registerDatatype(
       typeURI = XSD.gDay.getURI,
       parser = lexicalForm => new Day(lexicalForm))
 
-    //    ScalaRDFDatatype(
+    //    registerDatatype(
     //      typeURI = XSD.decimal.getURI,
     //      parser = lexicalForm => new java.math.BigDecimal( lexicalForm ) )
     //
-    //    ScalaRDFDatatype(
+    //    registerDatatype(
     //      typeURI = XSD.xdouble.getURI,
     //      parser = lexicalForm => java.lang.Double.valueOf( lexicalForm ) )
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.duration.getURI,
       parser = lexicalForm => new Duration(lexicalForm))
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.ENTITY.getURI,
       parser = lexicalForm => new Entity(lexicalForm))
 
-    //    ScalaRDFDatatype(
+    //    registerDatatype(
     //      typeURI = XSD.xfloat.getURI,
     //      parser = lexicalForm => java.lang.Float.valueOf( lexicalForm ) )
     //
-    //    ScalaRDFDatatype(
+    //    registerDatatype(
     //      typeURI = XSD.hexBinary.getURI,
     //      parser = lexicalForm => new HexBinary( lexicalForm ) )
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.ID.getURI,
       parser = lexicalForm => new Id(lexicalForm))
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.IDREF.getURI,
       parser = lexicalForm => new IDRef(lexicalForm))
 
-    //    ScalaRDFDatatype(
+    //    registerDatatype(
     //      typeURI = XSD.xint.getURI,
     //      parser = lexicalForm => java.lang.Integer.valueOf( lexicalForm ) )
     //
-    //    ScalaRDFDatatype(
+    //    registerDatatype(
     //      typeURI = XSD.integer.getURI,
     //      parser = lexicalForm => java.lang.Integer.valueOf( lexicalForm ) )
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.language.getURI,
       parser = lexicalForm => new Language(lexicalForm))
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = RDFS.Literal.getURI,
       parser = lexicalForm => String.valueOf(lexicalForm))
     //
-    //    ScalaRDFDatatype(
+    //    registerDatatype(
     //      typeURI = XSD.xlong.getURI,
     //      parser = lexicalForm => java.lang.Long.valueOf( lexicalForm ) )
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.gMonth.getURI,
       parser = lexicalForm => new Month(lexicalForm))
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.gMonthDay.getURI,
       parser = lexicalForm => new MonthDay(lexicalForm))
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.Name.getURI,
       parser = lexicalForm => new Name(lexicalForm))
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.NCName.getURI,
       parser = lexicalForm => new NCName(lexicalForm))
 
-    //    ScalaRDFDatatype[java.lang.Long](
+    //    registerDatatype[java.lang.Long](
     //      typeURI = XSD.negativeInteger.getURI,
     //      parser = lexicalForm => java.lang.Long.parseLong( lexicalForm ),
     //      validator = (value: java.lang.Long) => value.longValue < 0)
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.NMTOKEN.getURI,
       parser = lexicalForm => new NMToken(lexicalForm))
 
-    //    ScalaRDFDatatype(
+    //    registerDatatype(
     //      typeURI = XSD.nonNegativeInteger.getURI,
     //      parser = lexicalForm => new NonNegativeInteger( lexicalForm ) )
     //
-    //    ScalaRDFDatatype(
+    //    registerDatatype(
     //      typeURI = XSD.nonPositiveInteger.getURI,
     //      parser = lexicalForm => new NonPositiveInteger( lexicalForm ) )
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.normalizedString.getURI,
       parser = lexicalForm => new NormalizedString(lexicalForm))
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.NOTATION.getURI,
       parser = lexicalForm => throw new UnsupportedOperationException())
 
@@ -153,7 +223,7 @@ object SemachinaConfig {
     //      typeURI = XSD.positiveInteger.getURI,
     //      parser = lexicalForm => new PositiveInteger( lexicalForm ) )
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.QName.getURI,
       parser = lexicalForm => QName.valueOf(lexicalForm))
 
@@ -165,11 +235,7 @@ object SemachinaConfig {
     //      typeURI = XSD.xstring.getURI,
     //      parser = lexicalForm => lexicalForm )
 
-    ScalaRDFDatatype(
-      typeURI = XSD.time.getURI,
-      parser = lexicalForm => new Time(lexicalForm))
-
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.token.getURI,
       parser = lexicalForm => new Token(lexicalForm))
 
@@ -189,18 +255,16 @@ object SemachinaConfig {
     //      typeURI = XSD.unsignedShort.getURI,
     //      parser = lexicalForm => new UnsignedShort( lexicalForm ) )
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.anyURI.getURI,
       parser = lexicalForm => java.net.URI.create(lexicalForm))
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.gYear.getURI,
       parser = lexicalForm => new Year(lexicalForm))
 
-    ScalaRDFDatatype(
+    registerDatatype(
       typeURI = XSD.gYearMonth.getURI,
       parser = lexicalForm => new YearMonth(lexicalForm))
   }
-
-
 }

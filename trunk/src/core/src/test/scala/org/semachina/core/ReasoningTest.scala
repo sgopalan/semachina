@@ -6,9 +6,11 @@ import org.mindswap.pellet.jena.PelletReasonerFactory
 import com.hp.hpl.jena.rdf.model.{ModelFactory, Resource}
 import com.hp.hpl.jena.ontology._
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
-import org.semachina.jena.core.OWLFactory
+import org.semachina.jena.config.OWLFactory
 import org.mindswap.pellet.PelletOptions
 import org.semachina.config.AppConfig
+import org.semachina.jena.impl.SemachinaOntModelImpl
+import org.semachina.jena.SemachinaOntModel
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,8 +33,8 @@ object ReasoningTest {
 }
 
 class ReasoningTest {
-  def createModel: OntModel = {
-    val ontModel = OWLFactory.createOntologyModel
+  def createModel: SemachinaOntModel = {
+    val ontModel = new SemachinaOntModelImpl(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG))
     ontModel.read("http://purl.org/dc/elements/1.1/")
     val title = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/title")
     val description = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/description")
@@ -60,7 +62,7 @@ class ReasoningTest {
     // load the ontology with its imports and no reasoning
 
 
-    implicit val model: OntModel = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC)
+    implicit val model  = new SemachinaOntModelImpl(PelletReasonerFactory.THE_SPEC)
     PelletOptions.RETURN_DEDUCTIONS_GRAPH = true
     defaultModel.read(ont)
 
@@ -78,25 +80,25 @@ class ReasoningTest {
     (diffModel difference deductionModel).write(System.out, "N3");
     println("done\n\n\n")
     // create property and resources to query the reasoner
-    val Person: OntClass = "http://xmlns.com/foaf/0.1/Person"
-    val workHomepage: OntProperty = "http://xmlns.com/foaf/0.1/workInfoHomepage"
-    val foafName: OntProperty = "http://xmlns.com/foaf/0.1/name"
+    val Person: OntClass = $("http://xmlns.com/foaf/0.1/Person")
+    val workHomepage = "http://xmlns.com/foaf/0.1/workInfoHomepage".res
+    val foafName: OntProperty = "http://xmlns.com/foaf/0.1/name".data({ _.getString })
 
     // get all instances of Person class
 
 
 
-    Person.listIndividuals {
-      ind =>
-        var name: String = ind.getLiteral(foafName).getString
-        var rdftype: Resource = ind.getRDFType
-        var homepage: Resource = ind.getPropertyValue(workHomepage).asInstanceOf[Resource]
-        System.out.println("Name: " + name)
-        System.out.println("Type: " + rdftype.getLocalName)
-        if (homepage == null) System.out.println("Homepage: Unknown")
-        else System.out.println("Homepage: " + homepage)
-        System.out.println
-    }
-    System.out.println("done")
+//    Person.list {
+//      ind =>
+//        var name: String = ind(foafName).asLiteral.getString
+//        var rdftype: Resource = ind.getRDFType
+//        var homepage: Resource = ind.getPropertyValue(workHomepage).asInstanceOf[Resource]
+//        System.out.println("Name: " + name)
+//        System.out.println("Type: " + rdftype.getLocalName)
+//        if (homepage == null) System.out.println("Homepage: Unknown")
+//        else System.out.println("Homepage: " + homepage)
+//        System.out.println
+//    }
+//    System.out.println("done")
   }
 }

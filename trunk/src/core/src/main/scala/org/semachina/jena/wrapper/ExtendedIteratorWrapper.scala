@@ -18,12 +18,12 @@ object ExtendedIteratorWrapper {
   }
 }
 
-class ExtendedIteratorWrapper[A](i: jena.ExtendedIterator[A]) {
+class ExtendedIteratorWrapper[A](val i: jena.ExtendedIterator[A]) {
 
   /**
   return a new iterator containing only the elements of _this_ which
   pass the filter _f_. The order of the elements is preserved. Does not
-  copy _this_, which is consumed as the result is consumed.
+  copy _this_, which is consumed to the result is consumed.
    */
   def filterKeep(f: A => Boolean): jena.ExtendedIterator[A] = {
     return i.filterKeep(new Filter[A] {def accept(o: A): Boolean = f(o)})
@@ -32,11 +32,13 @@ class ExtendedIteratorWrapper[A](i: jena.ExtendedIterator[A]) {
   /**
   return a new iterator containing only the elements of _this_ which
   are rejected by the filter _f_. The order of the elements is preserved.
-  Does not copy _this_, which is consumed as the result is consumed.
+  Does not copy _this_, which is consumed to the result is consumed.
    */
   def filterDrop(f: A => Boolean): jena.ExtendedIterator[A] = {
     return i.filterDrop(new Filter[A] {def accept(o: A): Boolean = f(o)})
   }
+
+  def % (iterator: A => Unit) = apply( iterator )
 
   def apply(iterator: A => Unit) = {
     try {
