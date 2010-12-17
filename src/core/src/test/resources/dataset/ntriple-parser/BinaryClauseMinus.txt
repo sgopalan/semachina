@@ -1,0 +1,31 @@
+ClauseQuery(
+  BinaryClause(
+    SimpleExpression(
+      TriplePattern(
+        URI(
+          http://ns/#s
+        ) [URI]
+        URI(
+          http://ns/p
+        ) [URI]
+        Literal(
+          a literal ...
+        ) [Literal]
+      ) [TriplePattern]
+    ) [SimpleExpression]
+    2
+    SimpleExpression(
+      TriplePattern(
+        Wildcard(
+          *
+        ) [Wildcard]
+        URI(
+          http://#s
+        ) [URI]
+        Literal(
+          a "second literal"
+        ) [Literal]
+      ) [TriplePattern]
+    ) [SimpleExpression]
+  ) [BinaryClause]
+) [ClauseQuery]

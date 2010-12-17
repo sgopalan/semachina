@@ -3,15 +3,17 @@ package org.semachina.core
 import org.junit._
 import Assert._
 import org.semachina.jena.JenaExtension._
-import com.hp.hpl.jena.ontology.OntModel
 import org.openjena.atlas.io.IndentedWriter
-import com.hp.hpl.jena.rdf.model.{Resource}
 import com.hp.hpl.jena.query.{ResultSet, QuerySolution, Query}
 import scala.collection.JavaConversions._
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
-import org.semachina.jena.core.OWLFactory
+import org.semachina.jena.config.OWLFactory
 import org.semachina.config.AppConfig
 import com.weiglewilczek.slf4s.Logging
+import com.hp.hpl.jena.rdf.model.{RDFNode, Resource}
+import org.semachina.jena.impl.{SemachinaOntModelImpl}
+import com.hp.hpl.jena.ontology.{ProfileRegistry, OntModelSpec, OntModel}
+import org.semachina.jena.{SemachinaOntModel, ResultSetHandler}
 
 /**
  * Created by IntelliJ IDEA.
@@ -42,19 +44,21 @@ object ArqTest {
 class ArqTest extends Logging {
   val NL = System.getProperty("line.separator")
 
-  def createModel: OntModel = {
-    val ontModel = OWLFactory.createOntologyModel
+  def createModel: SemachinaOntModel = {
+    implicit val ontModel = new SemachinaOntModelImpl(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG))
     ontModel.read("http://purl.org/dc/elements/1.1/")
     val title = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/title")
     val description = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/description")
 
 
-    ontModel -> {
-      it =>
-        val r1: Resource = it.createResource("http://example.org/book#1")
+    ontModel.doWrite { writeModel:SemachinaOntModel =>
+
+        val r1: Resource = writeModel.createResource("http://example.org/book#1")
 
         r1.addProperty(title, "SPARQL - the book")
                 .addProperty(description, "A book about SPARQL")
+
+        return writeModel
     }
 
     return ontModel;
@@ -67,17 +71,18 @@ class ArqTest extends Logging {
     implicit val model = createModel
 
     // Query string.
-    var query: Query = " PREFIX dc: <http://purl.org/dc/elements/1.1/>" + NL +
+    var query = " PREFIX dc: <http://purl.org/dc/elements/1.1/>" + NL +
             "SELECT ?title WHERE {?x dc:title ?title}";
+
 
     val closure = {
       (resultSet: ResultSet, soln: QuerySolution) =>
-        assertEquals("SPARQL - the book", soln.getLiteral("title")())
+        assertEquals("SPARQL - the book", as[String](soln.get("title")) )
     }
 
-    model.select(query, closure)
+    model.select(query, closure, null)
 
-    query.serialize(new IndentedWriter(System.out, true));
+    query.toQuery.serialize(new IndentedWriter(System.out, true));
     model.close()
   }
 
@@ -89,11 +94,11 @@ class ArqTest extends Logging {
     implicit val model = createModel
 
     // Query string.
-    var query: Query = " PREFIX dc: <http://purl.org/dc/elements/1.1/>" + NL +
+    var query = " PREFIX dc: <http://purl.org/dc/elements/1.1/>" + NL +
             "ASK WHERE {?x dc:title ?title}";
 
     try {
-      model.select(query, null)
+      model.select(query, null, Map.empty[String, RDFNode])
     }
     catch {
       case e: Exception => {
@@ -113,10 +118,10 @@ class ArqTest extends Logging {
     implicit val model = createModel
 
     // Query string.
-    var query: Query = " PREFIX dc: <http://purl.org/dc/elements/1.1/>" + NL +
-            "ASK WHERE {?x dc:title ?title}";
+    var query = " PREFIX dc: <http://purl.org/dc/elements/1.1/>" + NL +
+            "ASK WHERE {?x dc:title ?title}"
 
-    assertTrue(model.ask(query))
+    assertTrue(model.ask(query, null))
 
     model.close
   }
@@ -129,11 +134,11 @@ class ArqTest extends Logging {
     implicit val model = createModel
 
     // Query string.
-    var query: Query = " PREFIX dc: <http://purl.org/dc/elements/1.1/>" + NL +
-            "SELECT ?title WHERE {?x dc:title ?title}";
+    var query = " PREFIX dc: <http://purl.org/dc/elements/1.1/>" + NL +
+            "SELECT ?title WHERE {?x dc:title ?title}"
 
     try {
-      assertFalse(model.ask(query))
+      assertFalse(model.ask(query, null))
     }
     catch {
       case e: Exception => {
@@ -158,19 +163,19 @@ class ArqTest extends Logging {
     "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> " +
             "PREFIX :    <http://example/> " +
             "PREFIX pf:  <http://jena.hpl.hp.com/ARQ/property#> " +
-            "SELECT * { ?lit pf:textMatch 'SPARQL'. }"
+            "SELECT * { ?lit pf:TextMatch 'SPARQL'. }"
 
-    query.serialize(new IndentedWriter(System.out, true));
+    query.toQuery.serialize(new IndentedWriter(System.out, true));
 
     val closure = {
       (resultSet: ResultSet, soln: QuerySolution) =>
         var str = ""
         var varnames = resultSet.getResultVars.toList
-        varnames.foreach(name => str += name + ": " + soln.get(name) + ", ")
+        varnames.foreach {name :String => str + name + ": " + soln.getLiteral(name) + ", " }
         println(str)
     }
 
-    model.select(query, closure)
+    model.select(query, closure, null)
     model.close
   }
 }

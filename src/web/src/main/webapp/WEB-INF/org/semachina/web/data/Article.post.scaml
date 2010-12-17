@@ -1,0 +1,19 @@
+-@ val it:org.semachina.web.data.Article
+-@ val formatter:org.joda.time.format.DateTimeFormatter = org.joda.time.format.DateTimeFormat.longDate()
+%article.hentry{ "xmlns:foaf" => "http://xmlns.com/foaf/0.1/" }
+    %header
+        %h2.entry-title
+            %a{ :href => "#", :rel => "bookmark",  :title => { it.title } }
+                #{ it.title }
+    %footer.post-info
+        %abbr.published{ :title => { it.created } }
+            #{ formatter.print( it.created ) }
+        %address.vcard.author
+            %div{ :about => "#me", :typeof => "foaf:Person" } 
+                By
+                %a.url.fn{ :href => "#" }
+                    %span{ :property => "foaf:name" } Enrique Ramirez
+
+    .entry-content
+        %p
+            #{ it.desc }

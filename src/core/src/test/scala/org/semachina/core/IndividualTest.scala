@@ -7,8 +7,10 @@ import com.hp.hpl.jena.sdb.sql.{JDBC, SDBConnection}
 import com.hp.hpl.jena.sdb.store.{LayoutType, DatabaseType}
 import com.hp.hpl.jena.sdb.{StoreDesc, Store, SDBFactory}
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
-import org.semachina.jena.core.OWLFactory
+import org.semachina.jena.config.OWLFactory
 import org.semachina.config.AppConfig
+import com.hp.hpl.jena.ontology.{ProfileRegistry, OntModelSpec}
+import org.semachina.jena.impl.SemachinaOntModelImpl
 
 /**
  * Created by IntelliJ IDEA.
@@ -61,7 +63,7 @@ class IndividualTest {
     var sdbModel: Model = SDBFactory.connectDefaultModel(store)
 
 
-    val ontModel = OWLFactory.createOntologyModel(sdbModel)
+    val ontModel = new SemachinaOntModelImpl(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG))
     ontModel.read("http://purl.org/dc/elements/1.1/")
 
     val title = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/title")
@@ -88,13 +90,13 @@ class IndividualTest {
   def testTransactionFail = {
     val store = createSDBModel
     var sdbModel: Model = SDBFactory.connectDefaultModel(store)
-    val ontModel = OWLFactory.createOntologyModel(sdbModel)
+    val ontModel = new SemachinaOntModelImpl(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG), sdbModel)
 
     ontModel.read("http://purl.org/dc/elements/1.1/")
     val title = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/title")
     val description = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/description")
-
-
+    val dataDescription = description.asDatatypeProperty
+    println( dataDescription )
     try {
       ontModel -> {
         it: Model =>
