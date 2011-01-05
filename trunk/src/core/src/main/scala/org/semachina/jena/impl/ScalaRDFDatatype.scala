@@ -1,9 +1,6 @@
 package org.semachina.jena.impl
 
 import java.lang.String
-import com.hp.hpl.jena.graph.impl.LiteralLabel
-import com.hp.hpl.jena.datatypes.{TypeMapper, RDFDatatype, DatatypeFormatException}
-import org.semachina.jena.DataTypeFactory
 /**
  * Created by IntelliJ IDEA.
  * User: sgopalan
@@ -15,9 +12,21 @@ class ScalaRDFDatatype[L <: Object](typeURI: String,
                                     javaClass: Class[L],
                                     lexer: L => String,
                                     parser: String => L,
-                                    validator: L => Boolean )
-        extends RDFDatatypeImpl(typeURI, javaClass, new ScalaDataTypeFactory[L] ( lexer, parser, validator ) ) {
-
+                                    validator: L => Boolean)
+        extends SimpleRDFDatatypeImpl(typeURI, javaClass) {
   def this(typeURI: String, javaClass: Class[L], lexer: L => String, parser: String => L) =
     this (typeURI, javaClass, lexer, parser, null);
+
+
+  override def toLexicalForm(cast: L) = lexer(cast);
+
+  override def parseLexicalForm(lexicalForm: String) = parser(lexicalForm);
+
+  override def isValidValue(valueForm: Object): Boolean = {
+    if (validator != null) {
+      return validator(valueForm.asInstanceOf[L])
+    }
+    return super.isValidValue(valueForm);
+
+  }
 }

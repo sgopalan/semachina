@@ -1,12 +1,8 @@
 package org.semachina.jena.impl
 
 import com.hp.hpl.jena.graph.Node
-import com.hp.hpl.jena.ontology.{OntModel, Profile, ConversionException, DatatypeProperty}
-import com.hp.hpl.jena.enhanced.{Implementation, EnhNode, EnhGraph}
+import com.hp.hpl.jena.enhanced.{EnhNode, EnhGraph}
 import com.hp.hpl.jena.rdf.model.Literal
-import com.hp.hpl.jena.ontology.impl.DatatypePropertyImpl
-import org.semachina.jena.TypedDatatypeProperty
-
 /**
  * Created by IntelliJ IDEA.
  * User: sgopalan
@@ -16,8 +12,9 @@ import org.semachina.jena.TypedDatatypeProperty
  */
 
 class ScalaDatatypePropertyImpl[V](
-        node: Node, graph: EnhGraph, val convert : Literal => V  = { it : Literal => it.getValue().asInstanceOf[V]  } )
+        node: Node, graph: EnhGraph, val convert: Literal => V = {it: Literal => it.getValue().asInstanceOf[V]})
         extends SemachinaTypedDatatypePropertyImpl[V](node, graph) {
   def this(indiv: EnhNode) = this (indiv.asNode(), indiv.getGraph())
-  def this(indiv: EnhNode, convert : Literal => V) = this (indiv.asNode(), indiv.getGraph(), convert)
+
+  def this(indiv: EnhNode, convert: Literal => V) = this (indiv.asNode(), indiv.getGraph(), convert)
 }
