@@ -1,6 +1,5 @@
 package org.semachina.jena;
 
-import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntClass;
 
 /**

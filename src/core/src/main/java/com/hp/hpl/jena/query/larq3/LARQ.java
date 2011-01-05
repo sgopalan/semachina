@@ -6,166 +6,158 @@
 
 package com.hp.hpl.jena.query.larq3;
 
-import java.io.Reader ;
+import com.hp.hpl.jena.datatypes.RDFDatatype;
+import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
+import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.Node_Blank;
+import com.hp.hpl.jena.graph.Node_Literal;
+import com.hp.hpl.jena.graph.Node_URI;
+import com.hp.hpl.jena.query.ARQ;
+import com.hp.hpl.jena.rdf.model.AnonId;
+import com.hp.hpl.jena.rdf.model.Literal;
+import com.hp.hpl.jena.sparql.ARQConstants;
+import com.hp.hpl.jena.sparql.util.Context;
+import com.hp.hpl.jena.sparql.util.NodeFactory;
+import com.hp.hpl.jena.sparql.util.Symbol;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
 
-import org.apache.lucene.document.Document ;
-import org.apache.lucene.document.Field ;
+import java.io.Reader;
 
-import com.hp.hpl.jena.datatypes.RDFDatatype ;
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype ;
-import com.hp.hpl.jena.graph.Node ;
-import com.hp.hpl.jena.graph.Node_Blank ;
-import com.hp.hpl.jena.graph.Node_Literal ;
-import com.hp.hpl.jena.graph.Node_URI ;
-import com.hp.hpl.jena.query.ARQ ;
-import com.hp.hpl.jena.rdf.model.AnonId ;
-import com.hp.hpl.jena.rdf.model.Literal ;
-import com.hp.hpl.jena.sparql.ARQConstants ;
-import com.hp.hpl.jena.sparql.util.Context ;
-import com.hp.hpl.jena.sparql.util.NodeFactory ;
-import com.hp.hpl.jena.sparql.util.Symbol ;
+public class LARQ {
 
-public class LARQ
-{
- 
     // The field that is the index
-    public static final String fIndex               = "index" ;
-    
+    public static final String fIndex = "index";
+
     // Object literals
-    public static final String fLex                 = "lex" ;
-    public static final String fLang                = "lang" ;
-    public static final String fDataType            = "datatype" ;
+    public static final String fLex = "lex";
+    public static final String fLang = "lang";
+    public static final String fDataType = "datatype";
     // Object URI
-    public static final String fURI                 = "uri" ;
+    public static final String fURI = "uri";
     // Object bnode
-    public static final String fBNodeID             = "bnode" ;
+    public static final String fBNodeID = "bnode";
 
     // The symbol used to register the index in the query context
-    public static final Symbol indexKey     = ARQConstants.allocSymbol("lucene3") ;
+    public static final Symbol indexKey = ARQConstants.allocSymbol("lucene3");
 
-    public static void setDefaultIndex(IndexLARQ index)
-    { setDefaultIndex(ARQ.getContext(), index) ; }
-    
-    public static void setDefaultIndex(Context context, IndexLARQ index)
-    { context.set(LARQ.indexKey, index) ; }
-    
-    public static IndexLARQ getDefaultIndex()
-    { return getDefaultIndex(ARQ.getContext()) ; }
-    
-    public static IndexLARQ getDefaultIndex(Context context)
-    { return (IndexLARQ)context.get(LARQ.indexKey) ; }
-    
-    public static void removeDefaultIndex()
-    { removeDefaultIndex(ARQ.getContext()) ; }
-    
-    public static void removeDefaultIndex(Context context)
-    { context.unset(LARQ.indexKey) ; }
+    public static void setDefaultIndex(IndexLARQ index) {
+        setDefaultIndex(ARQ.getContext(), index);
+    }
 
-    public static void index(Document doc, Node indexNode)
-    {
-        if ( ! indexNode.isLiteral() )
-            throw new ARQLuceneException("Not a literal: "+indexNode) ;
-        index(doc, indexNode.getLiteralLexicalForm()) ;
-    }        
-     
-    public static void index(Document doc, String indexContent)
-    {
+    public static void setDefaultIndex(Context context, IndexLARQ index) {
+        context.set(LARQ.indexKey, index);
+    }
+
+    public static IndexLARQ getDefaultIndex() {
+        return getDefaultIndex(ARQ.getContext());
+    }
+
+    public static IndexLARQ getDefaultIndex(Context context) {
+        return (IndexLARQ) context.get(LARQ.indexKey);
+    }
+
+    public static void removeDefaultIndex() {
+        removeDefaultIndex(ARQ.getContext());
+    }
+
+    public static void removeDefaultIndex(Context context) {
+        context.unset(LARQ.indexKey);
+    }
+
+    public static void index(Document doc, Node indexNode) {
+        if (!indexNode.isLiteral())
+            throw new ARQLuceneException("Not a literal: " + indexNode);
+        index(doc, indexNode.getLiteralLexicalForm());
+    }
+
+    public static void index(Document doc, String indexContent) {
         Field indexField = new Field(LARQ.fIndex, indexContent,
-                                     Field.Store.NO, Field.Index.ANALYZED) ;
-        doc.add(indexField) ;
-    }        
-     
-    public static void index(Document doc, Reader indexContent)
-    {
-        Field indexField = new Field(LARQ.fIndex, indexContent) ;
-        doc.add(indexField) ;
-    }        
+                Field.Store.NO, Field.Index.ANALYZED);
+        doc.add(indexField);
+    }
 
-    public static void store(Document doc, Node node)
-    {
+    public static void index(Document doc, Reader indexContent) {
+        Field indexField = new Field(LARQ.fIndex, indexContent);
+        doc.add(indexField);
+    }
+
+    public static void store(Document doc, Node node) {
         // Store.
-        if ( node.isLiteral() )
-            storeLiteral(doc, (Node_Literal)node) ;
-        else if ( node.isURI() )
-            storeURI(doc, (Node_URI)node) ;
-        else if ( node.isBlank() )
-            storeBNode(doc, (Node_Blank)node) ;
+        if (node.isLiteral())
+            storeLiteral(doc, (Node_Literal) node);
+        else if (node.isURI())
+            storeURI(doc, (Node_URI) node);
+        else if (node.isBlank())
+            storeBNode(doc, (Node_Blank) node);
         else
-            throw new ARQLuceneException("Can't store: "+node) ;
+            throw new ARQLuceneException("Can't store: " + node);
     }
 
-    public static Node build(Document doc)
-    {
-        String lex = doc.get(LARQ.fLex) ;
-        if ( lex != null )
-            return buildLiteral(doc) ;
-        String uri = doc.get(LARQ.fURI) ;
-        if ( uri != null )
-            return Node.createURI(uri) ;
-        String bnode = doc.get(LARQ.fBNodeID) ;
-        if ( bnode != null )
-            return Node.createAnon(new AnonId(bnode)) ;
-        throw new ARQLuceneException("Can't build: "+doc) ;
+    public static Node build(Document doc) {
+        String lex = doc.get(LARQ.fLex);
+        if (lex != null)
+            return buildLiteral(doc);
+        String uri = doc.get(LARQ.fURI);
+        if (uri != null)
+            return Node.createURI(uri);
+        String bnode = doc.get(LARQ.fBNodeID);
+        if (bnode != null)
+            return Node.createAnon(new AnonId(bnode));
+        throw new ARQLuceneException("Can't build: " + doc);
     }
 
-    public static boolean isString(Literal literal)
-    {
-        RDFDatatype dtype = literal.getDatatype() ;
-        if ( dtype == null )
-            return true ;
-        if ( dtype.equals(XSDDatatype.XSDstring) )
-            return true ;
-        return false ;
-    }
-    
-    private static void storeURI(Document doc, Node_URI node)
-    { 
-        String x = node.getURI() ;
-        Field f = new Field(LARQ.fIndex, x, Field.Store.NO, Field.Index.ANALYZED) ;
-        doc.add(f) ;
-        f = new Field(LARQ.fURI, x, Field.Store.YES, Field.Index.NO) ;
-        doc.add(f) ;
+    public static boolean isString(Literal literal) {
+        RDFDatatype dtype = literal.getDatatype();
+        if (dtype == null)
+            return true;
+        if (dtype.equals(XSDDatatype.XSDstring))
+            return true;
+        return false;
     }
 
-    private static void storeBNode(Document doc, Node_Blank node)
-    { 
-        String x = node.getBlankNodeLabel() ;
-        Field f = new Field(LARQ.fIndex, x, Field.Store.NO, Field.Index.ANALYZED) ;
-        doc.add(f) ;
-        f = new Field(LARQ.fBNodeID, x, Field.Store.YES, Field.Index.NO) ;
-        doc.add(f) ;
+    private static void storeURI(Document doc, Node_URI node) {
+        String x = node.getURI();
+        Field f = new Field(LARQ.fIndex, x, Field.Store.NO, Field.Index.ANALYZED);
+        doc.add(f);
+        f = new Field(LARQ.fURI, x, Field.Store.YES, Field.Index.NO);
+        doc.add(f);
     }
-    
-    private static void storeLiteral(Document doc, Node_Literal node)
-    {
-        String lex = node.getLiteralLexicalForm() ;
-        String datatype = node.getLiteralDatatypeURI() ;
-        String lang = node.getLiteralLanguage() ;
 
-        Field f = new Field(LARQ.fLex, lex, Field.Store.YES, Field.Index.NO) ;
-        doc.add(f) ;
-        
-        if ( lang != null )
-        {
-            f = new Field(LARQ.fLang, lang, Field.Store.YES, Field.Index.NO) ;
-            doc.add(f) ;
+    private static void storeBNode(Document doc, Node_Blank node) {
+        String x = node.getBlankNodeLabel();
+        Field f = new Field(LARQ.fIndex, x, Field.Store.NO, Field.Index.ANALYZED);
+        doc.add(f);
+        f = new Field(LARQ.fBNodeID, x, Field.Store.YES, Field.Index.NO);
+        doc.add(f);
+    }
+
+    private static void storeLiteral(Document doc, Node_Literal node) {
+        String lex = node.getLiteralLexicalForm();
+        String datatype = node.getLiteralDatatypeURI();
+        String lang = node.getLiteralLanguage();
+
+        Field f = new Field(LARQ.fLex, lex, Field.Store.YES, Field.Index.NO);
+        doc.add(f);
+
+        if (lang != null) {
+            f = new Field(LARQ.fLang, lang, Field.Store.YES, Field.Index.NO);
+            doc.add(f);
         }
 
-        if ( datatype != null )
-        {       
-            f = new Field(LARQ.fDataType, datatype, Field.Store.YES, Field.Index.NO) ;
-            doc.add(f) ;
+        if (datatype != null) {
+            f = new Field(LARQ.fDataType, datatype, Field.Store.YES, Field.Index.NO);
+            doc.add(f);
         }
     }
-    
-    private static Node buildLiteral(Document doc)
-    {
-        String lex = doc.get(LARQ.fLex) ;
-        if ( lex == null )
-            return null ;
-        String datatype = doc.get(LARQ.fDataType) ;
-        String lang = doc.get(LARQ.fLang) ;
-        return NodeFactory.createLiteralNode(lex, lang, datatype) ;
+
+    private static Node buildLiteral(Document doc) {
+        String lex = doc.get(LARQ.fLex);
+        if (lex == null)
+            return null;
+        String datatype = doc.get(LARQ.fDataType);
+        String lang = doc.get(LARQ.fLang);
+        return NodeFactory.createLiteralNode(lex, lang, datatype);
     }
 }
 

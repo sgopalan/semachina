@@ -6,83 +6,109 @@
 
 package com.hp.hpl.jena.query.larq3;
 
-import java.io.File ;
+import com.hp.hpl.jena.rdf.listeners.StatementListener;
+import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.rdf.model.StmtIterator;
+import org.apache.lucene.store.Directory;
 
-import org.apache.lucene.store.Directory ;
+import java.io.File;
 
-import com.hp.hpl.jena.rdf.listeners.StatementListener ;
-import com.hp.hpl.jena.rdf.model.Statement ;
-import com.hp.hpl.jena.rdf.model.StmtIterator ;
-
-/** Root class for index creation from a graph or model.  This class
- *  can be used to a Model listener to index while loading data.  It also
- *  provides the ability to index from a StmtIterator.
- *  Once completed, the index builder should be closed for writing,
- *  then the getIndex() called.
- *  To update the index once closed, the application should create a new index builder.
- *  Any index readers (e.g. IndexLARQ objects)
- *  need to be recreated and registered.
- *        
+/**
+ * Root class for index creation from a graph or model.  This class
+ * can be used to a Model listener to index while loading data.  It also
+ * provides the ability to index from a StmtIterator.
+ * Once completed, the index builder should be closed for writing,
+ * then the getIndex() called.
+ * To update the index once closed, the application should createIndividual a new index builder.
+ * Any index readers (e.g. IndexLARQ objects)
+ * need to be recreated and registered.
+ *
  * @author Andy Seaborne
  */
 
-public abstract class IndexBuilderModel extends StatementListener
-{
+public abstract class IndexBuilderModel extends StatementListener {
     // Multiple inheritance would be nice .
-    protected IndexBuilderNode index ;
-    
-    /** Create an in-memory index */
-    public IndexBuilderModel()
-    { index = new IndexBuilderNode() ; }
-    
-    /** Manage a Lucene index that has already been created */
-    public IndexBuilderModel(Directory dir)
-    { index = new IndexBuilderNode(dir) ; }
+    protected IndexBuilderNode index;
 
-    /** Create an on-disk index */
-    public IndexBuilderModel(File fileDir)
-    { index = new IndexBuilderNode(fileDir) ; }
-    
-    /** Create an on-disk index */
-    public IndexBuilderModel(String fileDir)
-    { index = new IndexBuilderNode(fileDir) ; }
+    /**
+     * Create an in-memory index
+     */
+    public IndexBuilderModel() {
+        index = new IndexBuilderNode();
+    }
+
+    /**
+     * Manage a Lucene index that has already been created
+     */
+    public IndexBuilderModel(Directory dir) {
+        index = new IndexBuilderNode(dir);
+    }
+
+    /**
+     * Create an on-disk index
+     */
+    public IndexBuilderModel(File fileDir) {
+        index = new IndexBuilderNode(fileDir);
+    }
+
+    /**
+     * Create an on-disk index
+     */
+    public IndexBuilderModel(String fileDir) {
+        index = new IndexBuilderNode(fileDir);
+    }
 
 //    protected IndexWriter getIndexWriter() { return index.getIndexWriter() ; }
 //    protected IndexReader getIndexReader() { return index.getIndexReader() ; }
-    
-    /** ModelListener interface : statement taken out of the model */
-    @Override
-    public void removedStatement(Statement s)
-    { unindexStatement(s) ; }
 
-    /** Remove index information */
-    public void unindexStatement(Statement s)
-    { throw new UnsupportedOperationException("unindexStatement") ; }
-    
-    /** ModelListener interface : statement added to the model */
+    /**
+     * ModelListener interface : statement taken out of the model
+     */
     @Override
-    public void addedStatement(Statement s)
-    { indexStatement(s) ; }
-    
-    /** Update index based on one statement */
+    public void removedStatement(Statement s) {
+        unindexStatement(s);
+    }
+
+    /**
+     * Remove index information
+     */
+    public void unindexStatement(Statement s) {
+        throw new UnsupportedOperationException("unindexStatement");
+    }
+
+    /**
+     * ModelListener interface : statement added to the model
+     */
+    @Override
+    public void addedStatement(Statement s) {
+        indexStatement(s);
+    }
+
+    /**
+     * Update index based on one statement
+     */
     abstract public void indexStatement(Statement s);
 
-        /** Update index based on statements */
+    /**
+     * Update index based on statements
+     */
     public void indexStatements(StmtIterator i) {
-        try{
-            while( i.hasNext() ) {
+        try {
+            while (i.hasNext()) {
                 Statement s = i.next();
-                indexStatement( s );
+                indexStatement(s);
             }
-        }
-        finally {
+        } finally {
             i.close();
         }
     }
 
-    /** Get a search index used by LARQ. */
-    public IndexLARQ getIndex()
-    { return index.getIndex() ; }
+    /**
+     * Get a search index used by LARQ.
+     */
+    public IndexLARQ getIndex() {
+        return index.getIndex();
+    }
 }
 
 /*

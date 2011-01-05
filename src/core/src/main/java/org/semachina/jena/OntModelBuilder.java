@@ -1,6 +1,5 @@
 package org.semachina.jena;
 
-import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.rdf.model.Model;
 import org.apache.lucene.store.Directory;
