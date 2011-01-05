@@ -7,7 +7,6 @@ import com.hp.hpl.jena.sdb.sql.{JDBC, SDBConnection}
 import com.hp.hpl.jena.sdb.store.{LayoutType, DatabaseType}
 import com.hp.hpl.jena.sdb.{StoreDesc, Store, SDBFactory}
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
-import org.semachina.jena.config.OWLFactory
 import org.semachina.config.AppConfig
 import com.hp.hpl.jena.ontology.{ProfileRegistry, OntModelSpec}
 import org.semachina.jena.impl.SemachinaOntModelImpl
@@ -96,7 +95,7 @@ class IndividualTest {
     val title = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/title")
     val description = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/description")
     val dataDescription = description.asDatatypeProperty
-    println( dataDescription )
+    println(dataDescription)
     try {
       ontModel -> {
         it: Model =>

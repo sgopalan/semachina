@@ -1,10 +1,15 @@
 package org.semachina.jena.datatype
 
 import com.hp.hpl.jena.vocabulary.XSD
-import factory.DayFactory
+import factory.{DayFactory}
+import org.joda.time.DateTime
 import org.specs.SpecificationWithJUnit
+import org.semachina.jena.config.SemachinaConfig
+import com.hp.hpl.jena.ontology.{ProfileRegistry, OntModelSpec}
+import org.semachina.jena.impl.SemachinaOntModelImpl
+import org.semachina.jena.SemachinaOntModel
 import types.Day
-import com.hp.hpl.jena.rdf.model.ModelFactory
+import com.hp.hpl.jena.rdf.model.{ModelFactory, Literal}
 import com.hp.hpl.jena.datatypes.{TypeMapper, DatatypeFormatException}
 import com.hp.hpl.jena.shared.impl.JenaParameters
 
@@ -20,7 +25,7 @@ class DaySpecification extends SpecificationWithJUnit("Jena xsd:gDay datatype Sp
   description = "Evaluate the functionality for the Jena xsd:gDay typed literal datatype conversions"
 
   JenaParameters.enableEagerLiteralValidation = true
-  TypeMapper.getInstance().registerDatatype(new DayFactory())
+  TypeMapper.getInstance().registerDatatype( new DayFactory() )
   val m = ModelFactory.createOntologyModel()
 
   "Jena Datatype mapping" should {

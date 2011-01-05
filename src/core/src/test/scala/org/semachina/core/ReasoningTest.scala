@@ -6,7 +6,6 @@ import org.mindswap.pellet.jena.PelletReasonerFactory
 import com.hp.hpl.jena.rdf.model.{ModelFactory, Resource}
 import com.hp.hpl.jena.ontology._
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
-import org.semachina.jena.config.OWLFactory
 import org.mindswap.pellet.PelletOptions
 import org.semachina.config.AppConfig
 import org.semachina.jena.impl.SemachinaOntModelImpl
@@ -62,7 +61,7 @@ class ReasoningTest {
     // load the ontology with its imports and no reasoning
 
 
-    implicit val model  = new SemachinaOntModelImpl(PelletReasonerFactory.THE_SPEC)
+    implicit val model = new SemachinaOntModelImpl(PelletReasonerFactory.THE_SPEC)
     PelletOptions.RETURN_DEDUCTIONS_GRAPH = true
     defaultModel.read(ont)
 
@@ -79,26 +78,26 @@ class ReasoningTest {
     println("difference between diffModel and deductionModel")
     (diffModel difference deductionModel).write(System.out, "N3");
     println("done\n\n\n")
-    // create property and resources to query the reasoner
+    // createIndividual property and resources to query the reasoner
     val Person: OntClass = $("http://xmlns.com/foaf/0.1/Person")
     val workHomepage = "http://xmlns.com/foaf/0.1/workInfoHomepage".res
-    val foafName: OntProperty = "http://xmlns.com/foaf/0.1/name".data({ _.getString })
+    val foafName: OntProperty = "http://xmlns.com/foaf/0.1/name".data({_.getString})
 
     // get all instances of Person class
 
 
 
-//    Person.list {
-//      ind =>
-//        var name: String = ind(foafName).asLiteral.getString
-//        var rdftype: Resource = ind.getRDFType
-//        var homepage: Resource = ind.getPropertyValue(workHomepage).asInstanceOf[Resource]
-//        System.out.println("Name: " + name)
-//        System.out.println("Type: " + rdftype.getLocalName)
-//        if (homepage == null) System.out.println("Homepage: Unknown")
-//        else System.out.println("Homepage: " + homepage)
-//        System.out.println
-//    }
-//    System.out.println("done")
+    //    Person.list {
+    //      ind =>
+    //        var name: String = ind(foafName).asLiteral.getString
+    //        var rdftype: Resource = ind.getRDFType
+    //        var homepage: Resource = ind.getPropertyValue(workHomepage).asInstanceOf[Resource]
+    //        System.out.println("Name: " + name)
+    //        System.out.println("Type: " + rdftype.getLocalName)
+    //        if (homepage == null) System.out.println("Homepage: Unknown")
+    //        else System.out.println("Homepage: " + homepage)
+    //        System.out.println
+    //    }
+    //    System.out.println("done")
   }
 }

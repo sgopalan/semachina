@@ -4,16 +4,15 @@ import org.junit._
 import Assert._
 import org.semachina.jena.JenaExtension._
 import org.openjena.atlas.io.IndentedWriter
-import com.hp.hpl.jena.query.{ResultSet, QuerySolution, Query}
+import com.hp.hpl.jena.query.{ResultSet, QuerySolution}
 import scala.collection.JavaConversions._
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
-import org.semachina.jena.config.OWLFactory
 import org.semachina.config.AppConfig
 import com.weiglewilczek.slf4s.Logging
 import com.hp.hpl.jena.rdf.model.{RDFNode, Resource}
-import org.semachina.jena.impl.{SemachinaOntModelImpl}
-import com.hp.hpl.jena.ontology.{ProfileRegistry, OntModelSpec, OntModel}
-import org.semachina.jena.{SemachinaOntModel, ResultSetHandler}
+import org.semachina.jena.impl.SemachinaOntModelImpl
+import com.hp.hpl.jena.ontology.{ProfileRegistry, OntModelSpec}
+import org.semachina.jena.SemachinaOntModel
 
 /**
  * Created by IntelliJ IDEA.
@@ -51,7 +50,8 @@ class ArqTest extends Logging {
     val description = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/description")
 
 
-    ontModel.doWrite { writeModel:SemachinaOntModel =>
+    ontModel.doWrite {
+      writeModel: SemachinaOntModel =>
 
         val r1: Resource = writeModel.createResource("http://example.org/book#1")
 
@@ -77,7 +77,7 @@ class ArqTest extends Logging {
 
     val closure = {
       (resultSet: ResultSet, soln: QuerySolution) =>
-        assertEquals("SPARQL - the book", as[String](soln.get("title")) )
+        assertEquals("SPARQL - the book", as[String](soln.get("title")))
     }
 
     model.select(query, closure, null)
@@ -86,30 +86,30 @@ class ArqTest extends Logging {
     model.close()
   }
 
-  @Test(expected = classOf[IllegalArgumentException])
-  @throws(classOf[Exception])
-  def testSparqlSelectFail = {
-    // Create the data.
-    // This wil be the background (unnamed) graph in the dataset.
-    implicit val model = createModel
-
-    // Query string.
-    var query = " PREFIX dc: <http://purl.org/dc/elements/1.1/>" + NL +
-            "ASK WHERE {?x dc:title ?title}";
-
-    try {
-      model.select(query, null, Map.empty[String, RDFNode])
-    }
-    catch {
-      case e: Exception => {
-        logger.error(e.getMessage, e)
-        throw e
-      }
-    }
-    finally {
-      model.close()
-    }
-  }
+//  @Test(expected = classOf[IllegalArgumentException])
+//  @throws(classOf[Exception])
+//  def testSparqlSelectFail = {
+//    // Create the data.
+//    // This wil be the background (unnamed) graph in the dataset.
+//    implicit val model = createModel
+//
+//    // Query string.
+//    var query = " PREFIX dc: <http://purl.org/dc/elements/1.1/>" + NL +
+//            "ASK WHERE {?x dc:title ?title}";
+//
+//    try {
+//      model.select(query, null, Map.empty[String, RDFNode])
+//    }
+//    catch {
+//      case e: Exception => {
+//        logger.error(e.getMessage, e)
+//        throw e
+//      }
+//    }
+//    finally {
+//      model.close()
+//    }
+//  }
 
   @Test
   def testSparqlAsk = {
@@ -171,7 +171,7 @@ class ArqTest extends Logging {
       (resultSet: ResultSet, soln: QuerySolution) =>
         var str = ""
         var varnames = resultSet.getResultVars.toList
-        varnames.foreach {name :String => str + name + ": " + soln.getLiteral(name) + ", " }
+        varnames.foreach {name: String => str + name + ": " + soln.getLiteral(name) + ", "}
         println(str)
     }
 
