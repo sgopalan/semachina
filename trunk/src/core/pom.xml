@@ -58,12 +58,6 @@
             <artifactId>lucene-core</artifactId>
         </dependency>
 
-        <!-- Deri Siren -->
-        <dependency>
-            <groupId>org.sindice.siren</groupId>
-            <artifactId>siren-qparser</artifactId>
-        </dependency>
-
         <!-- Jena TDB and SDB -->
         <dependency>
             <groupId>com.hp.hpl.jena</groupId>
@@ -153,12 +147,6 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- Google Guava -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>r07</version>    
-        </dependency>
 
         <!-- Logging -->
 
