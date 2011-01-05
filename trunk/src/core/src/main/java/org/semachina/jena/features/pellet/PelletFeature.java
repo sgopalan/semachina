@@ -1,7 +1,10 @@
 package org.semachina.jena.features.pellet;
 
 import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.rdf.model.*;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 import com.hp.hpl.jena.vocabulary.RDF;
 import org.mindswap.pellet.PelletOptions;
@@ -14,10 +17,10 @@ import org.semachina.jena.features.Feature;
 public class PelletFeature implements Feature {
 
     public static String KEY = "pellet-feature";
-	
-	protected SemachinaOntModel pelletModel;
 
-	protected PelletInfGraph pelletGraph;
+    protected SemachinaOntModel pelletModel;
+
+    protected PelletInfGraph pelletGraph;
 
     @Override
     public String getKey() {
@@ -29,76 +32,76 @@ public class PelletFeature implements Feature {
         this.pelletModel = ontModel;
 
         PelletOptions.USE_TRACING = true;
-		PelletOptions.USE_ANNOTATION_SUPPORT = true;
-		PelletOptions.SAMPLING_RATIO = 0;
+        PelletOptions.USE_ANNOTATION_SUPPORT = true;
+        PelletOptions.SAMPLING_RATIO = 0;
 
-		pelletGraph = (PelletInfGraph) pelletModel.getGraph();
+        pelletGraph = (PelletInfGraph) pelletModel.getGraph();
     }
 
     @Override
     public void close() throws Exception {
     }
 
-	public void classify(ProgressMonitor progressBar) {
+    public void classify(ProgressMonitor progressBar) {
 
         checkAndResolveInconsistency(progressBar);
-		
-		if( progressBar != null ) {
-			pelletGraph.getKB().getTaxonomyBuilder().setProgressMonitor( progressBar );
-		}
-		
-		pelletGraph.classify();
-	}
-	
-	private void checkAndResolveInconsistency(ProgressMonitor progressBar) {
-		if( progressBar != null ) {
-			progressBar.setProgressMessage("Consistency checking");
-		}
-		// continue until all inconsistencies are resolved
-		while( !pelletGraph.isConsistent() ) {
-			// get the explanation for current inconsistency
-			Model explanation = pelletGraph.explainInconsistency();
-			
-			System.out.println( "Data is inconsistent:" );
-			explanation.setNsPrefixes( pelletModel );
-			explanation.write( System.out, "TTL" );
-			
-			// iterate over the axioms in the explanation
-			for( Statement stmt : explanation.listStatements().toList() ) {
-				// remove any individual assertion that contributes
-				// to the inconsistency (assumption: all the axioms
-				// in the schema are believed to be correct and
-				// should not be removed)
-				if( isIndividualAssertion( stmt ) ) {
-					System.out.println( "Remove statement: "
-							+ stmt.asTriple().toString( pelletModel ) );
-					ExtendedIterator<OntModel> subModels = pelletModel.listSubModels();
-					while( subModels.hasNext() ) {
-						subModels.next().remove( stmt );
-					}
-				}
-			}
-			
-			// The following statement is needed to workaround
-			pelletGraph.getLoader().setKB( pelletGraph.getKB() );
-			
-			pelletModel.rebind();
-		}
-		
-		if( progressBar != null ) {
-			progressBar.taskFinished();
-		}
-	}
 
-	private boolean isIndividualAssertion(Statement stmt) {
-		Property p = stmt.getPredicate();
-		RDFNode o = stmt.getResource();
+        if (progressBar != null) {
+            pelletGraph.getKB().getTaxonomyBuilder().setProgressMonitor(progressBar);
+        }
 
-		return !isBuiltinTerm( p )
-			|| !isBuiltinTerm( o )  && p.equals( RDF.type );
-	}
-	
-	private boolean isBuiltinTerm(RDFNode r) {
-		return BuiltinTerm.find(r.asNode()) != null;
-	}
+        pelletGraph.classify();
+    }
+
+    private void checkAndResolveInconsistency(ProgressMonitor progressBar) {
+        if (progressBar != null) {
+            progressBar.setProgressMessage("Consistency checking");
+        }
+        // continue until all inconsistencies are resolved
+        while (!pelletGraph.isConsistent()) {
+            // get the explanation for current inconsistency
+            Model explanation = pelletGraph.explainInconsistency();
+
+            System.out.println("Data is inconsistent:");
+            explanation.setNsPrefixes(pelletModel);
+            explanation.write(System.out, "TTL");
+
+            // iterate over the axioms in the explanation
+            for (Statement stmt : explanation.listStatements().toList()) {
+                // remove any individual assertion that contributes
+                // to the inconsistency (assumption: all the axioms
+                // in the schema are believed to be correct and
+                // should not be removed)
+                if (isIndividualAssertion(stmt)) {
+                    System.out.println("Remove statement: "
+                            + stmt.asTriple().toString(pelletModel));
+                    ExtendedIterator<OntModel> subModels = pelletModel.listSubModels();
+                    while (subModels.hasNext()) {
+                        subModels.next().remove(stmt);
+                    }
+                }
+            }
+
+            // The following statement is needed to workaround
+            pelletGraph.getLoader().setKB(pelletGraph.getKB());
+
+            pelletModel.rebind();
+        }
+
+        if (progressBar != null) {
+            progressBar.taskFinished();
+        }
+    }
+
+    private boolean isIndividualAssertion(Statement stmt) {
+        Property p = stmt.getPredicate();
+        RDFNode o = stmt.getResource();
+
+        return !isBuiltinTerm(p)
+                || !isBuiltinTerm(o) && p.equals(RDF.type);
+    }
+
+    private boolean isBuiltinTerm(RDFNode r) {
+        return BuiltinTerm.find(r.asNode()) != null;
+    }
 }
