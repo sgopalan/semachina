@@ -1,12 +1,9 @@
 package org.semachina.jena.impl;
 
 import com.hp.hpl.jena.enhanced.EnhGraph;
-import com.hp.hpl.jena.enhanced.Implementation;
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.ontology.OntClass;
-import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.impl.OntClassImpl;
-import com.hp.hpl.jena.ontology.Individual;
 import org.semachina.jena.SemachinaIndividual;
 import org.semachina.jena.SemachinaOntClass;
 import org.semachina.jena.SemachinaOntModel;
@@ -29,7 +26,7 @@ public class SemachinaOntClassImpl extends OntClassImpl implements SemachinaOntC
     }
 
     public SemachinaOntClassImpl(OntClass clazz) {
-        super( clazz.asNode(), (EnhGraph) clazz.getOntModel().getGraph());
+        super(clazz.asNode(), (EnhGraph) clazz.getOntModel().getGraph());
     }
 
     @Override
@@ -39,22 +36,22 @@ public class SemachinaOntClassImpl extends OntClassImpl implements SemachinaOntC
 
     @Override
     public SemachinaIndividual createIndividual() {
-        return getOntModel().createIndividual( this );
+        return getOntModel().createIndividual(this);
     }
 
     @Override
     public SemachinaIndividual createIndividual(String uri) {
-        return getOntModel().createIndividual( uri, this );
+        return getOntModel().createIndividual(uri, this);
     }
 
     @Override
     public SemachinaIndividual createUniqueIndividual(String uri) {
-        String expandedURI = getOntModel().expandPrefix( uri );
+        String expandedURI = getOntModel().expandPrefix(uri);
 
-        if( getOntModel().containsResource( getOntModel().getResource( expandedURI ) ) ) {
-          throw new IllegalArgumentException();
+        if (getOntModel().containsResource(getOntModel().getResource(expandedURI))) {
+            throw new IllegalArgumentException();
         }
 
-        return createIndividual( expandedURI );
+        return createIndividual(expandedURI);
     }
 }

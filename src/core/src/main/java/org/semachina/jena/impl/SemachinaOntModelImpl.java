@@ -1,16 +1,24 @@
 package org.semachina.jena.impl;
 
+import com.hp.hpl.jena.datatypes.DatatypeFormatException;
+import com.hp.hpl.jena.datatypes.RDFDatatype;
+import com.hp.hpl.jena.datatypes.TypeMapper;
+import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.TransactionHandler;
 import com.hp.hpl.jena.ontology.*;
 import com.hp.hpl.jena.ontology.impl.OntModelImpl;
 import com.hp.hpl.jena.query.*;
+import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.impl.LiteralImpl;
 import com.hp.hpl.jena.shared.Lock;
 import org.semachina.jena.*;
 import org.semachina.jena.config.DefaultSemachinaFactory;
 import org.semachina.jena.features.Feature;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 /**
@@ -38,39 +46,31 @@ public class SemachinaOntModelImpl extends OntModelImpl implements SemachinaOntM
         this.factory = factory;
     }
 
-    public SemachinaIndividual create(String newURI, String... clazzes) {
-        String expandedURI = expandPrefix( newURI );
 
-        if( containsResource( getResource( expandedURI ) ) || clazzes.length == 0 ) {
-            throw new IllegalArgumentException();
-        }
-
-        OntClass head = getOntClass( clazzes[0] );
-
-        SemachinaIndividual indiv = (SemachinaIndividual) createIndividual( expandedURI, head );
-
-        for( int i = 1; i < clazzes.length; i++ ) {
-            indiv.addRDFType( getOntClass( clazzes[i] ) );
-        }
-
-        return indiv;
+    public SemachinaIndividual createIndividual(OntClass cls) {
+        return createOntResource(SemachinaIndividual.class, cls, null);
     }
 
-    public SemachinaIndividual create(String newURI, Iterable<OntClass> clazzes) {
-        String expandedURI = expandPrefix( newURI );
+    public SemachinaIndividual createIndividual(String uri, OntClass cls) {
+        return createOntResource(SemachinaIndividual.class, cls, uri);
+    }
 
-        if( containsResource( getResource( expandedURI ) ) || clazzes.iterator() == null ) {
+    @Override
+    public SemachinaIndividual createIndividual(String newURI, Iterable<OntClass> clazzes) {
+        String expandedURI = expandPrefix(newURI);
+
+        if (containsResource(getResource(expandedURI)) || clazzes.iterator() == null) {
             throw new IllegalArgumentException();
         }
 
         SemachinaIndividual indiv = null;
 
-        for( Iterator<OntClass> i = clazzes.iterator(); i.hasNext();  ) {
-            if( indiv == null ) {
-                indiv = (SemachinaIndividual) createIndividual( expandedURI, i.next() );
+        for (Iterator<OntClass> i = clazzes.iterator(); i.hasNext();) {
+            if (indiv == null) {
+                indiv = createIndividual(expandedURI, i.next());
             }
             else {
-               indiv.addRDFType( i.next() );
+                indiv.addRDFType(i.next());
             }
         }
 
@@ -166,19 +166,57 @@ public class SemachinaOntModelImpl extends OntModelImpl implements SemachinaOntM
     }
 
     @Override
+    public RDFDatatype toRDFDatatype(String typeURI) throws DatatypeFormatException {
+        String expanded = expandPrefix(typeURI);
+        TypeMapper typeMapper = TypeMapper.getInstance();
+        RDFDatatype dType = typeMapper.getTypeByName(expanded);
+        if (dType == null) {
+            StringBuilder message = new StringBuilder();
+            message.append(typeURI + " does not match to a valid RDFDataype. Valid URIs include: ");
+            for (Iterator<RDFDatatype> i = typeMapper.listTypes(); i.hasNext();) {
+                RDFDatatype otherDType = i.next();
+                message.append("\t" + otherDType.getURI() + " with class: " + otherDType.getJavaClass() + "\n");
+            }
+
+            throw new DatatypeFormatException(message.toString());
+        }
+        return dType;
+    }
+
+    @Override
+    public Literal createTypedLiteral(Object value, String typeURI) {
+        String expandedURI = expandPrefix(typeURI);
+        return super.createTypedLiteral(value, expandedURI);
+    }
+
+    @Override
+    public Literal parseTypedLiteral(String literalString) {
+        String[] literalParts = literalString.split("\\^\\^");
+        if (literalParts.length == 2) {
+            String expandedURI = expandURI(literalParts[1]);
+            RDFDatatype dtype = TypeMapper.getInstance().getSafeTypeByName(expandedURI);
+            if (dtype != null) {
+                return createTypedLiteral(literalParts[0], dtype);
+            }
+        }
+        return new LiteralImpl(Node.createLiteral(literalString, "", false), null);
+    }
+
+
+    @Override
     public void read(final ReadWriteContext command) throws Exception {
         com.hp.hpl.jena.shared.Command wrapped = new com.hp.hpl.jena.shared.Command() {
             @Override
             public Object execute() {
                 SemachinaOntModel transactModel = getFactory().createOntologyModel();
-                transactModel.addSubModel( SemachinaOntModelImpl.this );
+                transactModel.addSubModel(SemachinaOntModelImpl.this);
 
 
                 try {
-                    command.execute( transactModel );
+                    command.execute(transactModel);
                 }
-                catch( Exception e ) {
-                    throw new RuntimeException( e.getMessage(), e );
+                catch (Exception e) {
+                    throw new RuntimeException(e.getMessage(), e);
                 }
                 return true;
             }
@@ -194,18 +232,18 @@ public class SemachinaOntModelImpl extends OntModelImpl implements SemachinaOntM
             @Override
             public Object execute() {
                 SemachinaOntModel transactModel = getFactory().createOntologyModel();
-                transactModel.addSubModel( SemachinaOntModelImpl.this );
+                transactModel.addSubModel(SemachinaOntModelImpl.this);
 
 
                 try {
-                    command.execute( transactModel );
-                    removeSubModel( SemachinaOntModelImpl.this );
+                    command.execute(transactModel);
+                    removeSubModel(SemachinaOntModelImpl.this);
                     add(transactModel);
 
                     rebind();
                 }
-                catch( Exception e ) {
-                    throw new RuntimeException( e.getMessage(), e );
+                catch (Exception e) {
+                    throw new RuntimeException(e.getMessage(), e);
                 }
                 return true;
             }
@@ -216,8 +254,7 @@ public class SemachinaOntModelImpl extends OntModelImpl implements SemachinaOntM
             TransactionHandler handler = getGraph().getTransactionHandler();
             if (handler.transactionsSupported()) {
                 handler.executeInTransaction(wrapped);
-            }
-            else {
+            } else {
                 wrapped.execute();
             }
         }
@@ -226,7 +263,7 @@ public class SemachinaOntModelImpl extends OntModelImpl implements SemachinaOntM
         }
     }
 
-        @Override
+    @Override
     public boolean ask(String sparql, QuerySolution initialBindings) {
         Query query = createQuery(sparql);
         return ask(query, initialBindings);
@@ -356,36 +393,28 @@ public class SemachinaOntModelImpl extends OntModelImpl implements SemachinaOntM
 
     public void addFeature(Feature feature) throws Exception {
 
-        if( features == null ) {
+        if (features == null) {
             features = new HashMap<String, Feature>();
         }
 
         String featureKey = feature.getKey();
 
-        if( features.containsKey(featureKey) ) {
-            throw new IllegalArgumentException("key already exists: " + featureKey );
+        if (features.containsKey(featureKey)) {
+            throw new IllegalArgumentException("key already exists: " + featureKey);
         }
 
-        feature.init( this, factory );
+        feature.init(this, factory);
 
 
-        features.put( featureKey, feature );
+        features.put(featureKey, feature);
     }
 
     public <T extends Feature> T getFeature(String featureKey) {
-        if( features == null || !features.containsKey(featureKey) ) {
-            throw new IllegalArgumentException("feature not implemented: " + featureKey );
+        if (features == null || !features.containsKey(featureKey)) {
+            throw new IllegalArgumentException("feature not implemented: " + featureKey);
         }
 
         return (T) features.get(featureKey);
-    }
-
-    public SemachinaIndividual createIndividual(OntClass cls) {
-        return createOntResource( SemachinaIndividual.class, cls, null );
-    }
-
-    public SemachinaIndividual createIndividual( String uri, OntClass cls ) {
-        return createOntResource( SemachinaIndividual.class, cls, uri );
     }
 
     public SemachinaFactory getFactory() {
@@ -410,19 +439,19 @@ public class SemachinaOntModelImpl extends OntModelImpl implements SemachinaOntM
 
     protected Query createQuery(String sparql) {
         Query query = new Query();
-        query.getPrefixMapping().withDefaultMappings( this );
+        query.getPrefixMapping().withDefaultMappings(this);
         query = QueryFactory.parse(query, sparql, null, Syntax.defaultSyntax);
         return query;
     }
 
     @Override
-    public void close() {        
-        if( features != null ) {
-            for( Feature feature : features.values() ) {
+    public void close() {
+        if (features != null) {
+            for (Feature feature : features.values()) {
                 try {
                     feature.close();
                 }
-                catch(Exception e){
+                catch (Exception e) {
                     e.printStackTrace();
                 }
 
