@@ -1,7 +1,7 @@
 package org.semachina.jena.wrapper
 
 import com.hp.hpl.jena.util.{iterator => jena}
-import jena.{Filter}
+import jena.Filter
 import scala.collection.JavaConversions._
 
 /**
@@ -38,7 +38,7 @@ class ExtendedIteratorWrapper[A](val i: jena.ExtendedIterator[A]) {
     return i.filterDrop(new Filter[A] {def accept(o: A): Boolean = f(o)})
   }
 
-  def % (iterator: A => Unit) = apply( iterator )
+  def %(iterator: A => Unit) = apply(iterator)
 
   def apply(iterator: A => Unit) = {
     try {
