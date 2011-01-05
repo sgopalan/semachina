@@ -1,7 +1,6 @@
 package org.semachina.jena.impl;
 
 import com.hp.hpl.jena.enhanced.EnhGraph;
-import com.hp.hpl.jena.enhanced.Implementation;
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.ontology.impl.OntPropertyImpl;
 

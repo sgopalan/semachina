@@ -1,10 +1,9 @@
 package org.semachina.jena.impl;
 
 import com.hp.hpl.jena.enhanced.EnhGraph;
-import com.hp.hpl.jena.enhanced.Implementation;
 import com.hp.hpl.jena.graph.Node;
-import org.semachina.jena.TypedDatatypeProperty;
 import com.hp.hpl.jena.ontology.impl.DatatypePropertyImpl;
+import org.semachina.jena.TypedDatatypeProperty;
 
 /**
  * Created by IntelliJ IDEA.

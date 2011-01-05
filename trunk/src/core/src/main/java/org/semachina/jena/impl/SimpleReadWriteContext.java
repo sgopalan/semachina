@@ -1,7 +1,6 @@
 package org.semachina.jena.impl;
 
 import org.semachina.jena.ReadWriteContext;
-import org.semachina.jena.SemachinaOntModel;
 
 import java.io.File;
 import java.util.Map;
