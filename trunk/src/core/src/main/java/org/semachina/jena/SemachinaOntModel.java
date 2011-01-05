@@ -1,8 +1,11 @@
 package org.semachina.jena;
 
+import com.hp.hpl.jena.datatypes.DatatypeFormatException;
+import com.hp.hpl.jena.datatypes.RDFDatatype;
 import com.hp.hpl.jena.ontology.*;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.rdf.model.Literal;
 import org.semachina.jena.features.Feature;
 
 /**
@@ -13,7 +16,7 @@ import org.semachina.jena.features.Feature;
  * To change this template use File | Settings | File Templates.
  */
 public interface SemachinaOntModel extends OntModel {
-    
+
     String expandURI(String property);
 
     OntClass expandToOntClass(String uri);
@@ -30,16 +33,20 @@ public interface SemachinaOntModel extends OntModel {
 
     OntProperty expandToOntProperty(String property);
 
+    Literal parseTypedLiteral(String literalString);
+
+    RDFDatatype toRDFDatatype(String typeURI) throws DatatypeFormatException;
+
     void read(final ReadWriteContext command) throws Exception;
 
     void write(final ReadWriteContext command) throws Exception;
 
-    SemachinaIndividual create(String newUri, Iterable<OntClass> clazzes);
+    SemachinaIndividual createIndividual(String newUri, Iterable<OntClass> clazzes);
 
     SemachinaIndividual createIndividual(OntClass cls);
 
-    SemachinaIndividual createIndividual( String uri, OntClass cls );
-    
+    SemachinaIndividual createIndividual(String uri, OntClass cls);
+
     boolean ask(String sparql, QuerySolution initialBindings);
 
     boolean ask(Query query, QuerySolution initialBindings);
