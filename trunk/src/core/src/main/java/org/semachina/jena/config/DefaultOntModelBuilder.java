@@ -1,6 +1,5 @@
 package org.semachina.jena.config;
 
-import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.ontology.ProfileRegistry;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -60,13 +59,13 @@ public class DefaultOntModelBuilder implements OntModelBuilder {
     @Override
     public SemachinaOntModel done() throws Exception {
 
-        SemachinaOntModel ontModel =  new SemachinaOntModelImpl(spec, base);
-        if( usePellet ) {
-            ontModel.addFeature( new PelletFeature() );
+        SemachinaOntModel ontModel = new SemachinaOntModelImpl(spec, base);
+        if (usePellet) {
+            ontModel.addFeature(new PelletFeature());
         }
 
-        if( useLarq3 ) {
-            ontModel.addFeature( new Larq3Feature( directory ) );
+        if (useLarq3) {
+            ontModel.addFeature(new Larq3Feature(directory));
         }
 
         return ontModel;

@@ -6,10 +6,11 @@
 
 package com.hp.hpl.jena.query.larq3;
 
-public interface IndexBuilder
-{
-    /** Get a search index used by LARQ. */
-    public IndexLARQ getIndex() ;
+public interface IndexBuilder {
+    /**
+     * Get a search index used by LARQ.
+     */
+    public IndexLARQ getIndex();
 }
 
 /*
