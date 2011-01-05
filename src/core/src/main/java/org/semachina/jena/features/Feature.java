@@ -12,7 +12,7 @@ import org.semachina.jena.SemachinaOntModel;
 public interface Feature {
 
     String getKey();
-    
+
     void init(SemachinaOntModel ontModel, org.semachina.jena.SemachinaFactory factory) throws Exception;
 
     void close() throws Exception;

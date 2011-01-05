@@ -44,11 +44,11 @@ public class Larq3Feature implements Feature {
     public void init(SemachinaOntModel ontModel, org.semachina.jena.SemachinaFactory factory) {
         this.ontModel = ontModel;
 
-        if( fsd == null ) {
-            throw new IllegalStateException( "LARQ directory should not be null" );
+        if (fsd == null) {
+            throw new IllegalStateException("LARQ directory should not be null");
         }
 
-        ib = new IndexBuilderString( fsd );
+        ib = new IndexBuilderString(fsd);
 
         index = ib.getIndex();
         LARQ.setDefaultIndex(index);
@@ -56,56 +56,57 @@ public class Larq3Feature implements Feature {
 
     @Override
     public void close() throws IOException {
-    //    logger.info("started close larq")
+        //    logger.info("started close larq")
 
         if (fsd != null) {
-          fsd.close();
+            fsd.close();
         }
     }
 
     public void initLarq() {
 //    logger.info("started init larq")
 
-    if( fsd == null ) {
-      throw new IllegalStateException( "LARQ directory should not be null" );
+        if (fsd == null) {
+            throw new IllegalStateException("LARQ directory should not be null");
+        }
+
+        ib = new IndexBuilderString(fsd);
+
+        index = ib.getIndex();
+        LARQ.setDefaultIndex(index);
     }
 
-    ib = new IndexBuilderString( fsd );
-
-    index = ib.getIndex();
-    LARQ.setDefaultIndex(index);
-  }
-
-  public void reindex() {
-      index(getOntModel().listStatements());
-  }
-
-  //should this be synchronized
-  public void index(StmtIterator statements) {
-
-    ib = new IndexBuilderString(fsd);
-    ib.indexStatements(statements);
-
-    //set the old index
-    IndexLARQ oldIndex = index;
-
-    //set the new index
-    index = ib.getIndex();
-    LARQ.setDefaultIndex(index);
-
-    //close the old index
-    if (oldIndex != null) {
-      oldIndex.close();
+    public void reindex() {
+        index(getOntModel().listStatements());
     }
-  }
 
-  public void closeLarq() throws IOException {
-    //logger.info("started close larq")
+    //should this be synchronized
 
-    if (fsd != null) {
-      fsd.close();
+    public void index(StmtIterator statements) {
+
+        ib = new IndexBuilderString(fsd);
+        ib.indexStatements(statements);
+
+        //set the old index
+        IndexLARQ oldIndex = index;
+
+        //set the new index
+        index = ib.getIndex();
+        LARQ.setDefaultIndex(index);
+
+        //close the old index
+        if (oldIndex != null) {
+            oldIndex.close();
+        }
     }
-  }
+
+    public void closeLarq() throws IOException {
+        //logger.info("started close larq")
+
+        if (fsd != null) {
+            fsd.close();
+        }
+    }
 
     protected OntModel getOntModel() {
         return ontModel;
