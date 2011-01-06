@@ -44,6 +44,17 @@
             <artifactId>slf4s_2.8.0</artifactId>
         </dependency>
 
+        <!-- Sindice -->
+        <dependency>
+            <groupId>org.sindice.siren</groupId>
+            <artifactId>siren-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sindice.siren</groupId>
+            <artifactId>siren-qparser</artifactId>
+        </dependency>
+
         <!-- Jena / Arq -->
         <dependency>
             <groupId>com.hp.hpl.jena</groupId>
