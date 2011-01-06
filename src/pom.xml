@@ -157,6 +157,19 @@
                 <version>${scalate-version}</version>
             </dependency>
 
+            <!-- Sindice -->
+            <dependency>
+                <groupId>org.sindice.siren</groupId>
+                <artifactId>siren-core</artifactId>
+                <version>0.2.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.sindice.siren</groupId>
+                <artifactId>siren-qparser</artifactId>
+                <version>0.2.1-SNAPSHOT</version>
+            </dependency>
+
             <!-- Jena / Arq -->
             <dependency>
                 <groupId>com.hp.hpl.jena</groupId>

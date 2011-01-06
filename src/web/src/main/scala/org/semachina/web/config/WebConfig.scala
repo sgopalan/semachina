@@ -5,7 +5,7 @@ import org.springframework.context.annotation.{Bean, Configuration}
 import org.springframework.web.servlet.view.{JstlView, UrlBasedViewResolver}
 import org.semachina.config.AppConfig
 import org.springframework.beans.factory.annotation.Autowired
-import org.fusesource.scalate.sample.springmvc.controller.IndexController
+import org.semachina.web.controller.IndexController
 import org.fusesource.scalate.spring.view.ScalateViewResolver
 
 /**

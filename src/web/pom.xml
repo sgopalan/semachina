@@ -59,7 +59,12 @@
             <artifactId>scalate-core</artifactId>
             <version>${scalate-version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.fusesource.scalate</groupId>
+            <artifactId>scalate-spring-mvc</artifactId>
+            <version>${scalate-version}</version>
+        </dependency>
+        
         <!-- Testing -->
         <dependency>
             <groupId>junit</groupId>
@@ -76,11 +81,11 @@
 
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>org.springframework.web</artifactId>
+            <artifactId>spring-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>org.springframework.web.servlet</artifactId>
+            <artifactId>spring-webmvc</artifactId>
         </dependency>
 
         <dependency>
