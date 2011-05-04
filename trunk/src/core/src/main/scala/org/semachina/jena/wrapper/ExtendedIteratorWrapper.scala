@@ -3,6 +3,9 @@ package org.semachina.jena.wrapper
 import com.hp.hpl.jena.util.{iterator => jena}
 import jena.Filter
 import scala.collection.JavaConversions._
+import com.hp.hpl.jena.util.iterator.WrappedIterator
+import java.util.Comparator
+import java.util.Collections
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,7 +41,11 @@ class ExtendedIteratorWrapper[A](val i: jena.ExtendedIterator[A]) {
     return i.filterDrop(new Filter[A] {def accept(o: A): Boolean = f(o)})
   }
 
-  def %(iterator: A => Unit) = apply(iterator)
+  def sort(sorter:(A,A) => Int) : jena.ExtendedIterator[A] = {
+    val sorted = i.toList
+    Collections.sort( sorted, new Comparator[A] { def compare(o1:A, o2:A) = sorter(o1, o2) } )
+    WrappedIterator.create( sorted.iterator )
+  }
 
   def apply(iterator: A => Unit) = {
     try {

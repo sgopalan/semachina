@@ -1,5 +1,9 @@
 package org.semachina.jena
 
+import impl.SemachinaIndividualImpl._
+import scala.reflect.Manifest
+import scala.collection.JavaConversions._
+
 import com.hp.hpl.jena.util.{iterator => jena}
 
 import features.larq3.Larq3Feature
@@ -9,10 +13,32 @@ import java.{lang => jl, util => ju}
 import com.hp.hpl.jena.ontology._
 import com.hp.hpl.jena.rdf.model._
 import com.hp.hpl.jena.query._
-import scala.collection.JavaConversions._
+
 import com.hp.hpl.jena.datatypes.RDFDatatype
-import wrapper._
+import org.semachina.jena.wrapper.ExtendedIteratorWrapper
 import com.hp.hpl.jena.enhanced.EnhNode
+import com.hp.hpl.jena.util.iterator.Map1
+import com.hp.hpl.jena.util.iterator.ExtendedIterator
+import com.hp.hpl.jena.util.iterator.WrappedIterator
+import com.hp.hpl.jena.rdf.model.Property
+import com.hp.hpl.jena.enhanced.EnhGraph
+import com.hp.hpl.jena.graph.Node
+import com.hp.hpl.jena.ontology.Individual
+import com.hp.hpl.jena.ontology.OntProperty
+import com.hp.hpl.jena.ontology.impl.IndividualImpl
+import com.hp.hpl.jena.rdf.model.Literal
+import com.hp.hpl.jena.rdf.model.NodeIterator
+import com.hp.hpl.jena.rdf.model.Property
+import com.hp.hpl.jena.rdf.model.RDFNode
+import com.hp.hpl.jena.rdf.model.Statement
+import com.hp.hpl.jena.util.iterator.ExtendedIterator
+import com.hp.hpl.jena.util.iterator.Map1
+import com.hp.hpl.jena.util.iterator.WrappedIterator
+import java.util.Iterator
+import com.hp.hpl.jena.sparql.path.Path
+import com.hp.hpl.jena.sparql.path.PathParser
+import com.hp.hpl.jena.sparql.path.PathEval
+import com.hp.hpl.jena.shared.PrefixMapping
 
 /**
  * Created by IntelliJ IDEA.
@@ -42,62 +68,55 @@ object JenaExtension {
 
   implicit def extendedWrapper2Iterator[A](wrapper: ExtendedIteratorWrapper[A]): jena.ExtendedIterator[A] = wrapper.i
 
-  implicit def toSemachinaOntModel(ontModel: OntModel) = ontModel.asInstanceOf[SemachinaOntModel]
-
-  implicit def toSemachinaIndividual(indiv: Individual) = indiv.asInstanceOf[SemachinaIndividual]
-
-  implicit def toScalaIndividual(i: Individual) = new {
-    val indiv = i.asInstanceOf[SemachinaIndividual]
-
-    def /(ontProperty: ObjectProperty) = new ObjectValueWrapper(indiv, ontProperty)
-
-    def /(ontProperty: ResourceProperty) = new ResourceValueWrapper(indiv, ontProperty)
-
-    def /[V](ontProperty: TypedDatatypeProperty[V]) = new DataValueWrapper[V](indiv, ontProperty)
-  }
-
-  implicit def toScalaOntModel(ontModel: SemachinaOntModel) = new {
-    val model = ontModel
-
-    def select(query: Query, resultHandler: (ResultSet, QuerySolution) => Unit, initialBindings: QuerySolution): Unit = {
-      val resultSetHandler: ResultSetHandler = prepareHandler(resultHandler)
-      model.select(query, resultSetHandler, initialBindings)
+  implicit def toSemachinaOntModel(ontModel: OntModel) = {
+    if( ontModel.isInstanceOf[impl.scala.ScalaOntModelImpl]) {
+      ontModel.asInstanceOf[impl.scala.ScalaOntModelImpl]
     }
-
-    def select(sparql: String, resultHandler: (ResultSet, QuerySolution) => Unit, initialBindings: QuerySolution): Unit = {
-      val resultSetHandler: ResultSetHandler = prepareHandler(resultHandler)
-      model.select(sparql, resultSetHandler, initialBindings)
-    }
-
-    def doRead(closure: SemachinaOntModel => Unit) = {
-      val command = new SimpleReadWriteContext() {
-        def execute(transactionModel: SemachinaOntModel) = closure(transactionModel)
-      }
-
-      model.read(command)
-    }
-
-    def doWrite(closure: SemachinaOntModel => Unit) = {
-      val command = new SimpleReadWriteContext() {
-        def execute(transactionModel: SemachinaOntModel) = closure(transactionModel)
-      }
-
-      model.write(command)
-    }
-
-    protected def prepareHandler(resultHandler: (ResultSet, QuerySolution) => Unit): ResultSetHandler = {
-      if (resultHandler == null) {
-        throw new IllegalArgumentException("resultHandler cannot be null")
-      }
-
-      val handler = new ResultSetHandler {
-        def handle(rs: ResultSet): Unit = {
-          rs.foreach {soln => resultHandler(rs, soln)}
-        }
-      }
-      return handler
+    else {
+      new impl.scala.ScalaOntModelImpl( ontModel.getSpecification, ontModel.getBaseModel )
     }
   }
+
+  implicit def toScalaIndividual(i: Individual) = {
+    if( i.isInstanceOf[impl.scala.ScalaIndividualImpl]) {
+      i.asInstanceOf[impl.scala.ScalaIndividualImpl]
+    }
+    else {
+      new impl.scala.ScalaIndividualImpl( i.asInstanceOf[EnhNode].asNode, i.asInstanceOf[EnhNode].getGraph )
+    }
+  }
+
+  implicit def ?:[A](value: A): Option[A] = Option(value)
+
+  implicit def toTypedTuple(pair: Pair[Any, Any])(implicit ontModel: SemachinaOntModel): Pair[Property, RDFNode] = {
+    def ontProperty = asProperty(pair._1, ontModel)
+    def node = asRDFNode(pair._2, ontModel)
+    Pair(ontProperty, node)
+  }
+
+  protected def asProperty(ontProperty: Any, ontModel: SemachinaOntModel): Property = {
+    if (ontProperty.isInstanceOf[Property]) {
+      return ontProperty.asInstanceOf[Property]
+    }
+    else if (ontProperty.isInstanceOf[String]) {
+      val prop = ontModel.resolveProperty(ontProperty.asInstanceOf[String])
+      return prop
+    }
+    else {
+      throw new IllegalArgumentException("Must be String or Property: " + ontProperty)
+    }
+  }
+
+  protected def asRDFNode(value: Any, ontModel: SemachinaOntModel): RDFNode = {
+    if (value.isInstanceOf[RDFNode]) {
+      value.asInstanceOf[RDFNode]
+    }
+    else {
+      ontModel.createTypedLiteral(value)
+    }
+  }
+
+  implicit def toProperty(ontProperty:String)(implicit m : SemachinaOntModel) : Property = m.resolveProperty(ontProperty)
 
   implicit def toScalaOntClassImpl(ontClass: OntClass): SemachinaOntClass = ontClass.asInstanceOf[SemachinaOntClass]
 
@@ -110,28 +129,6 @@ object JenaExtension {
   }
 
   implicit def toURIWrapper(uri: String)(implicit ontModel: SemachinaOntModel) = new {
-    def withTypes(clazzesStr: String*): Tuple2[String, Iterable[OntClass]] = {
-      val clazzes = clazzesStr.collect {case clazz: String => ontModel.expandToOntClass(clazz)}
-      (uri -> clazzes)
-    }
-
-    def obj = ontModel.expandToOntProperty(uri).asObjectProperty
-
-    def res = ontModel.expandToOntProperty(uri).as(classOf[ResourceProperty])
-
-    def data: TypedDatatypeProperty[String] = {
-      val ontProperty = ontModel.expandToDatatypeProperty(uri)
-      new ScalaDatatypePropertyImpl[String](ontProperty.asInstanceOf[EnhNode], {it: Literal => it.getString})
-    }
-
-    def data[V](convert: Literal => V) = {
-      val ontProperty = ontModel.expandToDatatypeProperty(uri)
-      new ScalaDatatypePropertyImpl[V](ontProperty.asInstanceOf[EnhNode], convert)
-    }
-
-    def @: = ontModel.createLiteral(uri, "")
-
-    def @:(lang: String) = ontModel.createLiteral(uri, lang)
 
     def toQuery(): Query = {
       var query: Query = new Query
@@ -141,31 +138,14 @@ object JenaExtension {
     }
   }
 
-  implicit def toURIIteratorWrapper(uris: Iterable[String])(implicit ontModel: SemachinaOntModel) = new {
-    def obj = uris.collect {case uri: String => ontModel.expandToOntProperty(uri).asObjectProperty}
-
-    def res = uris.collect {case uri: String => ontModel.expandToOntProperty(uri).as(classOf[ResourceProperty])}
-
-    def data = uris.collect {
-      case uri: String =>
-        val ontProperty = ontModel.expandToDatatypeProperty(uri)
-        new ScalaDatatypePropertyImpl[Literal](ontProperty.asInstanceOf[EnhNode], {it: Literal => it})
-    }
-
-    def data[V](convert: Literal => V) = {
-      uris.collect {
-        case uri: String =>
-          val ontProperty = ontModel.expandToDatatypeProperty(uri)
-          new ScalaDatatypePropertyImpl[V](ontProperty.asInstanceOf[EnhNode], convert)
-      }
-    }
-  }
 
   //  implicit def toValueWrapper(value:Any)(implicit ontModel: OntModel) = new ValueWrapper( value, ontModel )
   implicit def toValueWrapper(value: Any)(implicit ontModel: SemachinaOntModel) = new {
-    def ^(dtype: String) = ontModel.createTypedLiteral(value, dtype)
+    def ^^ = ontModel.createTypedLiteral(value)
 
-    def ^(dtype: RDFDatatype) = ontModel.createTypedLiteral(value, dtype)
+    def ^^(dtype: String) = ontModel.createTypedLiteral(value, dtype)
+
+    def ^^(dtype: RDFDatatype) = ontModel.createTypedLiteral(value, dtype)
 
     def ^% = ontModel.parseTypedLiteral(value.toString)
   }
@@ -180,34 +160,26 @@ object JenaExtension {
     OntDocumentManager.getInstance.addAltEntry(docURI, locationURL)
 
   //get class
-  def $(uri: String)(implicit ontModel: SemachinaOntModel) = ontModel.expandToOntClass(uri)
+  def $(uri: String)(implicit ontModel: SemachinaOntModel) = ontModel.resolveOntClass(uri)
 
   def $(uris: String*)(implicit ontModel: SemachinaOntModel) =
-    uris.collect {case uri: String => ontModel.expandToOntClass(uri)}
+    uris.collect {case uri: String => ontModel.resolveOntClass(uri)}
 
-  //get object
-  def &(node: RDFNode): SemachinaIndividual = {
-    if (node == null) {
-      return None.asInstanceOf[SemachinaIndividual]
-    }
-    return node.as(classOf[Individual]).asInstanceOf[SemachinaIndividual]
-  }
-
-  def &(uri: String)(implicit ontModel: SemachinaOntModel) = ontModel.expandToIndividual(uri)
+  //Reference uri
+  def &(uri: String)(implicit ontModel: SemachinaOntModel) = ontModel.resolveIndividual(uri)
 
   def &(uris: String*)(implicit ontModel: SemachinaOntModel) =
-    uris.collect {case uri: String => ontModel.expandToIndividual(uri)}
+    uris.collect {case uri: String => ontModel.resolveIndividual(uri)}
 
   //createIndividual object
-  def &(uriAndClazzes: Tuple2[String, Iterable[OntClass]])(implicit ontModel: SemachinaOntModel) =
+  def +&(uriAndClazzes: Tuple2[String, Iterable[OntClass]])(implicit ontModel: SemachinaOntModel) =
     ontModel.createIndividual(uriAndClazzes._1, asIterable(uriAndClazzes._2))
 
-  //createIndividual( uriAndClazzes )( ontModel )
-
-  def as[V](node: RDFNode, convert: (Literal => V) = {lit: Literal => lit.getValue.asInstanceOf[V]}): V = {
-    if (node == null) {
-      return None.asInstanceOf[V]
-    }
-    return convert(node.asLiteral)
+  def +&(uri:String, clazzesStr: String*)(implicit ontModel: SemachinaOntModel) = {
+    val clazzes = clazzesStr.collect {case clazz: String => ontModel.resolveOntClass(clazz)}
+    ontModel.createIndividual(uri, asIterable(clazzes))
   }
+
+  def +&(cls: String)(implicit ontModel: SemachinaOntModel) = ontModel.createIndividual(ontModel.resolveOntClass(cls))
+
 }

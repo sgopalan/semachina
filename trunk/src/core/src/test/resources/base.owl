@@ -1,0 +1,432 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY cv_base "http://kaste.lv/~captsolo/semweb/resume/base.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://kaste.lv/~captsolo/semweb/resume/base.owl#"
+     xml:base="http://kaste.lv/~captsolo/semweb/resume/base.owl"
+     xmlns:cv_base="http://kaste.lv/~captsolo/semweb/resume/base.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://kaste.lv/~captsolo/semweb/resume/base.owl"/>
+    
+ 
+	    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:Class rdf:about="&cv_base;SexProperty">
+        <rdfs:label>SexProperty</rdfs:label>
+    </owl:Class>
+	
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl#BooleanValue -->
+
+    <owl:Class rdf:about="&cv_base;BooleanValue">
+        <rdfs:label>Boolean value (true/false)</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl#CVCareerLevel -->
+
+    <owl:Class rdf:about="&cv_base;CVCareerLevel">
+        <rdfs:label>CV career level</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl#CVJobMode -->
+
+    <owl:Class rdf:about="&cv_base;CVJobMode">
+        <rdfs:label>CV job mode (full/part - time)</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl#CVJobType -->
+
+    <owl:Class rdf:about="&cv_base;CVJobType">
+        <rdfs:label>CV job type (employee/contractor/intern)</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl#EduDegree -->
+
+    <owl:Class rdf:about="&cv_base;EduDegree">
+        <rdfs:label>Degrees</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl#MaritalStatus -->
+
+    <owl:Class rdf:about="&cv_base;MaritalStatus">
+        <rdfs:label>Marital Status</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl#OtherCVInfoType -->
+
+    <owl:Class rdf:about="&cv_base;OtherCVInfoType">
+        <rdfs:label>Type of misc information added to a CV.</rdfs:label>
+    </owl:Class>
+    
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- file:/C:/dev/ontologies/Accomplishments -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Accomplishments">
+        <rdf:type rdf:resource="&cv_base;OtherCVInfoType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Awards -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Awards">
+        <rdf:type rdf:resource="&cv_base;OtherCVInfoType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Contractor -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Contractor">
+        <rdf:type rdf:resource="&cv_base;CVJobType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Divorced -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Divorced">
+        <rdf:type rdf:resource="&cv_base;MaritalStatus"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/EduAssociate -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;EduAssociate">
+        <rdf:type rdf:resource="&cv_base;EduDegree"/>
+        <rdfs:label>Associate degree</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/EduBachelor -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;EduBachelor">
+        <rdf:type rdf:resource="&cv_base;EduDegree"/>
+        <rdfs:label>Bachelor&#39;s degree</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/EduCollegeCoursework -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;EduCollegeCoursework">
+        <rdf:type rdf:resource="&cv_base;EduDegree"/>
+        <rdfs:label>Some college coursework completed.</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/EduDoctorate -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;EduDoctorate">
+        <rdf:type rdf:resource="&cv_base;EduDegree"/>
+        <rdfs:label>Doctorate</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/EduHighSchool -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;EduHighSchool">
+        <rdf:type rdf:resource="&cv_base;EduDegree"/>
+        <rdfs:label>High school or equivalent.</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/EduMaster -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;EduMaster">
+        <rdf:type rdf:resource="&cv_base;EduDegree"/>
+        <rdfs:label>Master&#39;s degree</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/EduProfessional -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;EduProfessional">
+        <rdf:type rdf:resource="&cv_base;EduDegree"/>
+        <rdfs:label>Professional</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/EduVocational -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;EduVocational">
+        <rdf:type rdf:resource="&cv_base;EduDegree"/>
+        <rdfs:label>Vocational</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Employee -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Employee">
+        <rdf:type rdf:resource="&cv_base;CVJobType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/EntryLvl -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;EntryLvl">
+        <rdf:type rdf:resource="&cv_base;CVCareerLevel"/>
+        <rdfs:label>Entry level (less than 2 years of experience)</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Executive -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Executive">
+        <rdf:type rdf:resource="&cv_base;CVCareerLevel"/>
+        <rdfs:label>Executive (SVP, EVP, VP)</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/False -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;False">
+        <rdf:type rdf:resource="&cv_base;BooleanValue"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Female -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Female">
+        <rdf:type rdf:resource="&cv_base;SexProperty"/>
+        <rdfs:label>Female</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Full-time -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Full-time">
+        <rdf:type rdf:resource="&cv_base;CVJobMode"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/HighSchool -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;HighSchool">
+        <rdf:type rdf:resource="&cv_base;CVCareerLevel"/>
+        <rdfs:label>Student (high school)</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Interests -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Interests">
+        <rdf:type rdf:resource="&cv_base;OtherCVInfoType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Intern -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Intern">
+        <rdf:type rdf:resource="&cv_base;CVJobType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Male -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Male">
+        <rdf:type rdf:resource="&cv_base;SexProperty"/>
+        <rdfs:label>Male</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Management -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Management">
+        <rdf:type rdf:resource="&cv_base;CVCareerLevel"/>
+        <rdfs:label>Management (manager/director of staff)</rdfs:label>
+    </owl:NamedIndividual>
+    
+ 
+
+    <!-- file:/C:/dev/ontologies/Married -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Married">
+        <rdf:type rdf:resource="&cv_base;MaritalStatus"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Membership -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Membership">
+        <rdf:type rdf:resource="&cv_base;OtherCVInfoType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/MidCareer -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;MidCareer">
+        <rdf:type rdf:resource="&cv_base;CVCareerLevel"/>
+        <rdfs:label>Mid-career (2+ years of experience)</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Other -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Other">
+        <rdf:type rdf:resource="&cv_base;OtherCVInfoType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Part-time -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Part-time">
+        <rdf:type rdf:resource="&cv_base;CVJobMode"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/PointOfView -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;PointOfView">
+        <rdf:type rdf:resource="&cv_base;OtherCVInfoType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Publications -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Publications">
+        <rdf:type rdf:resource="&cv_base;OtherCVInfoType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/SeniorExecutive -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;SeniorExecutive">
+        <rdf:type rdf:resource="&cv_base;CVCareerLevel"/>
+        <rdfs:label>Senior Executive (president / CEO)</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Single -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Single">
+        <rdf:type rdf:resource="&cv_base;MaritalStatus"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/SocialActivities -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;SocialActivities">
+        <rdf:type rdf:resource="&cv_base;OtherCVInfoType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Student -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Student">
+        <rdf:type rdf:resource="&cv_base;CVCareerLevel"/>
+        <rdfs:label>Student (graduate/undergraduate)</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/True -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;True">
+        <rdf:type rdf:resource="&cv_base;BooleanValue"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file:/C:/dev/ontologies/Widowed -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;Widowed">
+        <rdf:type rdf:resource="&cv_base;MaritalStatus"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl:True -->
+
+    <owl:NamedIndividual rdf:about="&cv_base;True">
+        <rdf:type rdf:resource="&cv_base;BooleanValue"/>
+    </owl:NamedIndividual>
+    
+
+
+
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.0.0.1469) http://owlapi.sourceforge.net -->
+

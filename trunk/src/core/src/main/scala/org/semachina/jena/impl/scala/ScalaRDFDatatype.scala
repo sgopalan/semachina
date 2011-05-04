@@ -1,4 +1,4 @@
-package org.semachina.jena.impl
+package org.semachina.jena.impl.scala
 
 import java.lang.String
 /**

@@ -9,10 +9,8 @@ import com.hp.hpl.jena.ontology.*;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.shared.PrefixMapping;
-import org.semachina.jena.ResourceProperty;
-import org.semachina.jena.SemachinaIndividual;
-import org.semachina.jena.SemachinaOntClass;
-import org.semachina.jena.SemachinaOntModel;
+import com.hp.hpl.jena.shared.impl.JenaParameters;
+import org.semachina.jena.*;
 import org.semachina.jena.datatype.factory.*;
 import org.semachina.jena.impl.*;
 
@@ -23,7 +21,7 @@ import org.semachina.jena.impl.*;
  * Time: 8:50:28 AM
  * To change this template use File | Settings | File Templates.
  */
-public class DefaultSemachinaFactory implements org.semachina.jena.SemachinaFactory {
+public class DefaultSemachinaFactory implements SemachinaFactory {
 
     private TypeMapper typeMapper = TypeMapper.getInstance();
 
@@ -33,11 +31,21 @@ public class DefaultSemachinaFactory implements org.semachina.jena.SemachinaFact
 
     private Personality<RDFNode> model;
 
-    public DefaultSemachinaFactory() {
+    public DefaultSemachinaFactory() throws Exception {
+
+        //static settings
+        JenaParameters.enableEagerLiteralValidation = true;
+        JenaParameters.enableSilentAcceptanceOfUnknownDatatypes = false;
+
+        //configuration references
         this.prefixMapping = PrefixMapping.Factory.create();
         this.prefixMapping.setNsPrefixes(PrefixMapping.Standard);
         this.docManager = OntDocumentManager.getInstance();
         this.model = BuiltinPersonalities.model;
+
+        //install Semachina classes and datatypes
+        initImplementationClasses();
+        initDatatypes();
     }
 
     public void initImplementationClasses() {
@@ -69,22 +77,6 @@ public class DefaultSemachinaFactory implements org.semachina.jena.SemachinaFact
                     @Override
                     protected SemachinaOntClassImpl create(Node node, EnhGraph eg) {
                         return new SemachinaOntClassImpl(node, eg);
-                    }
-                });
-        model.add(DatatypeProperty.class,
-                new DefaultImplementationImpl<SemachinaTypedDatatypePropertyImpl>(
-                        SemachinaTypedDatatypePropertyImpl.class, DatatypeProperty.class) {
-                    @Override
-                    protected SemachinaTypedDatatypePropertyImpl<Object> create(Node node, EnhGraph eg) {
-                        return new SemachinaTypedDatatypePropertyImpl<Object>(node, eg);
-                    }
-                });
-        model.add(ResourceProperty.class,
-                new DefaultImplementationImpl<SemachinaResourcePropertyImpl>(
-                        SemachinaResourcePropertyImpl.class, ResourceProperty.class) {
-                    @Override
-                    protected SemachinaResourcePropertyImpl create(Node node, EnhGraph eg) {
-                        return new SemachinaResourcePropertyImpl(node, eg);
                     }
                 });
     }
@@ -136,22 +128,42 @@ public class DefaultSemachinaFactory implements org.semachina.jena.SemachinaFact
      */
     @Override
     public SemachinaOntModel createOntologyModel() {
-        return new SemachinaOntModelImpl(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG));
+        try {
+            return new SemachinaOntModelImpl(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG));
+        }
+        catch (Exception e) {
+            throw new RuntimeException( e.getMessage(), e );
+        }
     }
 
     @Override
     public SemachinaOntModel createOntologyModel(OntModelSpec ontModelSpec) {
-        return new SemachinaOntModelImpl(ontModelSpec);
+        try {
+            return new SemachinaOntModelImpl(ontModelSpec);
+        }
+        catch (Exception e) {
+            throw new RuntimeException( e.getMessage(), e );
+        }
     }
 
     @Override
     public SemachinaOntModel createOntologyModel(Model base) {
-        return new SemachinaOntModelImpl(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG), base);
+        try {
+            return new SemachinaOntModelImpl(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG), base);
+        }
+        catch (Exception e) {
+            throw new RuntimeException( e.getMessage(), e );
+        }
     }
 
     @Override
     public SemachinaOntModel createOntologyModel(OntModelSpec ontModelSpec, Model base) {
-        return new SemachinaOntModelImpl(ontModelSpec, base);
+        try {
+            return new SemachinaOntModelImpl(ontModelSpec, base);
+        }
+        catch (Exception e) {
+            throw new RuntimeException( e.getMessage(), e );
+        }
     }
 
 

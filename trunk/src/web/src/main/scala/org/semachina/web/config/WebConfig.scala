@@ -2,7 +2,6 @@ package org.semachina.web.config
 
 import com.weiglewilczek.slf4s.Logging
 import org.springframework.context.annotation.{Bean, Configuration}
-import org.springframework.web.servlet.view.{JstlView, UrlBasedViewResolver}
 import org.semachina.config.AppConfig
 import org.springframework.beans.factory.annotation.Autowired
 import org.semachina.web.controller.IndexController
@@ -21,10 +20,10 @@ class WebConfig extends Logging {
   @Autowired
   var appConfig: AppConfig = null;
 
-
   @Bean
   def indexController = new IndexController
 
   @Bean
   def viewResolver = new ScalateViewResolver
+
 }

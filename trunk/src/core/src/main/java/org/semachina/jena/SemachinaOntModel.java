@@ -6,7 +6,10 @@ import com.hp.hpl.jena.ontology.*;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.rdf.model.Literal;
+import com.hp.hpl.jena.rdf.model.Property;
 import org.semachina.jena.features.Feature;
+
+import java.util.Collection;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,35 +20,37 @@ import org.semachina.jena.features.Feature;
  */
 public interface SemachinaOntModel extends OntModel {
 
+    SemachinaIndividual createIndividual(String newUri, Iterable<OntClass> clazzes);
+
+    SemachinaIndividual createIndividual(String newUri, Iterable<OntClass> clazzes, boolean isUnique);
+
+    SemachinaIndividual createIndividual(String uri, OntClass cls);
+
+    SemachinaIndividual createIndividual(String uri, OntClass cls, boolean isUnique);
+
     String expandURI(String property);
 
-    OntClass expandToOntClass(String uri);
+    OntClass resolveOntClass(String uri);
 
-    Individual expandToIndividual(String uri);
+    Collection<OntClass> resolveOntClasses(Collection<String> uris);
 
-    ObjectProperty expandToObjectProperty(String property);
+    Individual resolveIndividual(String uri);
 
-    DatatypeProperty expandToDatatypeProperty(String property);
+    Property resolveProperty(String property);
 
-    <T> TypedDatatypeProperty<T> expandToTypedDatatypeProperty(String property);
+    ObjectProperty resolveObjectProperty(String property);
 
-    ResourceProperty expandToResourceProperty(String property);
+    DatatypeProperty resolveDatatypeProperty(String property);
 
-    OntProperty expandToOntProperty(String property);
+    OntProperty resolveOntProperty(String property);
 
     Literal parseTypedLiteral(String literalString);
 
-    RDFDatatype toRDFDatatype(String typeURI) throws DatatypeFormatException;
+    RDFDatatype resolveRDFDatatype(String typeURI) throws DatatypeFormatException;
 
-    void read(final ReadWriteContext command) throws Exception;
+    void safeRead(final ReadWriteContext command) throws Exception;
 
-    void write(final ReadWriteContext command) throws Exception;
-
-    SemachinaIndividual createIndividual(String newUri, Iterable<OntClass> clazzes);
-
-    SemachinaIndividual createIndividual(OntClass cls);
-
-    SemachinaIndividual createIndividual(String uri, OntClass cls);
+    void safeWrite(final ReadWriteContext command) throws Exception;
 
     boolean ask(String sparql, QuerySolution initialBindings);
 

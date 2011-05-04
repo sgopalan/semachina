@@ -36,7 +36,7 @@ public class SemachinaOntClassImpl extends OntClassImpl implements SemachinaOntC
 
     @Override
     public SemachinaIndividual createIndividual() {
-        return getOntModel().createIndividual(this);
+        return (SemachinaIndividual) getOntModel().createIndividual(this);
     }
 
     @Override

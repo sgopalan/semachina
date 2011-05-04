@@ -9,7 +9,9 @@ import com.hp.hpl.jena.sdb.{StoreDesc, Store, SDBFactory}
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.semachina.config.AppConfig
 import com.hp.hpl.jena.ontology.{ProfileRegistry, OntModelSpec}
-import org.semachina.jena.impl.SemachinaOntModelImpl
+import org.semachina.jena.{ReadWriteContext, SemachinaIndividual, SemachinaOntModel}
+import org.semachina.jena.impl.{SimpleReadWriteContext, SemachinaOntModelImpl}
+import com.hp.hpl.jena.vocabulary.XSD
 
 /**
  * Created by IntelliJ IDEA.
@@ -56,36 +58,29 @@ class IndividualTest {
     return store
   }
 
-  //@Test
-  def testTransaction = {
-    val store = createSDBModel
-    var sdbModel: Model = SDBFactory.connectDefaultModel(store)
-
-
+  @Test
+  def testTransaction : Unit = {
     val ontModel = new SemachinaOntModelImpl(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG))
     ontModel.read("http://purl.org/dc/elements/1.1/")
+    ontModel.read("http://www.w3.org/TR/owl-guide/wine.rdf")
 
-    val title = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/title")
-    val description = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/description")
 
-    ontModel -> {
-      it: Model =>
-        val r1: Resource = it.createResource("http://example.org/book#1")
-        r1.addProperty(title, "SPARQL - the book")
-                .addProperty(description, "A book about SPARQL")
+    val context = new SimpleReadWriteContext() {
+      def execute(it: SemachinaOntModel) {
+        val title = it.getOntProperty("http://purl.org/dc/elements/1.1/title")
+        val ontClass = it.resolveOntClass( "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Wine" )
+        val me = it.createIndividual( "http://example.com/sri", ontClass )
+        me.set( title, it.createTypedLiteral("My wine", XSD.xstring.getURI ) )
+      }
     }
 
+    ontModel.safeWrite(context)
 
-    assertTrue(sdbModel.containsResource(ResourceFactory.createResource("http://example.org/book#1")))
 
-    val r2 = ontModel.getResource("http://example.org/book#1")
-    val bookTitle = r2.getProperty(title).getObject.asLiteral.getString;
-    assertEquals("SPARQL - the book", bookTitle)
-
-    store.close
+    ontModel.write( System.out )
   }
 
-  @Test
+  //@Test
   def testTransactionFail = {
     val store = createSDBModel
     var sdbModel: Model = SDBFactory.connectDefaultModel(store)
@@ -94,8 +89,7 @@ class IndividualTest {
     ontModel.read("http://purl.org/dc/elements/1.1/")
     val title = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/title")
     val description = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/description")
-    val dataDescription = description.asDatatypeProperty
-    println(dataDescription)
+    println(description)
     try {
       ontModel -> {
         it: Model =>

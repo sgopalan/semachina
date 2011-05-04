@@ -1,10 +1,13 @@
 package org.semachina.jena;
 
 import com.hp.hpl.jena.ontology.Individual;
-import com.hp.hpl.jena.ontology.OntProperty;
 import com.hp.hpl.jena.rdf.model.Literal;
+import com.hp.hpl.jena.rdf.model.NodeIterator;
+import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.sparql.path.Path;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
+import com.hp.hpl.jena.util.iterator.Map1;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,27 +18,65 @@ import com.hp.hpl.jena.util.iterator.ExtendedIterator;
  */
 public interface SemachinaIndividual extends Individual {
 
-    SemachinaIndividual getObject(OntProperty ontProperty);
+    SemachinaIndividual getObject(String propOrPath);
 
-    ExtendedIterator<SemachinaIndividual> listObjects(OntProperty ontProperty);
+    SemachinaIndividual getObject(Property ontProperty);
 
-    Literal getLiteral(OntProperty ontProperty);
+    SemachinaIndividual getObject(Path path);
 
-    ExtendedIterator<Literal> listLiterals(OntProperty ontProperty);
+    ExtendedIterator<SemachinaIndividual> listObjects(String propOrPath);
 
-    <V> V getValue(OntProperty ontProperty);
+    ExtendedIterator<SemachinaIndividual> listObjects(Property ontProperty);
 
-    <V> ExtendedIterator<V> listValues(OntProperty ontProperty);
+    ExtendedIterator<SemachinaIndividual> listObjects(Path path);
 
-    SemachinaIndividual set(OntProperty ontProperty, RDFNode value);
+    Literal getLiteral(String propOrPath);
 
-    SemachinaIndividual setAll(OntProperty ontProperty, Iterable<? extends RDFNode> values);
+    Literal getLiteral(Property ontProperty);
 
-    SemachinaIndividual add(OntProperty ontProperty, RDFNode value);
+    Literal getLiteral(Path path);
 
-    SemachinaIndividual addAll(OntProperty ontProperty, Iterable<? extends RDFNode> values);
+    ExtendedIterator<Literal> listLiterals(String propOrPath);
 
-    SemachinaIndividual remove(OntProperty ontProperty, RDFNode value);
+    ExtendedIterator<Literal> listLiterals(Property ontProperty);
 
-    SemachinaIndividual removeThese(OntProperty ontProperty, Iterable<? extends RDFNode> values);
+    ExtendedIterator<Literal> listLiterals(Path path);
+
+    <V> V getValue(String propOrPath, Class<V> clazz);
+
+    <V> V getValue(Property ontProperty, Class<V> clazz);
+
+    <V> V getValue(Path path, Class<V> clazz);
+
+    <V> V getValue(String propOrPath, Map1<Object,V> converter);
+
+    <V> V getValue(Property ontProperty, Map1<Object,V> converter);
+
+    <V> V getValue(Path path, Map1<Object,V> converter);
+
+    <V> ExtendedIterator<V> listValues(String propOrPath, Class<V> clazz);
+
+    <V> ExtendedIterator<V> listValues(Property ontProperty, Class<V> clazz);
+
+    <V> ExtendedIterator<V> listValues(Path path, Class<V> clazz);
+
+    <V> ExtendedIterator<V> listValues(String propOrPath, Map1<Object,V> converter);
+
+    <V> ExtendedIterator<V> listValues(Property ontProperty, Map1<Object,V> converter);
+
+    <V> ExtendedIterator<V> listValues(Path path, Map1<Object,V> converter);
+
+    NodeIterator path(String propPath);
+
+    SemachinaIndividual set(Property ontProperty, RDFNode value);
+
+    SemachinaIndividual setAll(Property ontProperty, Iterable<? extends RDFNode> values);
+
+    SemachinaIndividual add(Property ontProperty, RDFNode value);
+
+    SemachinaIndividual addAll(Property ontProperty, Iterable<? extends RDFNode> values);
+
+    SemachinaIndividual remove(Property ontProperty, RDFNode value);
+
+    SemachinaIndividual removeThese(Property ontProperty, Iterable<? extends RDFNode> values);
 }
