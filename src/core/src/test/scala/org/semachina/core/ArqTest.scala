@@ -10,9 +10,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.semachina.config.AppConfig
 import com.weiglewilczek.slf4s.Logging
 import com.hp.hpl.jena.rdf.model.{RDFNode, Resource}
-import org.semachina.jena.impl.SemachinaOntModelImpl
+import org.semachina.jena.impl.scala.ScalaOntModelImpl
 import com.hp.hpl.jena.ontology.{ProfileRegistry, OntModelSpec}
 import org.semachina.jena.SemachinaOntModel
+import org.apache.lucene.store.RAMDirectory
+import org.semachina.jena.features.larq3.Larq3Feature
 
 /**
  * Created by IntelliJ IDEA.
@@ -43,22 +45,21 @@ object ArqTest {
 class ArqTest extends Logging {
   val NL = System.getProperty("line.separator")
 
-  def createModel: SemachinaOntModel = {
-    implicit val ontModel = new SemachinaOntModelImpl(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG))
+  def createModel: ScalaOntModelImpl = {
+    implicit val ontModel = new
+        ScalaOntModelImpl(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG))
     ontModel.read("http://purl.org/dc/elements/1.1/")
     val title = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/title")
     val description = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/description")
 
 
-    ontModel.doWrite {
-      writeModel: SemachinaOntModel =>
+    ontModel.safeWrite {
+      writeModel =>
 
         val r1: Resource = writeModel.createResource("http://example.org/book#1")
 
         r1.addProperty(title, "SPARQL - the book")
                 .addProperty(description, "A book about SPARQL")
-
-        return writeModel
     }
 
     return ontModel;
@@ -77,7 +78,7 @@ class ArqTest extends Logging {
 
     val closure = {
       (resultSet: ResultSet, soln: QuerySolution) =>
-        assertEquals("SPARQL - the book", as[String](soln.get("title")))
+        assertEquals("SPARQL - the book", soln.get("title").getValue.toString)
     }
 
     model.select(query, closure, null)
@@ -151,19 +152,23 @@ class ArqTest extends Logging {
     }
   }
 
-
   @Test
-  def testSparqlLARQ = {
+  def testSparqlLARQ3 = {
     // Create the data.
     // This wil be the background (unnamed) graph in the dataset.
     implicit val model = createModel
+
+    val dir = new RAMDirectory
+    val larq3Feature = new Larq3Feature(dir)
+    model.addFeature( larq3Feature )
+    larq3Feature.reindex()
 
     // Query string.
     var query: String =
     "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> " +
             "PREFIX :    <http://example/> " +
             "PREFIX pf:  <http://jena.hpl.hp.com/ARQ/property#> " +
-            "SELECT * { ?lit pf:TextMatch 'SPARQL'. }"
+            "SELECT * { ?lit pf:TextMatch3 'SPARQL'. }"
 
     query.toQuery.serialize(new IndentedWriter(System.out, true));
 
@@ -171,11 +176,11 @@ class ArqTest extends Logging {
       (resultSet: ResultSet, soln: QuerySolution) =>
         var str = ""
         var varnames = resultSet.getResultVars.toList
-        varnames.foreach {name: String => str + name + ": " + soln.getLiteral(name) + ", "}
-        println(str)
+        varnames.foreach {name: String => println( name + ": " + soln.getLiteral(name) + ", " )}
     }
 
     model.select(query, closure, null)
     model.close
   }
+
 }

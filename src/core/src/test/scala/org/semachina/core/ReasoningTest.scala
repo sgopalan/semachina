@@ -80,8 +80,8 @@ class ReasoningTest {
     println("done\n\n\n")
     // createIndividual property and resources to query the reasoner
     val Person: OntClass = $("http://xmlns.com/foaf/0.1/Person")
-    val workHomepage = "http://xmlns.com/foaf/0.1/workInfoHomepage".res
-    val foafName: OntProperty = "http://xmlns.com/foaf/0.1/name".data({_.getString})
+    //val workHomepage = "http://xmlns.com/foaf/0.1/workInfoHomepage".res
+
 
     // get all instances of Person class
 

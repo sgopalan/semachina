@@ -12,6 +12,9 @@ import org.semachina.jena.features.larq3.Larq3Feature;
 import org.semachina.jena.features.pellet.PelletFeature;
 import org.semachina.jena.impl.SemachinaOntModelImpl;
 
+import java.util.Map;
+import java.util.HashMap;
+
 /**
  * Created by IntelliJ IDEA.
  * User: sgopalan
@@ -29,6 +32,8 @@ public class DefaultOntModelBuilder implements OntModelBuilder {
     private boolean useLarq3;
 
     private Directory directory;
+
+    private Map<String, String> altEntries = new HashMap<String, String>();
 
     @Override
     public OntModelBuilder create(Model base) {
@@ -53,6 +58,11 @@ public class DefaultOntModelBuilder implements OntModelBuilder {
     public OntModelBuilder withLarq3(Directory directory) {
         this.useLarq3 = true;
         this.directory = directory;
+        return this;
+    }
+
+    public OntModelBuilder addAltEntries(Map<String,String> newEntries) {
+        this.altEntries = newEntries;
         return this;
     }
 

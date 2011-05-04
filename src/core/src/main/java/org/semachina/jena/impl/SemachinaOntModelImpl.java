@@ -10,15 +10,16 @@ import com.hp.hpl.jena.ontology.impl.OntModelImpl;
 import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.impl.LiteralImpl;
 import com.hp.hpl.jena.shared.Lock;
+import com.hp.hpl.jena.util.MonitorModel;
 import org.semachina.jena.*;
 import org.semachina.jena.config.DefaultSemachinaFactory;
 import org.semachina.jena.features.Feature;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -32,14 +33,16 @@ public class SemachinaOntModelImpl extends OntModelImpl implements SemachinaOntM
 
     protected Map<String, Feature> features = null;
 
-    protected SemachinaFactory factory = new DefaultSemachinaFactory();
+    protected SemachinaFactory factory;
 
-    public SemachinaOntModelImpl(OntModelSpec spec, Model model) {
+    public SemachinaOntModelImpl(OntModelSpec spec, Model model) throws Exception {
         super(spec, model);
+        factory = new DefaultSemachinaFactory();
     }
 
-    public SemachinaOntModelImpl(OntModelSpec spec) {
+    public SemachinaOntModelImpl(OntModelSpec spec) throws Exception {
         super(spec);
+        factory = new DefaultSemachinaFactory();
     }
 
     public void setFactory(SemachinaFactory factory) {
@@ -47,127 +50,114 @@ public class SemachinaOntModelImpl extends OntModelImpl implements SemachinaOntM
     }
 
 
-    public SemachinaIndividual createIndividual(OntClass cls) {
-        return createOntResource(SemachinaIndividual.class, cls, null);
+    protected SemachinaOntModel getOntModel() {
+        return this;
     }
 
-    public SemachinaIndividual createIndividual(String uri, OntClass cls) {
-        return createOntResource(SemachinaIndividual.class, cls, uri);
+    @Override
+    public SemachinaIndividual createIndividual(String newURI, OntClass cls) {
+        return createIndividual(newURI, cls, true);
+    }
+
+    @Override
+    public SemachinaIndividual createIndividual(String newURI, OntClass cls, boolean isUnique) {
+        String expandedURI = expandURI(newURI);
+
+        if (isUnique) {
+            Individual indiv = getIndividual(expandedURI);
+            if (indiv != null) {
+                throw new IllegalArgumentException("Individual " + expandedURI + " exists: " + indiv);
+            }
+        }
+
+        return createOntResource(SemachinaIndividual.class, cls, expandedURI);
     }
 
     @Override
     public SemachinaIndividual createIndividual(String newURI, Iterable<OntClass> clazzes) {
-        String expandedURI = expandPrefix(newURI);
+        return createIndividual(newURI, clazzes, true);
+    }
 
-        if (containsResource(getResource(expandedURI)) || clazzes.iterator() == null) {
-            throw new IllegalArgumentException();
-        }
-
+    @Override
+    public SemachinaIndividual createIndividual(String newURI, Iterable<OntClass> clazzes, boolean isUnique) {
+        String expandedURI = expandURI(newURI);
         SemachinaIndividual indiv = null;
-
+        boolean first = true;
         for (Iterator<OntClass> i = clazzes.iterator(); i.hasNext();) {
-            if (indiv == null) {
-                indiv = createIndividual(expandedURI, i.next());
+            if (first) {
+                first = false;
+                indiv = createIndividual(newURI, i.next(), isUnique);
             }
-            else {
-                indiv.addRDFType(i.next());
-            }
+            indiv.addRDFType(i.next());
         }
-
         return indiv;
     }
 
-
     @Override
-    public String expandURI(String property) {
-        String uri = expandPrefix(property);
-        if (uri == null) {
-            throw new IllegalArgumentException("URI cannot be evaluated as null: " + property);
-        }
-        return uri;
+    public Individual resolveIndividual(String uri) {
+        String indivURI = expandURI(uri);
+        return getIndividual(indivURI);
     }
 
     @Override
-    public OntClass expandToOntClass(String uri) {
+    public String expandURI(String uri) {
         String expandedURI = expandPrefix(uri);
-
-        OntClass ontClass = getOntClass(expandedURI);
-        if (ontClass == null) {
-            throw new IllegalArgumentException("There is no OntClass for: " + uri);
+        if (expandedURI == null) {
+            throw new IllegalArgumentException("URI cannot be evaluated as null: " + uri);
         }
+        return expandedURI;
+    }
 
+    @Override
+    public OntClass resolveOntClass(String uri) {
+        String expandedURI = expandURI(uri);
+        OntClass ontClass = getOntClass(expandedURI);
         return ontClass;
     }
 
     @Override
-    public Individual expandToIndividual(String uri) {
-        String expandedURI = expandPrefix(uri);
-        Individual indiv = getIndividual(expandedURI);
-        if (indiv == null) {
-            throw new IllegalArgumentException("There is no Individual for: " + uri);
+    public Collection<OntClass> resolveOntClasses(Collection<String> uris) {
+        Collection<OntClass> clazzes = new ArrayList<OntClass>();
+        for (Iterator<String> i = uris.iterator(); i.hasNext();) {
+            clazzes.add(resolveOntClass(i.next()));
         }
 
-        return indiv;
+        return clazzes;
     }
 
     @Override
-    public ObjectProperty expandToObjectProperty(String property) {
-        String uri = expandPrefix(property);
+    public ObjectProperty resolveObjectProperty(String property) {
+        String uri = expandURI(property);
         ObjectProperty ontProperty = getObjectProperty(uri);
-        if (ontProperty == null) {
-            throw new IllegalArgumentException("There is no Property for: " + uri + " (" + uri + ") ");
-        }
-
         return ontProperty;
     }
 
     @Override
-    public DatatypeProperty expandToDatatypeProperty(String property) {
-        String uri = expandPrefix(property);
+    public DatatypeProperty resolveDatatypeProperty(String property) {
+        String uri = expandURI(property);
         DatatypeProperty ontProperty = getDatatypeProperty(uri);
-        if (ontProperty == null) {
-            throw new IllegalArgumentException("There is no Property for: " + property + " (" + uri + ") ");
-        }
-
         return ontProperty;
     }
 
     @Override
-    public <T> TypedDatatypeProperty<T> expandToTypedDatatypeProperty(String property) {
-        String uri = expandPrefix(property);
-        DatatypeProperty ontProperty = getDatatypeProperty(uri);
-        if (ontProperty == null) {
-            throw new IllegalArgumentException("There is no Property for: " + property + " (" + uri + ") ");
-        }
-
-        return (TypedDatatypeProperty<T>) ontProperty;
-    }
-
-    @Override
-    public ResourceProperty expandToResourceProperty(String property) {
-        String uri = expandPrefix(property);
-        ResourceProperty ontProperty = (ResourceProperty) findByURIAs(uri, ResourceProperty.class);
-        if (ontProperty == null) {
-            throw new IllegalArgumentException("There is no Property for: " + property + " (" + uri + ") ");
-        }
-
+    public Property resolveProperty(String property) {
+        String uri = expandURI(property);
+        //DO NOT USE getProperty().  This will create a property regardless if it exists or not.
+        //This method will only return a property if it exists in the model
+        Property ontProperty = (Property) findByURIAs(uri, Property.class);
         return ontProperty;
     }
 
     @Override
-    public OntProperty expandToOntProperty(String property) {
-        String uri = expandPrefix(property);
+    public OntProperty resolveOntProperty(String property) {
+        String uri = expandURI(property);
         OntProperty ontProperty = getOntProperty(uri);
-        if (ontProperty == null) {
-            throw new IllegalArgumentException("There is no Property for: " + property + " (" + uri + ") ");
-        }
-
         return ontProperty;
     }
 
     @Override
-    public RDFDatatype toRDFDatatype(String typeURI) throws DatatypeFormatException {
-        String expanded = expandPrefix(typeURI);
+    public RDFDatatype resolveRDFDatatype(String typeURI) throws DatatypeFormatException {
+        String expanded = expandURI(typeURI);
         TypeMapper typeMapper = TypeMapper.getInstance();
         RDFDatatype dType = typeMapper.getTypeByName(expanded);
         if (dType == null) {
@@ -185,8 +175,8 @@ public class SemachinaOntModelImpl extends OntModelImpl implements SemachinaOntM
 
     @Override
     public Literal createTypedLiteral(Object value, String typeURI) {
-        String expandedURI = expandPrefix(typeURI);
-        return super.createTypedLiteral(value, expandedURI);
+        String expandedURI = expandURI(typeURI);
+        return createTypedLiteral(value, expandedURI);
     }
 
     @Override
@@ -200,195 +190,6 @@ public class SemachinaOntModelImpl extends OntModelImpl implements SemachinaOntM
             }
         }
         return new LiteralImpl(Node.createLiteral(literalString, "", false), null);
-    }
-
-
-    @Override
-    public void read(final ReadWriteContext command) throws Exception {
-        com.hp.hpl.jena.shared.Command wrapped = new com.hp.hpl.jena.shared.Command() {
-            @Override
-            public Object execute() {
-                SemachinaOntModel transactModel = getFactory().createOntologyModel();
-                transactModel.addSubModel(SemachinaOntModelImpl.this);
-
-
-                try {
-                    command.execute(transactModel);
-                }
-                catch (Exception e) {
-                    throw new RuntimeException(e.getMessage(), e);
-                }
-                return true;
-            }
-        };
-
-        wrapped.execute();
-    }
-
-    @Override
-    public void write(final ReadWriteContext command) throws Exception {
-
-        com.hp.hpl.jena.shared.Command wrapped = new com.hp.hpl.jena.shared.Command() {
-            @Override
-            public Object execute() {
-                SemachinaOntModel transactModel = getFactory().createOntologyModel();
-                transactModel.addSubModel(SemachinaOntModelImpl.this);
-
-
-                try {
-                    command.execute(transactModel);
-                    removeSubModel(SemachinaOntModelImpl.this);
-                    add(transactModel);
-
-                    rebind();
-                }
-                catch (Exception e) {
-                    throw new RuntimeException(e.getMessage(), e);
-                }
-                return true;
-            }
-        };
-
-        try {
-            enterCriticalSection(Lock.WRITE);
-            TransactionHandler handler = getGraph().getTransactionHandler();
-            if (handler.transactionsSupported()) {
-                handler.executeInTransaction(wrapped);
-            } else {
-                wrapped.execute();
-            }
-        }
-        finally {
-            leaveCriticalSection();
-        }
-    }
-
-    @Override
-    public boolean ask(String sparql, QuerySolution initialBindings) {
-        Query query = createQuery(sparql);
-        return ask(query, initialBindings);
-    }
-
-    @Override
-    public boolean ask(Query query, QuerySolution initialBindings) {
-        if (!query.isAskType()) {
-            throw new IllegalArgumentException("Must be SPARQL ask query");
-        }
-
-        QueryExecution qexec = createQueryExecution(query, initialBindings);
-
-        try {
-            prepareQueryExecution(qexec);
-            enterCriticalSection(Lock.READ);
-            return qexec.execAsk();
-        }
-        finally {
-            leaveCriticalSection();
-            closeQueryExecution(qexec);
-            qexec.close();
-        }
-    }
-
-    @Override
-    public SemachinaOntModel describe(String sparql, QuerySolution initialBindings) {
-        Query query = createQuery(sparql);
-        return describe(query, initialBindings);
-    }
-
-    @Override
-    public SemachinaOntModel describe(Query query, QuerySolution initialBindings) {
-
-        if (!query.isDescribeType()) {
-            throw new IllegalArgumentException("Must be SPARQL describe query");
-        }
-
-        QueryExecution qexec = createQueryExecution(query, initialBindings);
-
-        SemachinaOntModel owlModel = null;
-
-        try {
-            prepareQueryExecution(qexec);
-            enterCriticalSection(Lock.READ);
-
-            Model resultModel = qexec.execDescribe();
-            owlModel = new SemachinaOntModelImpl(getSpecification(), resultModel);
-        }
-        finally {
-            leaveCriticalSection();
-            closeQueryExecution(qexec);
-            qexec.close();
-        }
-        return owlModel;
-    }
-
-    @Override
-    public SemachinaOntModel construct(String sparql, QuerySolution initialBindings) {
-        Query query = createQuery(sparql);
-        return construct(query, initialBindings);
-    }
-
-
-    @Override
-    public SemachinaOntModel construct(Query query, QuerySolution initialBindings) {
-
-        if (!query.isConstructType()) {
-            throw new IllegalArgumentException("Must be SPARQL construct query");
-        }
-
-        QueryExecution qexec = createQueryExecution(query, initialBindings);
-
-        SemachinaOntModel owlModel = null;
-
-        try {
-            prepareQueryExecution(qexec);
-            enterCriticalSection(Lock.READ);
-
-            Model resultModel = qexec.execConstruct();
-            owlModel = new SemachinaOntModelImpl(getSpecification(), resultModel);
-
-        }
-        finally {
-            leaveCriticalSection();
-            closeQueryExecution(qexec);
-            qexec.close();
-        }
-        return owlModel;
-    }
-
-    @Override
-    public void select(String sparql, ResultSetHandler handler, QuerySolution initialBindings) {
-        Query query = createQuery(sparql);
-        select(query, handler, initialBindings);
-    }
-
-
-    @Override
-    public void select(Query query, ResultSetHandler handler, QuerySolution initialBindings) {
-
-        if (handler == null) {
-            return;
-        }
-
-        if (!query.isSelectType()) {
-            throw new IllegalArgumentException("Must be SPARQL select query");
-        }
-
-        QueryExecution qexec = createQueryExecution(query, initialBindings);
-
-        try {
-            prepareQueryExecution(qexec);
-            enterCriticalSection(Lock.READ);
-
-            ResultSet rs = qexec.execSelect();
-
-            handler.handle(rs);
-
-        }
-        finally {
-            leaveCriticalSection();
-            closeQueryExecution(qexec);
-            qexec.close();
-        }
     }
 
     public void addFeature(Feature feature) throws Exception {
@@ -421,8 +222,199 @@ public class SemachinaOntModelImpl extends OntModelImpl implements SemachinaOntM
         return factory;
     }
 
+
+    @Override
+    public void close() {
+        if (features != null) {
+            for (Feature feature : features.values()) {
+                try {
+                    feature.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+        super.close();
+    }
+
+    public void safeRead(final ReadWriteContext command) throws Exception {
+        com.hp.hpl.jena.shared.Command wrapped = new com.hp.hpl.jena.shared.Command() {
+            @Override
+            public Object execute() {
+                SemachinaOntModel transactModel = getFactory().createOntologyModel();
+                transactModel.addSubModel(getOntModel());
+
+                try {
+                    command.execute(transactModel);
+                } catch (Exception e) {
+                    throw new RuntimeException(e.getMessage(), e);
+                }
+                return true;
+            }
+        };
+
+        wrapped.execute();
+    }
+
+    public void safeWrite(final ReadWriteContext command) throws Exception {
+
+        com.hp.hpl.jena.shared.Command wrapped = new com.hp.hpl.jena.shared.Command() {
+            @Override
+            public Object execute() {
+                try {
+                    MonitorModel monitorModel = new MonitorModel( getOntModel() );
+                    List<Statement> additions = new ArrayList<Statement>();
+                    List<Statement> deletions = new ArrayList<Statement>();
+
+                    SemachinaOntModel transact = factory.createOntologyModel( OntModelSpec.OWL_MEM, monitorModel );
+                    monitorModel.snapshot();
+                    command.execute( transact );
+                    monitorModel.snapshot( additions, deletions );
+
+                    getOntModel().rebind();
+                } catch (Exception e) {
+                    throw new RuntimeException(e.getMessage(), e);
+                }
+                return true;
+            }
+        };
+
+        try {
+            getOntModel().enterCriticalSection(Lock.WRITE);
+            TransactionHandler handler = getOntModel().getGraph().getTransactionHandler();
+            if (handler.transactionsSupported()) {
+                handler.executeInTransaction(wrapped);
+            } else {
+                wrapped.execute();
+            }
+        } finally {
+            getOntModel().leaveCriticalSection();
+        }
+    }
+
+    public boolean ask(String sparql, QuerySolution initialBindings) {
+        Query query = createQuery(sparql);
+        return ask(query, initialBindings);
+    }
+
+    public boolean ask(Query query, QuerySolution initialBindings) {
+        if (!query.isAskType()) {
+            throw new IllegalArgumentException("Must be SPARQL ask query");
+        }
+
+        QueryExecution qexec = createQueryExecution(query, initialBindings);
+
+        try {
+            prepareQueryExecution(qexec);
+            getOntModel().enterCriticalSection(Lock.READ);
+            return qexec.execAsk();
+        } finally {
+            getOntModel().leaveCriticalSection();
+            closeQueryExecution(qexec);
+            qexec.close();
+        }
+    }
+
+    public SemachinaOntModel describe(String sparql, QuerySolution initialBindings) {
+        Query query = createQuery(sparql);
+        return describe(query, initialBindings);
+    }
+
+    public SemachinaOntModel describe(Query query, QuerySolution initialBindings) {
+
+        if (!query.isDescribeType()) {
+            throw new IllegalArgumentException("Must be SPARQL describe query");
+        }
+
+        QueryExecution qexec = createQueryExecution(query, initialBindings);
+
+        SemachinaOntModel owlModel = null;
+
+        try {
+            prepareQueryExecution(qexec);
+            getOntModel().enterCriticalSection(Lock.READ);
+
+            Model resultModel = qexec.execDescribe();
+            owlModel = getFactory().createOntologyModel(getOntModel().getSpecification(), resultModel);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } finally {
+            getOntModel().leaveCriticalSection();
+            closeQueryExecution(qexec);
+            qexec.close();
+        }
+        return owlModel;
+    }
+
+    public SemachinaOntModel construct(String sparql, QuerySolution initialBindings) {
+        Query query = createQuery(sparql);
+        return construct(query, initialBindings);
+    }
+
+
+    public SemachinaOntModel construct(Query query, QuerySolution initialBindings) {
+
+        if (!query.isConstructType()) {
+            throw new IllegalArgumentException("Must be SPARQL construct query");
+        }
+
+        QueryExecution qexec = createQueryExecution(query, initialBindings);
+
+        SemachinaOntModel owlModel = null;
+
+        try {
+            prepareQueryExecution(qexec);
+            getOntModel().enterCriticalSection(Lock.READ);
+
+            Model resultModel = qexec.execConstruct();
+            owlModel = getFactory().createOntologyModel(getOntModel().getSpecification(), resultModel);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } finally {
+            getOntModel().leaveCriticalSection();
+            closeQueryExecution(qexec);
+            qexec.close();
+        }
+        return owlModel;
+    }
+
+    public void select(String sparql, ResultSetHandler handler, QuerySolution initialBindings) {
+        Query query = createQuery(sparql);
+        select(query, handler, initialBindings);
+    }
+
+
+    public void select(Query query, ResultSetHandler handler, QuerySolution initialBindings) {
+
+        if (handler == null) {
+            return;
+        }
+
+        if (!query.isSelectType()) {
+            throw new IllegalArgumentException("Must be SPARQL select query");
+        }
+
+        QueryExecution qexec = createQueryExecution(query, initialBindings);
+
+        try {
+            prepareQueryExecution(qexec);
+            getOntModel().enterCriticalSection(Lock.READ);
+
+            ResultSet rs = qexec.execSelect();
+
+            handler.handle(rs);
+
+        } finally {
+            getOntModel().leaveCriticalSection();
+            closeQueryExecution(qexec);
+            qexec.close();
+        }
+    }
+
     protected QueryExecution createQueryExecution(Query query, QuerySolution initialBindings) {
-        QueryExecution qexec = QueryExecutionFactory.create(query, this);
+        QueryExecution qexec = QueryExecutionFactory.create(query, getOntModel());
 
         if (initialBindings != null) {
             qexec.setInitialBinding(initialBindings);
@@ -439,24 +431,8 @@ public class SemachinaOntModelImpl extends OntModelImpl implements SemachinaOntM
 
     protected Query createQuery(String sparql) {
         Query query = new Query();
-        query.getPrefixMapping().withDefaultMappings(this);
+        query.getPrefixMapping().withDefaultMappings(getOntModel());
         query = QueryFactory.parse(query, sparql, null, Syntax.defaultSyntax);
         return query;
-    }
-
-    @Override
-    public void close() {
-        if (features != null) {
-            for (Feature feature : features.values()) {
-                try {
-                    feature.close();
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
-        super.close();
     }
 }

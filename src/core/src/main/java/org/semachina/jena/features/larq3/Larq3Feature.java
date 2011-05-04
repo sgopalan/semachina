@@ -1,12 +1,21 @@
 package org.semachina.jena.features.larq3;
 
 import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.query.larq3.IndexBuilderModel;
-import com.hp.hpl.jena.query.larq3.IndexBuilderString;
-import com.hp.hpl.jena.query.larq3.IndexLARQ;
-import com.hp.hpl.jena.query.larq3.LARQ;
+
 import com.hp.hpl.jena.rdf.model.StmtIterator;
+
+import com.hp.hpl.jena.sparql.pfunction.PropertyFunctionRegistry;
+import org.apache.jena.larq.IndexBuilderModel;
+import org.apache.jena.larq.IndexBuilderString;
+import org.apache.jena.larq.IndexLARQ;
+import org.apache.jena.larq.LARQ;
+
+import org.apache.jena.larq.pfunction.textMatch;
+import org.apache.lucene.analysis.SimpleAnalyzer;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.util.Version;
 import org.semachina.jena.SemachinaOntModel;
 import org.semachina.jena.features.Feature;
 
@@ -23,6 +32,8 @@ public class Larq3Feature implements Feature {
 
     public static String KEY = "larq3-feature";
 
+    private String textMatchURI = "http://jena.hpl.hp.com/ARQ/property#TextMatch3";
+
     private Directory fsd;
 
     private IndexBuilderModel ib;
@@ -32,7 +43,15 @@ public class Larq3Feature implements Feature {
     private SemachinaOntModel ontModel;
 
     public Larq3Feature(Directory fsd) {
+        this( fsd, null );
+    }
+
+    public Larq3Feature(Directory fsd, String textMatchURI) {
         this.fsd = fsd;
+
+        if( textMatchURI != null ) {
+           this.textMatchURI = textMatchURI;
+        }
     }
 
     @Override
@@ -48,7 +67,14 @@ public class Larq3Feature implements Feature {
             throw new IllegalStateException("LARQ directory should not be null");
         }
 
-        ib = new IndexBuilderString(fsd);
+
+        //register function...
+        PropertyFunctionRegistry registry  = PropertyFunctionRegistry.get();
+        if( !registry.isRegistered( this.textMatchURI ) ) {
+            registry.put( this.textMatchURI, textMatch.class );
+        }
+
+        ib = new IndexBuilderString();
 
         index = ib.getIndex();
         LARQ.setDefaultIndex(index);
@@ -58,34 +84,25 @@ public class Larq3Feature implements Feature {
     public void close() throws IOException {
         //    logger.info("started close larq")
 
+        if( index != null ) {
+            index.close();
+        }
+
         if (fsd != null) {
             fsd.close();
         }
     }
 
-    public void initLarq() {
-//    logger.info("started init larq")
-
-        if (fsd == null) {
-            throw new IllegalStateException("LARQ directory should not be null");
-        }
-
-        ib = new IndexBuilderString(fsd);
-
-        index = ib.getIndex();
-        LARQ.setDefaultIndex(index);
-    }
-
-    public void reindex() {
+    public void reindex() throws Exception {
         index(getOntModel().listStatements());
     }
 
     //should this be synchronized
-
-    public void index(StmtIterator statements) {
-
-        ib = new IndexBuilderString(fsd);
+    public void index(StmtIterator statements) throws Exception {
+        IndexWriter indexWriter = new IndexWriter(fsd, new IndexWriterConfig(Version.LUCENE_31, new SimpleAnalyzer(Version.LUCENE_31) ));
+        ib = new IndexBuilderString(indexWriter);
         ib.indexStatements(statements);
+        ib.closeWriter();
 
         //set the old index
         IndexLARQ oldIndex = index;
@@ -97,14 +114,6 @@ public class Larq3Feature implements Feature {
         //close the old index
         if (oldIndex != null) {
             oldIndex.close();
-        }
-    }
-
-    public void closeLarq() throws IOException {
-        //logger.info("started close larq")
-
-        if (fsd != null) {
-            fsd.close();
         }
     }
 

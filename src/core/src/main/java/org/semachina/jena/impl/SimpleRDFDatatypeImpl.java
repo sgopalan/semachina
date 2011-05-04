@@ -2,6 +2,10 @@ package org.semachina.jena.impl;
 
 import com.hp.hpl.jena.datatypes.BaseDatatype;
 import com.hp.hpl.jena.datatypes.DatatypeFormatException;
+import com.hp.hpl.jena.util.iterator.Map1;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,14 +16,19 @@ import com.hp.hpl.jena.datatypes.DatatypeFormatException;
  */
 abstract public class SimpleRDFDatatypeImpl<L> extends BaseDatatype {
 
-
     private Class<L> javaClass;
 
+    private Map<Class, Map1<Object, L>> converters;
+
     public SimpleRDFDatatypeImpl(String typeURI, Class<L> javaClass) {
-        super(typeURI);
-        this.javaClass = javaClass;
+        this(typeURI, javaClass, new HashMap<Class, Map1<Object, L>>() );
     }
 
+    public SimpleRDFDatatypeImpl(String typeURI, Class<L> javaClass, Map<Class, Map1<Object, L>> converters) {
+        super(typeURI);
+        this.javaClass = javaClass;
+        this.converters = converters;
+    }
 
     public L parse(String lexicalForm) {
         if (lexicalForm == null) {
@@ -71,4 +80,13 @@ abstract public class SimpleRDFDatatypeImpl<L> extends BaseDatatype {
         return isValid(unparse(value));
     }
 
+    @Override
+    public Object cannonicalise(Object value) {
+        Map1<Object, L> converter = converters.get( value.getClass() );
+        if( converter != null ) {
+            return converter.map1( value );
+        }
+
+        return super.cannonicalise(value);
+    }
 }
