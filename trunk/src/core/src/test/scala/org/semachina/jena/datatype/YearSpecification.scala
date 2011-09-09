@@ -25,7 +25,7 @@ class YearSpecification extends SpecificationWithJUnit("Jena xsd:gYear datatype 
 
   "Jena Datatype mapping" should {
     "provide xsd:gYear mapping that " in {
-      "can create xsd:gYear literals from org.semachina.jena.datatype.types.Year object" in {
+      "can create xsd:gYear literals from org.ontModelAdapter.jena.datatype.types.Year object" in {
         val year = new Year(2010)
         val literal = m.createTypedLiteral(year, XSD.gYear.getURI)
         literal.getValue must beEqualTo(year)

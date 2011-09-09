@@ -8,10 +8,13 @@ import com.hp.hpl.jena.sdb.store.{LayoutType, DatabaseType}
 import com.hp.hpl.jena.sdb.{StoreDesc, Store, SDBFactory}
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.semachina.config.AppConfig
-import com.hp.hpl.jena.ontology.{ProfileRegistry, OntModelSpec}
-import org.semachina.jena.{ReadWriteContext, SemachinaIndividual, SemachinaOntModel}
-import org.semachina.jena.impl.{SimpleReadWriteContext, SemachinaOntModelImpl}
+import org.semachina.jena.config.SemachinaConfig._
+import org.semachina.jena.ReadWriteContext
+import org.semachina.jena.impl.scala.SemachinaOntModelImpl
 import com.hp.hpl.jena.vocabulary.XSD
+import org.semachina.jena.config.SemachinaConfig
+import com.hp.hpl.jena.ontology.{OntModel, ProfileRegistry, OntModelSpec}
+import java.util.Date
 
 /**
  * Created by IntelliJ IDEA.
@@ -65,19 +68,35 @@ class IndividualTest {
     ontModel.read("http://www.w3.org/TR/owl-guide/wine.rdf")
 
 
-    val context = new SimpleReadWriteContext() {
-      def execute(it: SemachinaOntModel) {
+    val context = new ReadWriteContext() {
+      def execute(it: OntModel) {
         val title = it.getOntProperty("http://purl.org/dc/elements/1.1/title")
         val ontClass = it.resolveOntClass( "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Wine" )
         val me = it.createIndividual( "http://example.com/sri", ontClass )
-        me.set( title, it.createTypedLiteral("My wine", XSD.xstring.getURI ) )
+        me.set( title -> it.createTypedLiteral("My wine", XSD.xstring.getURI ) )
       }
     }
 
     ontModel.safeWrite(context)
-
-
     ontModel.write( System.out )
+  }
+
+  @Test
+  def testLiteral : Unit = {
+    implicit val ontModel = SemachinaConfig.createOntologyModel
+    val date = new Date
+    val literal = (date ^^ )
+    println (literal)
+    return
+  }
+
+  @Test
+  def testLiterals : Unit = {
+    implicit val ontModel = SemachinaConfig.createOntologyModel
+    val dates = List(new Date(), new Date(), new Date() )
+    val literal = (dates ^^ "xsd:date")
+    println (literal)
+    return
   }
 
   //@Test

@@ -1,28 +1,14 @@
 package org.semachina.core
 
 import org.junit._
-import org.semachina.jena.sdb.SDBConnector
-import org.semachina.jena.SemachinaOntModel
-import org.semachina.jena.config.DefaultOntModelBuilder
+import org.semachina.jena.impl.sdb.SDBConnector
 import com.hp.hpl.jena.vocabulary.{RDFS, RDF}
-import com.hp.hpl.jena.ontology.OntModelSpec
-import com.hp.hpl.jena.ontology.ProfileRegistry
-import com.hp.hpl.jena.rdf.model.Model
 import com.hp.hpl.jena.rdf.model.ModelFactory
-import org.apache.lucene.store.Directory
-import org.mindswap.pellet.jena.PelletReasonerFactory
-import org.semachina.jena.OntModelBuilder
-import org.semachina.jena.SemachinaOntModel
-import org.semachina.jena.features.larq3.Larq3Feature
-import org.semachina.jena.features.pellet.PelletFeature
-import org.semachina.jena.impl.SemachinaOntModelImpl
-import java.util.Map
-import java.util.HashMap
-import com.hp.hpl.jena.ontology.OntDocumentManager
-
-import org.semachina.jena.JenaExtension._
-import scala.collection.JavaConversions._
-
+import org.semachina.jena.config.features.larq3.Larq3Feature
+import org.semachina.jena.config.features.pellet.PelletFeature
+import org.semachina.jena.config.SemachinaConfig._
+import org.semachina.jena.config.{SemachinaFactory, SemachinaConfig}
+import com.hp.hpl.jena.ontology.{OntModelSpec, OntDocumentManager}
 
 /**
  * Created by IntelliJ IDEA.
@@ -36,15 +22,16 @@ class SDBTest {
 
   @Test
   def testSDB() : Unit = {
-    def sdbConnector = new SDBConnector( "jdbc:h2:db/database_rdf",
+    def sdbConnector = new SDBConnector( "layout2/index",
+                                         "jdbc:h2:db/database_rdf",
                                          "org.h2.Driver",
                                          "h2",
                                          "sa",
                                          "",
                                          false)
 
-      sdbConnector.deleteSDBStore()
-      sdbConnector.tryToCreateSDBStore()
+      sdbConnector.deleteSDBStore
+      sdbConnector.tryToCreateSDBStore
 
        val model = sdbConnector.getModel(null)
 
@@ -71,12 +58,12 @@ class SDBTest {
       m.setNsPrefix("base", "http://kaste.lv/~captsolo/semweb/resume/base.owl#")
       m.setNsPrefix("cv", "http://kaste.lv/~captsolo/semweb/resume/cv.owl#")
       m.setNsPrefix("vcard", "http://www.w3.org/2006/vcard/ns#")
-      m.setNsPrefix("me", "http://www.semachina.org/re.su.me/sgopalan.owl#")
+      m.setNsPrefix("me", "http://www.ontModelAdapter.org/re.su.me/sgopalan.owl#")
 
 
 
-      val ontModelBuilder = new DefaultOntModelBuilder
-      implicit val ontBase = ontModelBuilder.create(m).withPellet.done
+
+      implicit val ontBase = SemachinaFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM, m)
       ontBase.addSubModel( model )
 
       val myResume = +&( "me:sgopalan_cv", "cv:CV" )

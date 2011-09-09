@@ -252,7 +252,7 @@ local query request for each NamedList in sequence. -->
 
         <!-- Maximum number of searchers that may be warming in the background
 concurrently.  An error is returned if this limit is exceeded. Recommend
-1-2 for read-only slaves, higher for masters w/obj cache warming. -->
+1-2 for read-only slaves, higher for masters w/get cache warming. -->
         <maxWarmingSearchers>2</maxWarmingSearchers>
 
     </query>

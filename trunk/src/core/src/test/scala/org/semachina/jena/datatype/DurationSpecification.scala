@@ -1,13 +1,12 @@
 package org.semachina.jena.datatype
 
 import com.hp.hpl.jena.vocabulary.XSD
-import factory.{DurationFactory, DayFactory}
+import org.semachina.jena.datatype.factory.{DurationFactory, DayFactory}
 import org.specs.SpecificationWithJUnit
-import types.Day
+import org.semachina.jena.datatype.types.Day
 import com.hp.hpl.jena.rdf.model.ModelFactory
 import com.hp.hpl.jena.datatypes.{TypeMapper, DatatypeFormatException}
 import com.hp.hpl.jena.shared.impl.JenaParameters
-import org.specs.util.Duration
 import org.joda.time.format.ISOPeriodFormat
 
 /**

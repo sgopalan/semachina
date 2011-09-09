@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog id="XML Catalog File (see http://www.oasis-open.org/committees/entity/spec-2001-08-06.html) - Created By Protege 4" prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <group id="Folder Repository, directory=C:\dev\semachina\core\src\test\resources, Auto-Update=true" prefer="public" xml:base="">
+        <uri id="Automatically generated entry, Timestamp=1304994115359" name="http://kaste.lv/~captsolo/semweb/resume/cv.owl" uri="cv.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1304994115359" name="http://dcgs.enterprise.spfg/20080324.owl" uri="des-example.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1304994115359" name="http://semachina.org/test-data.owl" uri="test.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1304994115359" name="http://kaste.lv/~captsolo/semweb/resume/base.owl" uri="base.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1304994115359" name="http://boozallen.com/soa/metamodel.owl" uri="metamodel.owl"/>
+    </group>
+</catalog>
