@@ -16,7 +16,7 @@ import java.util.Collections
  */
 
 object ExtendedIteratorWrapper {
-  def apply[A](i: jena.ExtendedIterator[A]): ExtendedIteratorWrapper[A] = {
+  implicit def apply[A](i: jena.ExtendedIterator[A]): ExtendedIteratorWrapper[A] = {
     return new ExtendedIteratorWrapper(i);
   }
 }
