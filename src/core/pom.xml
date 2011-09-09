@@ -73,6 +73,11 @@
             <artifactId>larq</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>thewebsemantic</groupId>
+            <artifactId>jenabean</artifactId>
+        </dependency>
+
         <!-- Jena TDB and SDB -->
         <dependency>
             <groupId>com.hp.hpl.jena</groupId>
@@ -161,6 +166,15 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- validation -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
 
         <!-- Logging -->
 
