@@ -25,7 +25,7 @@ class YearMonthSpecification extends SpecificationWithJUnit("Jena xsd:gYearMonth
 
   "Jena Datatype mapping" should {
     "provide xsd:gYearMonth mapping that " in {
-      "can create xsd:gYearMonth literals from org.semachina.jena.datatype.types.MOnthDay object" in {
+      "can create xsd:gYearMonth literals from org.ontModelAdapter.jena.datatype.types.MOnthDay object" in {
         val yearmonth = new YearMonth(2010, 12)
         val literal = m.createTypedLiteral(yearmonth, XSD.gYearMonth.getURI)
         literal.getValue must beEqualTo(yearmonth)

@@ -2,7 +2,7 @@ package org.semachina.core
 
 import org.junit._
 import Assert._
-import org.semachina.jena.JenaExtension._
+import org.semachina.jena.config.SemachinaConfig._
 import org.openjena.atlas.io.IndentedWriter
 import com.hp.hpl.jena.query.{ResultSet, QuerySolution}
 import scala.collection.JavaConversions._
@@ -10,11 +10,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.semachina.config.AppConfig
 import com.weiglewilczek.slf4s.Logging
 import com.hp.hpl.jena.rdf.model.{RDFNode, Resource}
-import org.semachina.jena.impl.scala.ScalaOntModelImpl
 import com.hp.hpl.jena.ontology.{ProfileRegistry, OntModelSpec}
-import org.semachina.jena.SemachinaOntModel
 import org.apache.lucene.store.RAMDirectory
-import org.semachina.jena.features.larq3.Larq3Feature
+import org.semachina.jena.config.features.larq3.Larq3Feature
+import org.semachina.jena.config.SemachinaConfig
+import org.semachina.jena.impl.scala.SemachinaOntModelImpl
 
 /**
  * Created by IntelliJ IDEA.
@@ -45,9 +45,9 @@ object ArqTest {
 class ArqTest extends Logging {
   val NL = System.getProperty("line.separator")
 
-  def createModel: ScalaOntModelImpl = {
+  def createModel: SemachinaOntModelImpl = {
     implicit val ontModel = new
-        ScalaOntModelImpl(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG))
+        SemachinaOntModelImpl(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG))
     ontModel.read("http://purl.org/dc/elements/1.1/")
     val title = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/title")
     val description = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/description")
@@ -161,7 +161,7 @@ class ArqTest extends Logging {
     val dir = new RAMDirectory
     val larq3Feature = new Larq3Feature(dir)
     model.addFeature( larq3Feature )
-    larq3Feature.reindex()
+    larq3Feature.reindex
 
     // Query string.
     var query: String =

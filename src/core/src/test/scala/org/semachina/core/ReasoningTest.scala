@@ -1,15 +1,14 @@
 package org.semachina.core
 
 import org.junit._
-import org.semachina.jena.JenaExtension._
+import org.semachina.jena.config.SemachinaConfig._
 import org.mindswap.pellet.jena.PelletReasonerFactory
 import com.hp.hpl.jena.rdf.model.{ModelFactory, Resource}
 import com.hp.hpl.jena.ontology._
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.mindswap.pellet.PelletOptions
 import org.semachina.config.AppConfig
-import org.semachina.jena.impl.SemachinaOntModelImpl
-import org.semachina.jena.SemachinaOntModel
+import org.semachina.jena.impl.scala.SemachinaOntModelImpl
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,7 +31,7 @@ object ReasoningTest {
 }
 
 class ReasoningTest {
-  def createModel: SemachinaOntModel = {
+  def createModel: OntModel = {
     val ontModel = new SemachinaOntModelImpl(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG))
     ontModel.read("http://purl.org/dc/elements/1.1/")
     val title = ontModel.getOntProperty("http://purl.org/dc/elements/1.1/title")

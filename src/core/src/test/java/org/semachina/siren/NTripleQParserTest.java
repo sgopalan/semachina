@@ -121,7 +121,7 @@ public class NTripleQParserTest {
    */
   @Test
   public void testParseSimpleTriple1() throws Exception {
-    final String query = "<http://ns/#s> <http://ns/p> <http://ns/obj>";
+    final String query = "<http://ns/#s> <http://ns/p> <http://ns/get>";
     final NTripleQueryStandardAnalyzer analyzer = new NTripleQueryStandardAnalyzer();
     final TokenStream stream = analyzer.tokenStream(null, new StringReader(query));
     final NTripleQParserImpl parser = new NTripleQParserImpl(new CupScannerWrapper(stream));
@@ -217,7 +217,7 @@ public class NTripleQParserTest {
    */
   @Test
   public void testParseNestedClause1() throws Exception {
-    final String query = "<s> <p> <obj> AND (<s> <p2> <o2> OR <s> <p3> \"A literal\")";
+    final String query = "<s> <p> <get> AND (<s> <p2> <o2> OR <s> <p3> \"A literal\")";
 
     final NTripleQueryStandardAnalyzer analyzer = new NTripleQueryStandardAnalyzer();
     final TokenStream stream = analyzer.tokenStream(null, new StringReader(query));
@@ -233,7 +233,7 @@ public class NTripleQParserTest {
    */
   @Test
   public void testParseNestedClause2() throws Exception {
-    final String query = "(<s> <p> <obj> AND <s> <p2> <o2>) OR <s> <p3> \"A literal\"";
+    final String query = "(<s> <p> <get> AND <s> <p2> <o2>) OR <s> <p3> \"A literal\"";
 
     final NTripleQueryStandardAnalyzer analyzer = new NTripleQueryStandardAnalyzer();
     final TokenStream stream = analyzer.tokenStream(null, new StringReader(query));
@@ -249,7 +249,7 @@ public class NTripleQParserTest {
    */
   @Test
   public void testParseNestedClause3() throws Exception {
-    final String query = "(<s> <p> <obj> AND <s> <p2> <o2>)";
+    final String query = "(<s> <p> <get> AND <s> <p2> <o2>)";
 
     final NTripleQueryStandardAnalyzer analyzer = new NTripleQueryStandardAnalyzer();
     final TokenStream stream = analyzer.tokenStream(null, new StringReader(query));
@@ -265,7 +265,7 @@ public class NTripleQParserTest {
    */
   @Test
   public void testParseNestedClauseEmpty() throws Exception {
-    final String query = "<s> <p> <obj> AND ()";
+    final String query = "<s> <p> <get> AND ()";
 
     final NTripleQueryStandardAnalyzer analyzer = new NTripleQueryStandardAnalyzer();
     final TokenStream stream = analyzer.tokenStream(null, new StringReader(query));
@@ -297,7 +297,7 @@ public class NTripleQParserTest {
    */
   @Test(expected=IOException.class)
   public void testParseInvalid2() throws Exception {
-    final String query = " <s> <p> AND (<p> OR <obj>  ";
+    final String query = " <s> <p> AND (<p> OR <get>  ";
 
     final NTripleQueryStandardAnalyzer analyzer = new NTripleQueryStandardAnalyzer();
     final TokenStream stream = analyzer.tokenStream(null, new StringReader(query));
@@ -312,7 +312,7 @@ public class NTripleQParserTest {
    */
   @Test(expected=IOException.class)
   public void testParseInvalid3() throws Exception {
-    final String query = " <s> <p> <p> <obj>  ";
+    final String query = " <s> <p> <p> <get>  ";
 
     final NTripleQueryStandardAnalyzer analyzer = new NTripleQueryStandardAnalyzer();
     final TokenStream stream = analyzer.tokenStream(null, new StringReader(query));

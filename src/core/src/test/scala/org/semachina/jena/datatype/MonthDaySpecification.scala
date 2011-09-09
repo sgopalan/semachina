@@ -25,7 +25,7 @@ class MonthDaySpecification extends SpecificationWithJUnit("Jena xsd:gMonthDay d
 
   "Jena Datatype mapping" should {
     "provide xsd:gMonthDay mapping that " in {
-      "can create xsd:gMonthDay literals from org.semachina.jena.datatype.types.MOnthDay object" in {
+      "can create xsd:gMonthDay literals from org.ontModelAdapter.jena.datatype.types.MOnthDay object" in {
         val monthday = new MonthDay(12, 31)
         val literal = m.createTypedLiteral(monthday, XSD.gMonthDay.getURI)
         literal.getValue must beEqualTo(monthday)

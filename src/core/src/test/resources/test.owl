@@ -34,7 +34,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getTestClass -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getTestClass -->
 
     <owl:ObjectProperty rdf:about="#getTestClass">
         <rdfs:range>
@@ -64,7 +64,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getAnySimpleType -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getAnySimpleType -->
 
     <owl:DatatypeProperty rdf:about="#getAnySimpleType">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -73,7 +73,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getAnyType -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getAnyType -->
 
     <owl:DatatypeProperty rdf:about="#getAnyType">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -82,7 +82,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getAnyURI -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getAnyURI -->
 
     <owl:DatatypeProperty rdf:about="#getAnyURI">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -91,7 +91,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getBase64Binary -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getBase64Binary -->
 
     <owl:DatatypeProperty rdf:about="#getBase64Binary">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -100,7 +100,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getBoolean -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getBoolean -->
 
     <owl:DatatypeProperty rdf:about="#getBoolean">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -109,7 +109,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getByte -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getByte -->
 
     <owl:DatatypeProperty rdf:about="#getByte">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -118,7 +118,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getDate -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getDate -->
 
     <owl:DatatypeProperty rdf:about="#getDate">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -127,7 +127,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getDateTime -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getDateTime -->
 
     <owl:DatatypeProperty rdf:about="#getDateTime">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -136,7 +136,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getDecimal -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getDecimal -->
 
     <owl:DatatypeProperty rdf:about="#getDecimal">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -145,7 +145,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getDouble -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getDouble -->
 
     <owl:DatatypeProperty rdf:about="#getDouble">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -154,7 +154,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getDuration -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getDuration -->
 
     <owl:DatatypeProperty rdf:about="#getDuration">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -163,7 +163,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getEntities -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getEntities -->
 
     <owl:DatatypeProperty rdf:about="#getEntities">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -172,7 +172,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getEntity -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getEntity -->
 
     <owl:DatatypeProperty rdf:about="#getEntity">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -181,7 +181,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getFloat -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getFloat -->
 
     <owl:DatatypeProperty rdf:about="#getFloat">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -190,7 +190,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getGDay -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getGDay -->
 
     <owl:DatatypeProperty rdf:about="#getGDay">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -199,7 +199,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getGMonth -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getGMonth -->
 
     <owl:DatatypeProperty rdf:about="#getGMonth">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -208,7 +208,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getGMonthYear -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getGMonthYear -->
 
     <owl:DatatypeProperty rdf:about="#getGMonthYear">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -217,7 +217,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getGYear -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getGYear -->
 
     <owl:DatatypeProperty rdf:about="#getGYear">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -226,7 +226,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getGYearMonth -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getGYearMonth -->
 
     <owl:DatatypeProperty rdf:about="#getGYearMonth">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -235,7 +235,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getHexBinary -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getHexBinary -->
 
     <owl:DatatypeProperty rdf:about="#getHexBinary">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -244,7 +244,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getID -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getID -->
 
     <owl:DatatypeProperty rdf:about="#getID">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -253,7 +253,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getIDRef -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getIDRef -->
 
     <owl:DatatypeProperty rdf:about="#getIDRef">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -262,7 +262,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getIDRefs -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getIDRefs -->
 
     <owl:DatatypeProperty rdf:about="#getIDRefs">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -271,7 +271,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getInt -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getInt -->
 
     <owl:DatatypeProperty rdf:about="#getInt">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -280,7 +280,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getInteger -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getInteger -->
 
     <owl:DatatypeProperty rdf:about="#getInteger">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -289,7 +289,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getLanguage -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getLanguage -->
 
     <owl:DatatypeProperty rdf:about="#getLanguage">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -298,7 +298,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getLiteral -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getLiteral -->
 
     <owl:DatatypeProperty rdf:about="#getLiteral">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -307,7 +307,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getLong -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getLong -->
 
     <owl:DatatypeProperty rdf:about="#getLong">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -316,7 +316,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getNCName -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getNCName -->
 
     <owl:DatatypeProperty rdf:about="#getNCName">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -325,7 +325,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getNMToken -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getNMToken -->
 
     <owl:DatatypeProperty rdf:about="#getNMToken">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -334,7 +334,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getName -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getName -->
 
     <owl:DatatypeProperty rdf:about="#getName">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -343,7 +343,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getNegativeInteger -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getNegativeInteger -->
 
     <owl:DatatypeProperty rdf:about="#getNegativeInteger">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -352,7 +352,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getNonNegativeInteger -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getNonNegativeInteger -->
 
     <owl:DatatypeProperty rdf:about="#getNonNegativeInteger">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -361,7 +361,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getNonPositiveInteger -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getNonPositiveInteger -->
 
     <owl:DatatypeProperty rdf:about="#getNonPositiveInteger">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -370,7 +370,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getNormalizedString -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getNormalizedString -->
 
     <owl:DatatypeProperty rdf:about="#getNormalizedString">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -379,7 +379,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getNotation -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getNotation -->
 
     <owl:DatatypeProperty rdf:about="#getNotation">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -388,7 +388,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getPositiveInteger -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getPositiveInteger -->
 
     <owl:DatatypeProperty rdf:about="#getPositiveInteger">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -397,7 +397,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getQName -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getQName -->
 
     <owl:DatatypeProperty rdf:about="#getQName">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -406,7 +406,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getShort -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getShort -->
 
     <owl:DatatypeProperty rdf:about="#getShort">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -415,7 +415,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getString -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getString -->
 
     <owl:DatatypeProperty rdf:about="#getString">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -424,7 +424,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getTime -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getTime -->
 
     <owl:DatatypeProperty rdf:about="#getTime">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -433,7 +433,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getToken -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getToken -->
 
     <owl:DatatypeProperty rdf:about="#getToken">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -442,7 +442,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getUnsignedByte -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getUnsignedByte -->
 
     <owl:DatatypeProperty rdf:about="#getUnsignedByte">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -451,7 +451,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getUnsignedInt -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getUnsignedInt -->
 
     <owl:DatatypeProperty rdf:about="#getUnsignedInt">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -460,7 +460,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getUnsignedLong -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getUnsignedLong -->
 
     <owl:DatatypeProperty rdf:about="#getUnsignedLong">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -469,7 +469,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getUnsignedShort -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getUnsignedShort -->
 
     <owl:DatatypeProperty rdf:about="#getUnsignedShort">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -478,7 +478,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#getXMLLiteral -->
+    <!-- http://ontModelAdapter.org/test-data.owl#getXMLLiteral -->
 
     <owl:DatatypeProperty rdf:about="#getXMLLiteral">
         <rdfs:domain rdf:resource="#TestClass"/>
@@ -498,7 +498,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#TestClass -->
+    <!-- http://ontModelAdapter.org/test-data.owl#TestClass -->
 
     <owl:Class rdf:about="#TestClass">
         <rdfs:subClassOf rdf:resource="&owl;Thing"/>
@@ -523,7 +523,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#Test1 -->
+    <!-- http://ontModelAdapter.org/test-data.owl#Test1 -->
 
     <TestClass rdf:about="#Test1">
         <getGDay rdf:datatype="&xsd;gDay">---01</getGDay>
@@ -561,7 +561,7 @@
     
 
 
-    <!-- http://semachina.org/test-data.owl#Test2 -->
+    <!-- http://ontModelAdapter.org/test-data.owl#Test2 -->
 
     <TestClass rdf:about="#Test2"/>
 </rdf:RDF>
