@@ -1,15 +1,16 @@
 package org.semachina.core
 
 import org.junit.Test
-import org.semachina.jena.impl.scala.SemachinaOntModelImpl
+import org.semachina.jena.ontology.impl.SemachinaOntModelImpl
 import com.hp.hpl.jena.rdf.model.{Statement, Resource}
 import java.util.{Date, ArrayList}
-import org.semachina.jena.config.SemachinaConfig._
+import org.semachina.jena.SemachinaDSL._
 import com.hp.hpl.jena.util.{PrintUtil, MonitorModel}
-import org.semachina.jena.config.SemachinaConfig._
 import scala.collection.JavaConversions._
 import com.hp.hpl.jena.ontology.{OntModel, ProfileRegistry, OntModelSpec}
-import org.semachina.jena.{SemachinaOntModelTrait, ChangeSet}
+import org.semachina.jena.config.SemachinaFactory
+import org.semachina.jena.ontology.SemachinaOntModel
+import org.semachina.jena.features.changeset.ChangeSet
 
 
 /**
@@ -23,9 +24,9 @@ import org.semachina.jena.{SemachinaOntModelTrait, ChangeSet}
 class ChangeSetSpec {
 
 
-  def createModel: OntModel with SemachinaOntModelTrait = {
+  def createModel: OntModel with SemachinaOntModel = {
     implicit val ontModel =
-        createOntologyModel(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG))
+        SemachinaFactory.createOntologyModel(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG))
 
     ontModel.read("http://purl.org/dc/elements/1.1/")
     ontModel.read("http://vocab.org/changeset/schema.rdf")
@@ -70,7 +71,7 @@ class ChangeSetSpec {
     monitor.snapshot( additions, removals )
 
     val changeModel =
-        createOntologyModel(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG))
+        SemachinaFactory.createOntologyModel(OntModelSpec.getDefaultSpec(ProfileRegistry.OWL_DL_LANG))
     changeModel.setNsPrefix("ex", "http://example.org/book#")
     changeModel.read("http://vocab.org/changeset/schema.rdf")
 

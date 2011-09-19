@@ -1,7 +1,7 @@
 package org.semachina.jena.datatype
 
 import com.hp.hpl.jena.vocabulary.XSD
-import factory.TimeFactory
+import xsd.TimeDatatype
 import org.specs.SpecificationWithJUnit
 import com.hp.hpl.jena.rdf.model.ModelFactory
 import com.hp.hpl.jena.datatypes.{TypeMapper, DatatypeFormatException}
@@ -19,7 +19,7 @@ class TimeSpecification extends SpecificationWithJUnit("Jena xsd:time datatype S
   description = "Evaluate the functionality for the Jena xsd:time typed literal datatype conversions"
 
   JenaParameters.enableEagerLiteralValidation = true
-  TypeMapper.getInstance().registerDatatype(new TimeFactory())
+  TypeMapper.getInstance().registerDatatype(new TimeDatatype())
   val m = ModelFactory.createOntologyModel()
 
   "Jena Datatype mapping" should {
@@ -37,7 +37,7 @@ class TimeSpecification extends SpecificationWithJUnit("Jena xsd:time datatype S
       }
       "should fail when parsing xsd:time literals from others objects" in {
         val day = new Object()
-        m.createTypedLiteral(day, XSD.time.getURI) must throwA[IllegalArgumentException]
+        m.createTypedLiteral(day, XSD.time.getURI) must throwA[DatatypeFormatException]
       }
       "should fail when parsing xsd:time literals from bad string and type" in {
         val dayStr = "---12"

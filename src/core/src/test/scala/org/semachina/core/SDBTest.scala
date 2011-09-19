@@ -1,14 +1,16 @@
 package org.semachina.core
 
 import org.junit._
-import org.semachina.jena.impl.sdb.SDBConnector
+
 import com.hp.hpl.jena.vocabulary.{RDFS, RDF}
 import com.hp.hpl.jena.rdf.model.ModelFactory
-import org.semachina.jena.config.features.larq3.Larq3Feature
-import org.semachina.jena.config.features.pellet.PelletFeature
-import org.semachina.jena.config.SemachinaConfig._
-import org.semachina.jena.config.{SemachinaFactory, SemachinaConfig}
+import org.semachina.jena.features.larq3.Larq3Feature
+import org.semachina.jena.features.pellet.PelletFeature
+import org.semachina.jena.SemachinaDSL._
+import org.semachina.jena.config.SemachinaFactory
+
 import com.hp.hpl.jena.ontology.{OntModelSpec, OntDocumentManager}
+import org.semachina.jena.sdb.SDBConnector
 
 /**
  * Created by IntelliJ IDEA.
@@ -66,7 +68,7 @@ class SDBTest {
       implicit val ontBase = SemachinaFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM, m)
       ontBase.addSubModel( model )
 
-      val myResume = +&( "me:sgopalan_cv", "cv:CV" )
+      val myResume = "me:sgopalan_cv" +& "cv:CV"
 
       ontBase.removeSubModel( model )
 

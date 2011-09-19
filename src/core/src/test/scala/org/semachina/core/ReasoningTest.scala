@@ -1,14 +1,14 @@
 package org.semachina.core
 
 import org.junit._
-import org.semachina.jena.config.SemachinaConfig._
+import org.semachina.jena.SemachinaDSL._
 import org.mindswap.pellet.jena.PelletReasonerFactory
 import com.hp.hpl.jena.rdf.model.{ModelFactory, Resource}
 import com.hp.hpl.jena.ontology._
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.mindswap.pellet.PelletOptions
 import org.semachina.config.AppConfig
-import org.semachina.jena.impl.scala.SemachinaOntModelImpl
+import org.semachina.jena.ontology.impl.SemachinaOntModelImpl
 
 /**
  * Created by IntelliJ IDEA.
@@ -78,7 +78,7 @@ class ReasoningTest {
     (diffModel difference deductionModel).write(System.out, "N3");
     println("done\n\n\n")
     // createIndividual property and resources to query the reasoner
-    val Person: OntClass = $("http://xmlns.com/foaf/0.1/Person")
+    val Person: OntClass = "http://xmlns.com/foaf/0.1/Person".ontClass
     //val workHomepage = "http://xmlns.com/foaf/0.1/workInfoHomepage".res
 
 

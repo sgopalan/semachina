@@ -1,12 +1,12 @@
 package org.semachina.jena.datatype
 
 import com.hp.hpl.jena.vocabulary.XSD
-import factory.{MonthFactory, DayFactory}
+import xsd.MonthDatatype
 import org.specs.SpecificationWithJUnit
 import com.hp.hpl.jena.rdf.model.ModelFactory
 import com.hp.hpl.jena.datatypes.{TypeMapper, DatatypeFormatException}
 import com.hp.hpl.jena.shared.impl.JenaParameters
-import types.{Month}
+import org.joda.time.Months
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,33 +20,33 @@ class MonthSpecification extends SpecificationWithJUnit("Jena xsd:gMonth datatyp
   description = "Evaluate the functionality for the Jena xsd:gMonth typed literal datatype conversions"
 
   JenaParameters.enableEagerLiteralValidation = true
-  TypeMapper.getInstance().registerDatatype( new MonthFactory() )
+  TypeMapper.getInstance().registerDatatype( new MonthDatatype() )
   val m = ModelFactory.createOntologyModel()
 
   "Jena Datatype mapping" should {
     "provide xsd:gMonth mapping that " in {
       "can create xsd:gMonth literals from org.ontModelAdapter.jena.datatype.types.Month object" in {
-        val month = new Month(1)
+        val month = Months.months(1)
         val literal = m.createTypedLiteral(month, XSD.gMonth.getURI)
         literal.getValue must beEqualTo(month)
       }
       "can create xsd:gMonth literals from java.lang.Integer object" in {
         val monthInt = 1
-        val month = new Month(1)
+        val month = Months.months(1)
         val literal = m.createTypedLiteral(monthInt, XSD.gMonth.getURI)
         literal.getValue must beEqualTo(month)
       }
       "can create xsd:gMonth literals from string and type" in {
-        val month = new Month(1)
+        val month = Months.months(1)
         //this is apparently a bogus format due to errata in the spec.  This has been corrected
         //in the spec via addendum, but it may not have been corrected in all of the tooling.
-        val monthStr = "--01--";
+        val monthStr = "--01";
         val literal = m.createTypedLiteral(monthStr, XSD.gMonth.getURI)
         literal.getValue must beEqualTo(month)
       }
       "should fail when parsing xsd:gMonth literals from others objects" in {
         val day = new Object()
-        m.createTypedLiteral(day, XSD.gMonth.getURI) must throwA[IllegalArgumentException]
+        m.createTypedLiteral(day, XSD.gMonth.getURI) must throwA[DatatypeFormatException]
       }
       "should fail when parsing xsd:gMonth literals from bad string and type" in {
         val dayStr = "12"
