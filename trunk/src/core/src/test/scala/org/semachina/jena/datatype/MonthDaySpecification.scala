@@ -1,12 +1,12 @@
 package org.semachina.jena.datatype
 
 import com.hp.hpl.jena.vocabulary.XSD
-import factory.MonthDayFactory
+import xsd.MonthDayDatatype
 import org.specs.SpecificationWithJUnit
 import com.hp.hpl.jena.rdf.model.ModelFactory
 import com.hp.hpl.jena.datatypes.{TypeMapper, DatatypeFormatException}
 import com.hp.hpl.jena.shared.impl.JenaParameters
-import types.MonthDay
+import org.joda.time.MonthDay
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +20,7 @@ class MonthDaySpecification extends SpecificationWithJUnit("Jena xsd:gMonthDay d
   description = "Evaluate the functionality for the Jena xsd:gMonthDay typed literal datatype conversions"
 
   JenaParameters.enableEagerLiteralValidation = true
-  TypeMapper.getInstance().registerDatatype(new MonthDayFactory())
+  TypeMapper.getInstance().registerDatatype(new MonthDayDatatype())
   val m = ModelFactory.createOntologyModel()
 
   "Jena Datatype mapping" should {
@@ -38,7 +38,7 @@ class MonthDaySpecification extends SpecificationWithJUnit("Jena xsd:gMonthDay d
       }
       "should fail when parsing xsd:gMonthDay literals from others objects" in {
         val day = new Object()
-        m.createTypedLiteral(day, XSD.gMonthDay.getURI) must throwA[IllegalArgumentException]
+        m.createTypedLiteral(day, XSD.gMonthDay.getURI) must throwA[DatatypeFormatException]
       }
       "should fail when parsing xsd:gMonthDay literals from bad string and type" in {
         val dayStr = "12"

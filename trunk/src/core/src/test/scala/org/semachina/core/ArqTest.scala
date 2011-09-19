@@ -2,7 +2,7 @@ package org.semachina.core
 
 import org.junit._
 import Assert._
-import org.semachina.jena.config.SemachinaConfig._
+import org.semachina.jena.SemachinaDSL._
 import org.openjena.atlas.io.IndentedWriter
 import com.hp.hpl.jena.query.{ResultSet, QuerySolution}
 import scala.collection.JavaConversions._
@@ -12,9 +12,8 @@ import com.weiglewilczek.slf4s.Logging
 import com.hp.hpl.jena.rdf.model.{RDFNode, Resource}
 import com.hp.hpl.jena.ontology.{ProfileRegistry, OntModelSpec}
 import org.apache.lucene.store.RAMDirectory
-import org.semachina.jena.config.features.larq3.Larq3Feature
-import org.semachina.jena.config.SemachinaConfig
-import org.semachina.jena.impl.scala.SemachinaOntModelImpl
+import org.semachina.jena.features.larq3.Larq3Feature
+import org.semachina.jena.ontology.impl.SemachinaOntModelImpl
 
 /**
  * Created by IntelliJ IDEA.

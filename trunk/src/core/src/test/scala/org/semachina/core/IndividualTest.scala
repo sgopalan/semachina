@@ -8,13 +8,13 @@ import com.hp.hpl.jena.sdb.store.{LayoutType, DatabaseType}
 import com.hp.hpl.jena.sdb.{StoreDesc, Store, SDBFactory}
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.semachina.config.AppConfig
-import org.semachina.jena.config.SemachinaConfig._
-import org.semachina.jena.ReadWriteContext
-import org.semachina.jena.impl.scala.SemachinaOntModelImpl
+import org.semachina.jena.SemachinaDSL._
+import org.semachina.jena.ontology.ReadWriteContext
 import com.hp.hpl.jena.vocabulary.XSD
-import org.semachina.jena.config.SemachinaConfig
 import com.hp.hpl.jena.ontology.{OntModel, ProfileRegistry, OntModelSpec}
 import java.util.Date
+import org.semachina.jena.config.SemachinaFactory
+import org.semachina.jena.ontology.impl.SemachinaOntModelImpl
 
 /**
  * Created by IntelliJ IDEA.
@@ -83,7 +83,7 @@ class IndividualTest {
 
   @Test
   def testLiteral : Unit = {
-    implicit val ontModel = SemachinaConfig.createOntologyModel
+    implicit val ontModel = SemachinaFactory.createOntologyModel
     val date = new Date
     val literal = (date ^^ )
     println (literal)
@@ -92,7 +92,7 @@ class IndividualTest {
 
   @Test
   def testLiterals : Unit = {
-    implicit val ontModel = SemachinaConfig.createOntologyModel
+    implicit val ontModel = SemachinaFactory.createOntologyModel
     val dates = List(new Date(), new Date(), new Date() )
     val literal = (dates ^^ "xsd:date")
     println (literal)

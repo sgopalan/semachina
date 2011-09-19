@@ -1,7 +1,7 @@
 package org.semachina.jena.datatype
 
 import com.hp.hpl.jena.vocabulary.XSD
-import factory.DateFactory
+import xsd.DateDatatype
 import org.joda.time.DateTime
 import org.specs.SpecificationWithJUnit
 import com.hp.hpl.jena.datatypes.{TypeMapper, DatatypeFormatException}
@@ -20,7 +20,7 @@ class DateSpecification extends SpecificationWithJUnit("Jena xsd:date datatype S
   description = "Evaluate the functionality for the Jena xsd:date typed literal datatype conversions"
 
   JenaParameters.enableEagerLiteralValidation = true
-  TypeMapper.getInstance().registerDatatype(new DateFactory())
+  TypeMapper.getInstance().registerDatatype(new DateDatatype())
   val m = ModelFactory.createOntologyModel()
 
   "Jena Datatype mapping" should {
@@ -46,7 +46,7 @@ class DateSpecification extends SpecificationWithJUnit("Jena xsd:date datatype S
       }
       "should fail when creating xsd:date literals from others objects" in {
         val datetime = new Integer(7);
-        m.createTypedLiteral(datetime, XSD.date.getURI) must throwA[IllegalArgumentException]
+        m.createTypedLiteral(datetime, XSD.date.getURI) must throwA[DatatypeFormatException]
       }
       "should fail when creating xsd:date literals from bad string and type" in {
         val datetimeStr = "2004-120-25T12:00:00.000"

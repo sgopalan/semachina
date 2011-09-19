@@ -7,7 +7,9 @@ import com.hp.hpl.jena.enhanced.{Implementation, BuiltinPersonalities, Personali
 import com.hp.hpl.jena.shared.impl.JenaParameters
 import com.hp.hpl.jena.datatypes.TypeMapper
 import com.hp.hpl.jena.shared.PrefixMapping
-import org.semachina.jena.datatype.SimpleRDFDatatype
+import org.semachina.jena.enhanced.SemachinaImplementation
+import org.semachina.jena.datatype.SemachinaBaseDatatype
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -41,8 +43,11 @@ trait JenaConfiguration {
     this
   }
 
-  def registerImplementation[V <: RDFNode](impl : SemachinaImplementation[V] )(implicit m: Manifest[V]) :  JenaConfiguration =
-    registerImplementation( m.erasure.asInstanceOf[Class[V]], impl )
+  def registerImplementation[V <: RDFNode](impl : SemachinaImplementation[V] )(implicit m: Manifest[V]) :  JenaConfiguration =  {
+    impl.supportedClasses.foreach { supportedClass : Class[_] => registerImplementation( supportedClass.asInstanceOf[Class[RDFNode]], impl ) }
+    return this
+  }
+
 
   def registerImplementation[V <: RDFNode](interface : Class[V], impl : Implementation ) = {
     personality.add( interface, impl )
@@ -51,7 +56,7 @@ trait JenaConfiguration {
 
   def getImplementation[V <: RDFNode](interface: Class[V]) = personality.getImplementation( interface )
 
-  def registerDatatype[L <: Object](datatypeFactory: SimpleRDFDatatype[L]) = {
+  def registerDatatype[L <: Object](datatypeFactory: SemachinaBaseDatatype[L]) = {
     typeMapper.registerDatatype(datatypeFactory)
     this
   }
@@ -68,7 +73,7 @@ trait JenaConfiguration {
       clazz = m.erasure.asInstanceOf[Class[L]]
     }
 
-    val dataType = new SimpleRDFDatatype[L](typeURI, parser, lexer, validator)
+    val dataType = new SemachinaBaseDatatype[L](typeURI, parser, lexer, validator)
     typeMapper.registerDatatype(dataType)
     this
   }
