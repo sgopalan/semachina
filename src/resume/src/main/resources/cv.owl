@@ -1,0 +1,1110 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY ns_1_6 "http://xmlns.com/wordnet/1.6/" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY cv_base "http://kaste.lv/~captsolo/semweb/resume/base.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://kaste.lv/~captsolo/semweb/resume/cv.owl#"
+     xml:base="http://kaste.lv/~captsolo/semweb/resume/cv.owl"
+     xmlns:cv_base="http://kaste.lv/~captsolo/semweb/resume/base.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:ns_1_6="http://xmlns.com/wordnet/1.6/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl">
+        <owl:imports rdf:resource="http://kaste.lv/~captsolo/semweb/resume/base.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&rdfs;label"/>
+    <owl:AnnotationProperty rdf:about="&rdfs;comment"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#aboutPerson -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#aboutPerson">
+        <rdfs:label>aboutPerson</rdfs:label>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV"/>
+        <rdfs:range rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#careerLevel -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#careerLevel">
+        <rdfs:label>careerLevel</rdfs:label>
+        <rdfs:comment>Career level for the position in company.</rdfs:comment>
+        <rdfs:range rdf:resource="&cv_base;CVCareerLevel"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#WorkHistory"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#conditionWillRelocate -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#conditionWillRelocate">
+        <rdfs:label>conditionWillRelocate</rdfs:label>
+        <rdfs:comment>Is candidate willing to relocate?</rdfs:comment>
+        <rdfs:range rdf:resource="&cv_base;BooleanValue"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#conditionWillTravel -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#conditionWillTravel">
+        <rdfs:label>conditionWillTravel</rdfs:label>
+        <rdfs:comment>Is candidate willing to travel?</rdfs:comment>
+        <rdfs:range rdf:resource="&cv_base;BooleanValue"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#degreeType -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#degreeType">
+        <rdfs:label>degreeType</rdfs:label>
+        <rdfs:comment>Type (title) of the degree.</rdfs:comment>
+        <rdfs:range rdf:resource="&cv_base;EduDegree"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Education"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#employedIn -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#employedIn">
+        <rdfs:label>employedIn</rdfs:label>
+        <rdfs:comment>The company where the person is/was employed.</rdfs:comment>
+        <rdfs:range rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Company"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#WorkHistory"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#gender -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#gender">
+        <rdfs:label>gender</rdfs:label>
+        <rdfs:comment>Gender property (man/woman)</rdfs:comment>
+        <rdfs:range rdf:resource="&cv_base;SexProperty"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasCourse -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasCourse">
+        <rdfs:label>hasCourse</rdfs:label>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV"/>
+        <rdfs:range rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Course"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasDriversLicense -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasDriversLicense">
+        <rdfs:label>hasDriversLicense</rdfs:label>
+        <rdfs:comment>Indicates if the person has drivers license (for regular cars).</rdfs:comment>
+        <rdfs:range rdf:resource="&cv_base;BooleanValue"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasEducation -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasEducation">
+        <rdfs:label>hasEducation</rdfs:label>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV"/>
+        <rdfs:range rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Education"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasNationality -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasNationality">
+        <rdfs:label>hasNationality</rdfs:label>
+        <rdfs:comment>Person&#39;s nationality.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Person"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasOtherInfo -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasOtherInfo">
+        <rdfs:label>hasOtherInfo</rdfs:label>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV"/>
+        <rdfs:range rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#OtherInfo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasReference -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasReference">
+        <rdfs:label>hasReference</rdfs:label>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV"/>
+        <rdfs:range rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Reference"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasSkill -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasSkill">
+        <rdfs:label>hasSkill</rdfs:label>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV"/>
+        <rdfs:range rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Skill"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasTarget -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasTarget">
+        <rdfs:label>hasTarget</rdfs:label>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV"/>
+        <rdfs:range rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasWorkHistory -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasWorkHistory">
+        <rdfs:label>hasWorkHistory</rdfs:label>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV"/>
+        <rdfs:range rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#WorkHistory"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#isCertification -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#isCertification">
+        <rdfs:label>isCertification</rdfs:label>
+        <rdfs:comment>Does this course entry include certification?</rdfs:comment>
+        <rdfs:range rdf:resource="&cv_base;BooleanValue"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Course"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#isCurrent -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#isCurrent">
+        <rdfs:label>isCurrent</rdfs:label>
+        <rdfs:comment>Indicates if this is a current workplace.</rdfs:comment>
+        <rdfs:range rdf:resource="&cv_base;BooleanValue"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#WorkHistory"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#jobType -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#jobType">
+        <rdfs:label>jobType</rdfs:label>
+        <rdfs:comment>Type of the job: employee / contractor / intern</rdfs:comment>
+        <rdfs:range rdf:resource="&cv_base;CVJobType"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#WorkHistory"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#maritalStatus -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#maritalStatus">
+        <rdfs:label>familyStatus</rdfs:label>
+        <rdfs:comment>Indicates person&#39;s marital status.</rdfs:comment>
+        <rdfs:range rdf:resource="&cv_base;MaritalStatus"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#organizedBy -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#organizedBy">
+        <rdfs:label>organizedBy</rdfs:label>
+        <rdfs:comment>Organization that organized courses and/or provided certification.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Course"/>
+        <rdfs:range rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Organization"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#otherInfoType -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#otherInfoType">
+        <rdfs:label>otherInfoType</rdfs:label>
+        <rdfs:comment>Type of other CV information (interests / awards / accomplishments / point of view / membership / social activities / other)</rdfs:comment>
+        <rdfs:range rdf:resource="&cv_base;OtherCVInfoType"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#OtherInfo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#referenceBy -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#referenceBy">
+        <rdfs:label>referenceBy</rdfs:label>
+        <rdfs:comment>Points to a person who provides the reference.</rdfs:comment>
+        <rdfs:range rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Person"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Reference"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#studiedIn -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#studiedIn">
+        <rdfs:label>studiedIn</rdfs:label>
+        <rdfs:comment>Educational organization where person studied.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Education"/>
+        <rdfs:range rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#EducationalOrg"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetCareerLevel -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetCareerLevel">
+        <rdfs:label>targetCareerLevel</rdfs:label>
+        <rdfs:comment>Target career level.</rdfs:comment>
+        <rdfs:range rdf:resource="&cv_base;CVCareerLevel"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetJobDescription -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetJobDescription">
+        <rdfs:label>targetJobDescription</rdfs:label>
+        <rdfs:comment>Description of the job applicant is seeking. Notes.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetJobMode -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetJobMode">
+        <rdfs:label>targetJobMode</rdfs:label>
+        <rdfs:comment>Job mode: full-time / part-time</rdfs:comment>
+        <rdfs:range rdf:resource="&cv_base;CVJobMode"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetJobType -->
+
+    <owl:ObjectProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetJobType">
+        <rdfs:label>targetJobType</rdfs:label>
+        <rdfs:comment>Target job type.</rdfs:comment>
+        <rdfs:range rdf:resource="&cv_base;CVJobType"/>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#Country -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Country">
+        <rdfs:label>Country</rdfs:label>
+        <rdfs:comment>Country where the company is located.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Organization"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#Industry -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Industry">
+        <rdfs:label>Industry</rdfs:label>
+        <rdfs:comment>Industry of the company</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Company"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#Locality -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Locality">
+        <rdfs:label>Locality</rdfs:label>
+        <rdfs:comment>Region / state of the company.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Organization"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#Name -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Name">
+        <rdfs:label>Name</rdfs:label>
+        <rdfs:comment>Name of the company</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Organization"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#Notes -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Notes">
+        <rdfs:label>Notes</rdfs:label>
+        <rdfs:comment>Notes about the company.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Organization"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#URL -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#URL">
+        <rdfs:label>URL</rdfs:label>
+        <rdfs:comment>Company home page</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Organization"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#birthPlace -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#birthPlace">
+        <rdfs:label>birthPlace</rdfs:label>
+        <rdfs:comment>Place of birth of the person.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Person"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#courseDescription -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#courseDescription">
+        <rdfs:label>courseDescription</rdfs:label>
+        <rdfs:comment>Description of the course / certification.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Course"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#courseFinishDate -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#courseFinishDate">
+        <rdfs:label>courseFinishDate</rdfs:label>
+        <rdfs:comment>Date when course was finished / certification acquired.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Course"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#courseStartDate -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#courseStartDate">
+        <rdfs:label>courseStartDate</rdfs:label>
+        <rdfs:comment>Start date of the course taken.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Course"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#courseTitle -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#courseTitle">
+        <rdfs:label>courseTitle</rdfs:label>
+        <rdfs:comment>Title of the course taken or certification acquired.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Course"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#courseURL -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#courseURL">
+        <rdfs:label>courseURL</rdfs:label>
+        <rdfs:comment>Web page of the courses taken / certification acquired. May be pointer to certification transcript.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Course"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#cvCopyright -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#cvCopyright">
+        <rdfs:label>cvCopyright</rdfs:label>
+        <rdfs:comment>Copyright notice - who owns rights to CV, how may it be used, other legal info.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#cvDescription -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#cvDescription">
+        <rdfs:label>cvDescription</rdfs:label>
+        <rdfs:comment>Text describing what the person wants to accomplish by this CV; what is s/he looking for; ...</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#cvIsActive -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#cvIsActive">
+        <rdfs:label>cvIsActive</rdfs:label>
+        <rdfs:comment>If the CV is active and the person is actively looking for job opportunities.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#cvIsConfidential -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#cvIsConfidential">
+        <rdfs:label>cvIsConfidential</rdfs:label>
+        <rdfs:comment>If the CV is confidential and may be used by receiving party only.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#cvTitle -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#cvTitle">
+        <rdfs:label>cvTitle</rdfs:label>
+        <rdfs:comment>CV title.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#eduDescription -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#eduDescription">
+        <rdfs:label>eduDescription</rdfs:label>
+        <rdfs:comment>Description of the education info.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Education"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#eduGradDate -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#eduGradDate">
+        <rdfs:label>eduGradDate</rdfs:label>
+        <rdfs:comment>Education end (graducation) date (YYYY-MM-DD)
+May contain only year or year and month.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Education"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#eduMajor -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#eduMajor">
+        <rdfs:label>eduMajor</rdfs:label>
+        <rdfs:comment>Major speciality graduated.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Education"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#eduMinor -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#eduMinor">
+        <rdfs:label>eduMinor</rdfs:label>
+        <rdfs:comment>Minor speciality(-ies) graduated.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Education"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#eduStartDate -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#eduStartDate">
+        <rdfs:label>eduStartDate</rdfs:label>
+        <rdfs:comment>Education start date (YYYY-MM-DD)
+May contain only year or year and month.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Education"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#endDate -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#endDate">
+        <rdfs:label>endDate</rdfs:label>
+        <rdfs:comment>End date of employment.
+Format: YYYY-MM-DD
+May containt only year or year and month.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#WorkHistory"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasCitizenship -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#hasCitizenship">
+        <rdfs:label>hasCitizenship</rdfs:label>
+        <rdfs:comment>Person&#39;s citizenship.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Person"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#jobDescription -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#jobDescription">
+        <rdfs:label>jobDescription</rdfs:label>
+        <rdfs:comment>Description of the job in company.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#WorkHistory"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#jobTitle -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#jobTitle">
+        <rdfs:label>jobTitle</rdfs:label>
+        <rdfs:comment>Title in the company.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#WorkHistory"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#lastUpdate -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#lastUpdate">
+        <rdfs:label>lastUpdate</rdfs:label>
+        <rdfs:comment>Date when the information in CV was last updated.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#lngSkillLevelReading -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#lngSkillLevelReading">
+        <rdfs:label>lngSkillLevelReading</rdfs:label>
+        <rdfs:comment>Reading level of language skill. (0..5)</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#languageSkill"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#lngSkillLevelWritten -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#lngSkillLevelWritten">
+        <rdfs:label>lngSkillLevelWritten</rdfs:label>
+        <rdfs:comment>Level of writing skills for language. (0..5)</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#languageSkill"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#noOfChildren -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#noOfChildren">
+        <rdfs:label>noOfChildren</rdfs:label>
+        <rdfs:comment>Number of children the person has.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Person"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#numSubordinates -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#numSubordinates">
+        <rdfs:label>numSubordinates</rdfs:label>
+        <rdfs:comment>Number of subordinates.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#WorkHistory"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#otherInfoDescription -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#otherInfoDescription">
+        <rdfs:label>otherInfoDescription</rdfs:label>
+        <rdfs:comment>Description - content of misc CV information.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#OtherInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#skillLastUsed -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#skillLastUsed">
+        <rdfs:label>skillLastUsed</rdfs:label>
+        <rdfs:comment>Date when skill was last used.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Skill"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#skillLevel -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#skillLevel">
+        <rdfs:label>skillLevel</rdfs:label>
+        <rdfs:comment>Level of the skill (0..5)</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Skill"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#skillName -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#skillName">
+        <rdfs:label>skillName</rdfs:label>
+        <rdfs:comment>Name of the skill</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Skill"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#skillYearsExperience -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#skillYearsExperience">
+        <rdfs:label>skillYearsExperience</rdfs:label>
+        <rdfs:comment>Year of experience in this skill.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Skill"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#startDate -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#startDate">
+        <rdfs:label>startDate</rdfs:label>
+        <rdfs:comment>Start date of employment.
+Format: YYYY-MM-DD
+May containt only year or year and month.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#WorkHistory"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetCompanyDescription -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetCompanyDescription">
+        <rdfs:label>targetCompanyDescription</rdfs:label>
+        <rdfs:comment>Description on the company where the candidate would like to work.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetCompanyIndustry -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetCompanyIndustry">
+        <rdfs:label>targetCompanyIndustry</rdfs:label>
+        <rdfs:comment>Industry of the company where the candidate would like to work.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetCompanySize -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetCompanySize">
+        <rdfs:label>targetCompanySize</rdfs:label>
+        <rdfs:comment>Size of the target company.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetCountry -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetCountry">
+        <rdfs:label>targetCountry</rdfs:label>
+        <rdfs:comment>Country where would like to work.
+</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetSalary -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetSalary">
+        <rdfs:label>targetSalary</rdfs:label>
+        <rdfs:comment>Target salary</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetSalaryCurrency -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#targetSalaryCurrency">
+        <rdfs:label>targetSalaryCurrency</rdfs:label>
+        <rdfs:comment>Currency for target salary.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#weeksNoticePeriod -->
+
+    <owl:DatatypeProperty rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#weeksNoticePeriod">
+        <rdfs:label>weeksNoticePeriod</rdfs:label>
+        <rdfs:comment>Notice period in weeks when can start to work.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl#BooleanValue -->
+
+    <owl:Class rdf:about="&cv_base;BooleanValue"/>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl#CVCareerLevel -->
+
+    <owl:Class rdf:about="&cv_base;CVCareerLevel"/>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl#CVJobMode -->
+
+    <owl:Class rdf:about="&cv_base;CVJobMode"/>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl#CVJobType -->
+
+    <owl:Class rdf:about="&cv_base;CVJobType"/>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl#EduDegree -->
+
+    <owl:Class rdf:about="&cv_base;EduDegree">
+        <rdfs:subClassOf rdf:resource="&rdfs;Resource"/>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl#MaritalStatus -->
+
+    <owl:Class rdf:about="&cv_base;MaritalStatus"/>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl#OtherCVInfoType -->
+
+    <owl:Class rdf:about="&cv_base;OtherCVInfoType"/>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/base.owl#SexProperty -->
+
+    <owl:Class rdf:about="&cv_base;SexProperty"/>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV">
+        <rdfs:label>CV</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ns_1_6;Curriculum_Vitae"/>
+        <rdfs:comment>CV subclass of WordNet Curriculum Vitae</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV_Entry -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV_Entry">
+        <rdfs:label>CV_Entry</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&rdfs;Resource"/>
+        <rdfs:comment>Single entry of CV information. Type of CV information specified in subclasses</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#Company -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Company">
+        <rdfs:label>Company</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Organization"/>
+        <rdfs:comment>A class for company information.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#Course -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Course">
+        <rdfs:label>Course</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV_Entry"/>
+        <rdfs:comment>CV entry for courses taken</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#Education -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Education">
+        <rdfs:label>Education</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV_Entry"/>
+        <rdfs:comment>CV entry for education</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#EducationalOrg -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#EducationalOrg">
+        <rdfs:label>EducationalOrg</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Organization"/>
+        <rdfs:comment>Educational organization (university, ...)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#LanguageSkill -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#LanguageSkill">
+        <rdfs:label>LanguageSkill</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Skill"/>
+        <rdfs:comment>Language skill.
+Contains 3 levels for skill: spoken, written, reading.
+Inherited skill level used for spoken.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#Organization -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Organization">
+        <rdfs:label>Organization</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&rdfs;Resource"/>
+        <rdfs:comment>General class for organizations</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#OtherInfo -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#OtherInfo">
+        <rdfs:label>OtherInfo</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV_Entry"/>
+        <rdfs:comment>Other information in CV</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#Person -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Person">
+        <rdfs:label>Person</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ns_1_6;Person"/>
+        <rdfs:comment>CV subclass of WordNet person</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#PersonalReference -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#PersonalReference">
+        <rdfs:label>PersonalReference</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Reference"/>
+        <rdfs:comment>Personal reference</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#ProfessionalReference -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#ProfessionalReference">
+        <rdfs:label>ProfessionalReference</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Reference"/>
+        <rdfs:comment>Professional reference</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#Reference -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Reference">
+        <rdfs:label>Reference</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV_Entry"/>
+        <rdfs:comment>CV entry for references</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#Skill -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Skill">
+        <rdfs:label>Skill</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV_Entry"/>
+        <rdfs:comment>CV entry for description of skills</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#Target">
+        <rdfs:label>Target</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV_Entry"/>
+        <rdfs:comment>CV information for target of job application.
+(Single entry per CV. May be defined in the properties of CV class instead).</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#WorkHistory -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#WorkHistory">
+        <rdfs:label>WorkHistory</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://kaste.lv/~captsolo/semweb/resume/cv.owl#CV_Entry"/>
+        <rdfs:comment>CV entry for work history</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://kaste.lv/~captsolo/semweb/resume/cv.owl#languageSkill -->
+
+    <owl:Class rdf:about="http://kaste.lv/~captsolo/semweb/resume/cv.owl#languageSkill"/>
+    
+
+
+    <!-- http://www.w3.org/2000/01/rdf-schema#Literal -->
+
+    <owl:Class rdf:about="&rdfs;Literal"/>
+    
+
+
+    <!-- http://www.w3.org/2000/01/rdf-schema#Resource -->
+
+    <owl:Class rdf:about="&rdfs;Resource"/>
+    
+
+
+    <!-- http://xmlns.com/wordnet/1.6/Curriculum_Vitae -->
+
+    <owl:Class rdf:about="&ns_1_6;Curriculum_Vitae"/>
+    
+
+
+    <!-- http://xmlns.com/wordnet/1.6/Person -->
+
+    <owl:Class rdf:about="&ns_1_6;Person"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.0.0.1469) http://owlapi.sourceforge.net -->
+
