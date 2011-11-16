@@ -5,10 +5,13 @@ import com.hp.hpl.jena.sparql.path.{PathEval, PathParser, Path}
 import com.hp.hpl.jena.rdf.model._
 import com.hp.hpl.jena.ontology.Individual
 import com.hp.hpl.jena.util.iterator.{ExtendedIterator, Map1, WrappedIterator}
-import impl.SemachinaIndividualAdapter
+import impl.SemachinaIndividualImpl
 import org.semachina.jena.ontology.SemachinaOntModel._
-import scala.collection.JavaConversions._
 import com.hp.hpl.jena.datatypes.RDFDatatype
+import javax.validation.constraints.NotNull
+import org.semachina.jena.ontology.naming.IdStrategy
+import com.hp.hpl.jena.util.ResourceUtils
+import org.semachina.jena.config.SemachinaConfiguration
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,12 +23,12 @@ import com.hp.hpl.jena.datatypes.RDFDatatype
 
 object SemachinaIndividual {
 
-    /**
+  /**
    * A Mapper to convert <oode>Statement</code> to <code>SemachinaIndividual</code>
    */
-  protected var stmtToObjectConverter: Map1[Statement, Individual] = new Map1[Statement, Individual] {
-    def map1(x: Statement): Individual = {
-      var i: Individual = x.getObject.as(classOf[Individual])
+  protected var stmtToObjectConverter: Map1[Statement, SemachinaIndividual] = new Map1[Statement, SemachinaIndividual] {
+    def map1(x: Statement): SemachinaIndividual = {
+      var i = SemachinaIndividual(x.getObject.as(classOf[Individual]))
       return i
     }
   }
@@ -40,9 +43,9 @@ object SemachinaIndividual {
   /**
    * A Mapper to convert <oode>RDFNode</code> to <code>SemachinaIndividual</code>
    */
-  protected var nodeToObjectConverter: Map1[RDFNode, Individual] = new Map1[RDFNode, Individual] {
-    def map1(x: RDFNode): Individual = {
-      var i: Individual = x.as(classOf[Individual])
+  protected var nodeToObjectConverter: Map1[RDFNode, SemachinaIndividual] = new Map1[RDFNode, SemachinaIndividual] {
+    def map1(x: RDFNode): SemachinaIndividual = {
+      var i = SemachinaIndividual(x.as(classOf[Individual]))
       return i
     }
   }
@@ -55,43 +58,89 @@ object SemachinaIndividual {
     }
   }
 
-   def apply(individual: Individual) = asSemachinaIndividualTrait( individual )
+  def apply(individual: Individual, idStrategy: IdStrategy = null): SemachinaIndividual = {
+    if (idStrategy != null) {
+      return new SemachinaIndividualImpl(individual, Option(idStrategy))
+    }
 
-   implicit def asSemachinaIndividualTrait(individual: Individual): SemachinaIndividual = {
     if (individual.isInstanceOf[SemachinaIndividual]) {
       return individual.asInstanceOf[SemachinaIndividual]
     }
     else {
-      return new SemachinaIndividualAdapter(individual)
+      return new SemachinaIndividualImpl(individual, Option(idStrategy))
     }
   }
-}
 
-trait SemachinaIndividual {
+  def renameIndividual(old: Individual, uri: String): SemachinaIndividual = {
+    val individual =
+      SemachinaIndividual(ResourceUtils.renameResource(old, uri).as(classOf[Individual]))
 
-  def getIndividual(): Individual
-
-
-
-  def path(propPath: String): NodeIterator = {
-    var path: Path = PathParser.parse(propPath, getIndividual.getOntModel.asInstanceOf[PrefixMapping])
-    return PathEval.walkForwards(getIndividual.getOntModel, getIndividual, path)
+    individual
   }
 
-  def get(propOrPath: String): Individual = {
-    var ontProperty: Property = getIndividual.getOntModel.resolveProperty(propOrPath)
+
+}
+
+trait SemachinaIndividual extends Individual {
+
+  val idStrategy: Option[IdStrategy]
+
+  def ! = executeIdStrategy
+
+  def withIdStrategy(idStrategy: IdStrategy) = SemachinaIndividual(this, idStrategy)
+
+  def executeIdStrategy: SemachinaIndividual = {
+    for {
+      s <- idStrategy
+    }
+    yield {
+      return SemachinaIndividual.renameIndividual(this, s.toId(this))
+    }
+    this
+  }
+
+  def apply(setup: SemachinaIndividual => Unit = null) = {
+    if (setup != null) setup(this)
+
+    executeIdStrategy
+  }
+
+  def getSeq(property: Property): Seq = {
+    val rdfNode = getPropertyValue(property)
+    return rdfNode.as(classOf[Seq])
+  }
+
+  def getRdfList(property: Property): RDFList = {
+    val rdfNode = getPropertyValue(property)
+    return rdfNode.as(classOf[RDFList])
+  }
+
+  def getAlt(property: Property): Alt = {
+    val rdfNode = getPropertyValue(property)
+    return rdfNode.as(classOf[Alt])
+  }
+
+  def getBag(property: Property): Bag = {
+    val rdfNode = getPropertyValue(property)
+    return rdfNode.as(classOf[Bag])
+  }
+
+  def get(propOrPath: String): SemachinaIndividual = {
+    var ontProperty: Property = getOntModel.resolveProperty(propOrPath)
     if (ontProperty != null) {
       return get(ontProperty)
     }
-    var path: Path = PathParser.parse(propOrPath, getIndividual.getOntModel.asInstanceOf[PrefixMapping])
+    var path: Path = PathParser.parse(propOrPath, getOntModel.asInstanceOf[PrefixMapping])
     return get(path)
   }
 
-  def get(path: Path): Individual = {
-    var iterator: NodeIterator = PathEval.walkForwards(getIndividual.getOntModel, getIndividual, path)
+  def get(propOrPath: OptionalString): Option[SemachinaIndividual] = Option(get(propOrPath.value))
+
+  def get(path: Path): SemachinaIndividual = {
+    var iterator: NodeIterator = PathEval.walkForwards(getOntModel, this, path)
     try {
       if (iterator.hasNext) {
-        var next: Individual = iterator.next.as(classOf[Individual])
+        var next = SemachinaIndividual(iterator.next.as(classOf[Individual]))
         return next
       }
     }
@@ -101,119 +150,139 @@ trait SemachinaIndividual {
     return null
   }
 
-  def get(ontProperty: Property): Individual = {
-    var rdfNode: RDFNode = getIndividual.getPropertyValue(ontProperty)
+  def get(path: OptionalPath): Option[SemachinaIndividual] = Option(get(path.value))
+
+  def get(ontProperty: Property): SemachinaIndividual = {
+    var rdfNode: RDFNode = getPropertyValue(ontProperty)
     if (rdfNode == null) {
       return null
     }
     if (rdfNode.isResource) {
-      var next: Individual = rdfNode.as(classOf[Individual])
+      var next = SemachinaIndividual(rdfNode.as(classOf[Individual]))
       return next
     }
     throw new IllegalStateException(rdfNode + " is not an object")
   }
 
-  def list(propOrPath: String): ExtendedIterator[Individual] = {
-    var ontProperty: Property = getIndividual.getOntModel.resolveProperty(propOrPath)
+  def get(ontProperty: OptionalProperty): Option[SemachinaIndividual] = Option(get(ontProperty.value))
+
+  def list(propOrPath: String): ExtendedIterator[SemachinaIndividual] = {
+    var ontProperty: Property = getOntModel.resolveProperty(propOrPath)
     if (ontProperty != null) {
       return list(ontProperty)
     }
-    var path: Path = PathParser.parse(propOrPath, getIndividual.getOntModel.asInstanceOf[PrefixMapping])
+    var path: Path = PathParser.parse(propOrPath, getOntModel.asInstanceOf[PrefixMapping])
     return list(path)
   }
 
-  def list(ontProperty: Property): ExtendedIterator[Individual] = {
-    val iterator = getIndividual.listProperties(ontProperty).mapWith(SemachinaIndividual.stmtToObjectConverter)
-    return WrappedIterator.create( iterator )
+  def list(ontProperty: Property): ExtendedIterator[SemachinaIndividual] = {
+    val iterator = listProperties(ontProperty).mapWith(SemachinaIndividual.stmtToObjectConverter)
+    return WrappedIterator.create(iterator)
   }
 
-  def list(path: Path): ExtendedIterator[Individual] = {
-    var iterator: NodeIterator = PathEval.walkForwards(getIndividual.getOntModel, getIndividual, path)
+  def list(path: Path): ExtendedIterator[SemachinaIndividual] = {
+    var iterator: NodeIterator = PathEval.walkForwards(getOntModel, this, path)
     return WrappedIterator.create(iterator.mapWith(SemachinaIndividual.nodeToObjectConverter))
   }
 
-  def value[V<: Object](propOrPath: String, clazz: Class[V]): V = {
-    var ontProperty: Property = getIndividual.getOntModel.resolveProperty(propOrPath)
+  def bindAll[V](propOrPath: String)(implicit m: Manifest[V]): ExtendedIterator[V] = {
+    var ontProperty: Property = getOntModel.resolveProperty(propOrPath)
     if (ontProperty != null) {
-      return value(ontProperty, clazz)
+      return bindAll(ontProperty)(m)
     }
-    var path: Path = PathParser.parse(propOrPath, getIndividual.getOntModel.asInstanceOf[PrefixMapping])
-    return value(path, clazz)
+    var path: Path = PathParser.parse(propOrPath, getOntModel.asInstanceOf[PrefixMapping])
+    return bindAll(path)(m)
   }
 
-  def value[V<: Object](ontProperty: Property, clazz: Class[V]): V = {
-    var rdfNode: RDFNode = getIndividual.getPropertyValue(ontProperty)
-    if (rdfNode == null) {
-      return null.asInstanceOf[V]
-    }
-    else if (rdfNode.isLiteral) {
-      val lit = rdfNode.asLiteral
-      if( clazz.isAssignableFrom( classOf[Literal])) {
-        return lit.asInstanceOf[V]
-      }
-      return lit.getValue.asInstanceOf[V]
-    }
-    throw new IllegalStateException(rdfNode + " is not a literal")
-  }
-
-  def value[V<: Object](path: Path, clazz: Class[V]): V = {
-    var iterator: NodeIterator = PathEval.walkForwards(getIndividual.getOntModel, getIndividual, path)
-    try {
-      if (iterator.hasNext) {
-        val lit = iterator.next.asLiteral
-        if( clazz.isAssignableFrom( classOf[Literal])) {
-          return lit.asInstanceOf[V]
+  def bindAll[V](ontProperty: Property)(implicit m: Manifest[V]): ExtendedIterator[V] = {
+    val clazz = m.erasure.asInstanceOf[Class[V]]
+    var stmtToValueConverter: Map1[Statement, V] = new Map1[Statement, V] {
+      def map1(x: Statement): V = {
+        var value: AnyRef = x.getLiteral.getValue
+        if (value.isInstanceOf[V]) {
+          return value.asInstanceOf[V]
         }
-        return lit.getValue.asInstanceOf[V]
+        return SemachinaConfiguration.getObjectBinderOption[V](value.getClass)(m)
+          .getOrElse[V] {
+          throw new IllegalArgumentException(value + " is not of type " + m.erasure.toString)
+        }
       }
     }
-    finally {
-      iterator.close
-    }
-    return null.asInstanceOf[V]
+    return WrappedIterator.create(listProperties(ontProperty).mapWith(stmtToValueConverter))
   }
 
-  def value[V<: Object](propOrPath: String, clazz: Class[V], converter: Map1[AnyRef, V]): V = {
-    var ontProperty: Property = getIndividual.getOntModel.resolveProperty(propOrPath)
+  def bindAll[V](path: Path)(implicit m: Manifest[V]): ExtendedIterator[V] = {
+    val clazz = m.erasure.asInstanceOf[Class[V]]
+    var nodeToValueConverter: Map1[RDFNode, V] = new Map1[RDFNode, V] {
+      def map1(x: RDFNode): V = {
+        var value: AnyRef = x.asLiteral.getValue
+        if (value.isInstanceOf[V]) {
+          return value.asInstanceOf[V]
+        }
+        return SemachinaConfiguration.getObjectBinderOption[V](value.getClass)(m).getOrElse[V] {
+          throw new IllegalArgumentException(value + " is not of type " + m.erasure.toString)
+        }
+      }
+    }
+    var iterator: NodeIterator = PathEval.walkForwards(getOntModel, this, path)
+    return WrappedIterator.create(iterator.mapWith(nodeToValueConverter))
+  }
+
+  def value[V <: Object](propOrPath: String)(implicit m: Manifest[V]): V = {
+    var ontProperty: Property = getOntModel.resolveProperty(propOrPath)
     if (ontProperty != null) {
-      return value(ontProperty, clazz, converter)
+      return value(ontProperty)(m)
     }
-    var path: Path = PathParser.parse(propOrPath, getIndividual.getOntModel.asInstanceOf[PrefixMapping])
-    return value(path, clazz, converter)
+    var path: Path = PathParser.parse(propOrPath, getOntModel.asInstanceOf[PrefixMapping])
+    return value(path)(m)
   }
 
-  def value[V<: Object](ontProperty: Property, clazz: Class[V], converter: Map1[AnyRef, V]): V = {
-    var rdfNode: RDFNode = getIndividual.getPropertyValue(ontProperty)
+  def value[V <: Object](propOrPath: OptionalString)(implicit m: Manifest[V]) =
+    Option(value[V](propOrPath.value)(m))
+
+  def value[V <: Object](ontProperty: Property)(implicit m: Manifest[V]): V = {
+    val clazz = m.erasure.asInstanceOf[Class[V]]
+    var rdfNode: RDFNode = getPropertyValue(ontProperty)
     if (rdfNode == null) {
       return null.asInstanceOf[V]
     }
-    if (rdfNode.isLiteral) {
-      val lit = rdfNode.asLiteral
-      if( clazz.isAssignableFrom( classOf[Literal])) {
-        return lit.asInstanceOf[V]
-      }
-      var value: AnyRef = lit.getValue
-      if (converter != null) {
-        return converter.map1(value)
-      }
+
+    val lit = rdfNode.asLiteral
+    if (clazz.isAssignableFrom(classOf[Literal])) {
+      return lit.asInstanceOf[V]
+    }
+
+    var value: AnyRef = lit.getValue
+    if (value.isInstanceOf[V]) {
       return value.asInstanceOf[V]
     }
-    throw new IllegalStateException(rdfNode + " is not a literal")
+
+    return SemachinaConfiguration.getObjectBinderOption[V](value.getClass)(m).getOrElse[V] {
+      throw new IllegalArgumentException(value + " is not of type " + m.erasure.toString)
+    }
   }
 
-  def value[V<: Object](path: Path, clazz: Class[V], converter: Map1[AnyRef, V]): V = {
-    var iterator: NodeIterator = PathEval.walkForwards(getIndividual.getOntModel, getIndividual, path)
+  def value[V <: Object](ontProperty: OptionalProperty)(implicit m: Manifest[V]) =
+    Option(value[V](ontProperty.value)(m))
+
+  def value[V <: Object](path: Path)(implicit m: Manifest[V]): V = {
+    val clazz = m.erasure.asInstanceOf[Class[V]]
+    var iterator: NodeIterator = PathEval.walkForwards(getOntModel, this, path)
     try {
       if (iterator.hasNext) {
         val lit = iterator.next.asLiteral
-        if( clazz.isAssignableFrom( classOf[Literal])) {
+        if (clazz.isAssignableFrom(classOf[Literal])) {
           return lit.asInstanceOf[V]
         }
+
         var value: AnyRef = lit.getValue
-        if (converter != null) {
-          return converter.map1(value)
+        if (value.isInstanceOf[V]) {
+          return value.asInstanceOf[V]
         }
-        return value.asInstanceOf[V]
+
+        return SemachinaConfiguration.getObjectBinderOption[V](value.getClass)(m).getOrElse[V] {
+          throw new IllegalArgumentException(value + " is not of type " + m.erasure.toString)
+        }
       }
     }
     finally {
@@ -222,324 +291,150 @@ trait SemachinaIndividual {
     return null.asInstanceOf[V]
   }
 
-  def value[V <: Object](propOrPath: String, transform: Object => V)(implicit m: scala.reflect.Manifest[V]): V  =
-    value( propOrPath, m.erasure.asInstanceOf[Class[V]], map1( transform ) )
-
-  def value[V <: Object](ontProperty:Property, transform: Object => V)(implicit m: scala.reflect.Manifest[V]): V  =
-    value( ontProperty, m.erasure.asInstanceOf[Class[V]], map1( transform ) )
-
-  def value[V <: Object](path:Path, transform: Object => V)(implicit m: scala.reflect.Manifest[V]): V  =
-    value( path, m.erasure.asInstanceOf[Class[V]], map1( transform ) )
-
-  def value[V <: Object](propOrPath: String)(implicit m: scala.reflect.Manifest[V]) : V =
-    value( propOrPath, m.erasure.asInstanceOf[Class[V]] )
-
-  def value[V <: Object](ontProperty:Property)(implicit m: scala.reflect.Manifest[V]) : V =
-    value( ontProperty, m.erasure.asInstanceOf[Class[V]] )
-
-  def value[V <: Object](path:Path)(implicit m: scala.reflect.Manifest[V]) : V =
-    value( path, m.erasure.asInstanceOf[Class[V]] )
-
-  def list[V](propOrPath: String, clazz: Class[V]): ExtendedIterator[V] = {
-    var ontProperty: Property = getIndividual.getOntModel.resolveProperty(propOrPath)
-    if (ontProperty != null) {
-      return list(ontProperty, clazz)
-    }
-    var path: Path = PathParser.parse(propOrPath, getIndividual.getOntModel.asInstanceOf[PrefixMapping])
-    return list(path, clazz)
-  }
-
-  def list[V](ontProperty: Property, clazz: Class[V]): ExtendedIterator[V] = {
-    var stmtToValueConverter: Map1[Statement, V] = new Map1[Statement, V] {
-      def map1(x: Statement): V = {
-        var value: AnyRef = x.getLiteral.getValue
-        return clazz.cast(value)
-      }
-    }
-    return WrappedIterator.create(getIndividual.listProperties(ontProperty).mapWith(stmtToValueConverter))
-  }
-
-  def list[V](path: Path, clazz: Class[V]): ExtendedIterator[V] = {
-    var nodeToValueConverter: Map1[RDFNode, V] = new Map1[RDFNode, V] {
-      def map1(x: RDFNode): V = {
-        var value: AnyRef = x.asLiteral.getValue
-        return clazz.cast(value)
-      }
-    }
-    var iterator: NodeIterator = PathEval.walkForwards(getIndividual.getOntModel, getIndividual, path)
-    return WrappedIterator.create(iterator.mapWith(nodeToValueConverter))
-  }
-
-  def list[V](propOrPath: String, converter: Map1[AnyRef, V]): ExtendedIterator[V] = {
-    var ontProperty: Property = getIndividual.getOntModel.resolveProperty(propOrPath)
-    if (ontProperty != null) {
-      return list(ontProperty, converter)
-    }
-    var path: Path = PathParser.parse(propOrPath, getIndividual.getOntModel.asInstanceOf[PrefixMapping])
-    return list(path, converter)
-  }
-
-  def list[V](ontProperty: Property, converter: Map1[AnyRef, V]): ExtendedIterator[V] = {
-    var stmtToValueConverter: Map1[Statement, V] = new Map1[Statement, V] {
-      def map1(x: Statement): V = {
-        var value: AnyRef = x.getLiteral.getValue
-        if (converter != null) {
-          return converter.map1(value)
-        }
-        return value.asInstanceOf[V]
-      }
-    }
-    return WrappedIterator.create(getIndividual.listProperties(ontProperty).mapWith(stmtToValueConverter))
-  }
-
-  def list[V](path: Path, converter: Map1[AnyRef, V]): ExtendedIterator[V] = {
-    var nodeToValueConverter: Map1[RDFNode, V] = new Map1[RDFNode, V] {
-      def map1(x: RDFNode): V = {
-        var value: AnyRef = x.asLiteral.getValue
-        if (converter != null) {
-          return converter.map1(value)
-        }
-        return value.asInstanceOf[V]
-      }
-    }
-    var iterator: NodeIterator = PathEval.walkForwards(getIndividual.getOntModel, getIndividual, path)
-    return WrappedIterator.create(iterator.mapWith(nodeToValueConverter))
-  }
-
-  def values[V <: Object](propOrPath: String, transform: Object => V) =
-    list( propOrPath, map1( transform ) )
-
-  def values[V <: Object](ontProperty:Property, transform: Object => V) =
-    list( ontProperty, map1( transform ) )
-
-  def values[V <: Object](path:Path, transform: Object => V) =
-    list( path, map1( transform ) )
+  def value[V <: Object](path: OptionalPath)(implicit m: Manifest[V]) =
+    Option(value[V](path.value)(m))
 
   def values[V <: Object](propOrPath: String)(implicit m: scala.reflect.Manifest[V]) =
-    list( propOrPath, m.erasure.asInstanceOf[Class[V]] )
+    bindAll[V](propOrPath)(m)
 
-  def values[V <: Object](ontProperty:Property)(implicit m: scala.reflect.Manifest[V]) =
-    list( ontProperty, m.erasure.asInstanceOf[Class[V]] )
+  def values[V <: Object](ontProperty: Property)(implicit m: scala.reflect.Manifest[V]) =
+    bindAll[V](ontProperty)(m)
 
-  def values[V <: Object](path:Path)(implicit m: scala.reflect.Manifest[V]) =
-    list( path, m.erasure.asInstanceOf[Class[V]] )
-
+  def values[V <: Object](path: Path)(implicit m: scala.reflect.Manifest[V]) =
+    bindAll[V](path)(m)
 
   //set
-  def set(values: Pair[Any, Any]*): Individual = {
-    values.foreach {
-      case (ontProperty, value) =>
-        val prop = asProperty( ontProperty )
-        removeAll( prop )
-        process( prop , value, { (ontProperty, value) => getIndividual.addProperty( ontProperty, value ) } )
+  def set(ontProperty: Property, @NotNull value: Object, dataType: RDFDatatype): Individual = {
+    val dataValue: RDFNode = getOntModel.createTypedLiteral(value, dataType)
+    return set(ontProperty, dataValue)
+  }
+
+  def set(ontProperty: Property, @NotNull value: RDFNode): Individual = {
+    setPropertyValue(ontProperty, value)
+    return this
+  }
+
+  def set(ontProperty: String, @NotNull value: Option[_ <: RDFNode]): Individual =
+    set(getOntModel.resolveProperty(ontProperty), value)
+
+  def set(ontProperty: Property, @NotNull value: Option[_ <: RDFNode]): Individual = {
+    for {rdfNode <- value} yield {
+      set(ontProperty, rdfNode)
     }
-    return getIndividual
+    return this
   }
 
-  def setNotNull(values: Pair[Any, Any]*): Individual = {
-    values.foreach {
-      case (ontProperty, value) =>
-        if( value != null ) {
-          val prop = asProperty( ontProperty )
-          removeAll( prop )
-          process( prop , value, { (ontProperty, value) => getIndividual.addProperty( ontProperty, value ) } )
-        }
-    }
-    return getIndividual
+  //does this work properly under the hood
+  def set(ontProperty: String, @NotNull value: RDFNode): Individual = {
+    return set(getOntModel.resolveProperty(ontProperty), value)
   }
 
-  def set(ontProperty: Property, value: Object, dataType: RDFDatatype) : Individual = {
-    val dataValue : RDFNode = getIndividual.getOntModel.createTypedLiteral( value, dataType )
-    return set( ontProperty, dataValue )
-  }
-
-  def setNotNull(ontProperty: Property, value: Object, dataType: RDFDatatype) : Individual =
-    if( value != null) { set(ontProperty, value, dataType ) } else return getIndividual
-
-  def set(ontProperty: Property, value: RDFNode): Individual = {
-    getIndividual.setPropertyValue(ontProperty, value)
-    return getIndividual
-  }
-
-  def setNotNull(ontProperty: Property, value: RDFNode): Individual =
-     if( value != null) { set(ontProperty, value ) } else return getIndividual
-
-  def set(ontProperty: String, value: RDFNode): Individual = {
-    return set(getIndividual.getOntModel.resolveProperty(ontProperty), value)
-  }
-
-  def setNotNull(ontProperty: String, value: RDFNode): Individual =
-    if( value != null) { set(ontProperty, value ) } else return getIndividual
-
-  def set(ontProperty: Property, values: java.lang.Iterable[_ <: RDFNode]): Individual =
-    set( ontProperty, asIterable( values ) )
-
-  def set(ontProperty: Property, values: Iterable[_ <: RDFNode]): Individual = {
-    getIndividual.removeAll(ontProperty)
+  def set(ontProperty: Property, @NotNull values: Iterable[_ <: RDFNode]): Individual = {
+    remove(ontProperty)
     if (values != null) {
       for (value <- values) {
         add(ontProperty, value)
       }
     }
-    return getIndividual
+    return this
   }
 
-  def set(ontProperty: Property, values: Iterable[Object], dataType: RDFDatatype): Individual = {
-    getIndividual.removeAll(ontProperty)
+  def set(@NotNull ontProperty: Property, @NotNull values: Iterable[Object], @NotNull dataType: RDFDatatype): Individual = {
+    remove(ontProperty)
     if (values != null) {
       for (value <- values) {
-        val dataValue : RDFNode = getIndividual.getOntModel.createTypedLiteral( value, dataType )
+        val dataValue: RDFNode = getOntModel.createTypedLiteral(value, dataType)
         add(ontProperty, dataValue)
       }
     }
-    return getIndividual
+    return this
   }
-
-  def set(ontProperty: String, values: java.lang.Iterable[_ <: RDFNode]): Individual =
-    return set( getIndividual.getOntModel.resolveProperty(ontProperty), asIterable( values ) )
 
   def set(ontProperty: String, values: Iterable[_ <: RDFNode]): Individual = {
-    return set(getIndividual.getOntModel.resolveProperty(ontProperty), values)
+    return set(getOntModel.resolveProperty(ontProperty), values)
   }
 
-  def add(ontProperty: Property, value: RDFNode): Individual = {
-    getIndividual.addProperty(ontProperty, value)
-    return getIndividual
+  def add(ontProperty: String, @NotNull value: Option[_ <: RDFNode]): Individual =
+    add(getOntModel.resolveProperty(ontProperty), value)
+
+  def add(ontProperty: Property, @NotNull value: Option[_ <: RDFNode]): Individual = {
+    for {rdfNode <- value} yield {
+      set(ontProperty, rdfNode)
+    }
+    return this
   }
 
-  def addNotNull(ontProperty: Property, value: RDFNode) : Individual =
-    if( value != null ) { add(ontProperty, value) } else return getIndividual
-
-  def add(ontProperty: String, value: RDFNode): Individual = {
-    return add(getIndividual.getOntModel.resolveProperty(ontProperty), value)
+  def add(@NotNull ontProperty: Property, @NotNull value: RDFNode): Individual = {
+    addProperty(ontProperty, value)
+    return this
   }
 
-  def addNotNull(ontProperty: String, value: RDFNode) : Individual =
-    if( value != null ) { add(ontProperty, value) } else return getIndividual
-
-  def add(ontProperty: Property, value: Object, dataType: RDFDatatype) : Individual = {
-    val dataValue : RDFNode = getIndividual.getOntModel.createTypedLiteral( value, dataType )
-    return add( ontProperty, dataValue )
+  def add(@NotNull ontProperty: String, @NotNull value: RDFNode): Individual = {
+    return add(getOntModel.resolveProperty(ontProperty), value)
   }
 
-  def addNotNull(ontProperty: Property, value: Object, dataType: RDFDatatype) : Individual =
-    if( value != null) { add(ontProperty, value, dataType ) }  else return getIndividual
+  def add(@NotNull ontProperty: Property, @NotNull value: Object, dataType: RDFDatatype): Individual = {
+    val dataValue: RDFNode = getOntModel.createTypedLiteral(value, dataType)
+    return add(ontProperty, dataValue)
+  }
 
-  def add(ontProperty: Property, values: java.lang.Iterable[_ <: RDFNode]): Individual =
-    add( ontProperty, asIterable( values ) )
-
-  def add(ontProperty: Property, values: Iterable[_ <: RDFNode]): Individual = {
+  def add(@NotNull ontProperty: Property, @NotNull values: Iterable[_ <: RDFNode]): Individual = {
     if (values != null) {
       for (value <- values) {
         add(ontProperty, value)
       }
     }
-    return getIndividual
+    return this
   }
 
-  def add(ontProperty: String, values: java.lang.Iterable[_ <: RDFNode]): Individual =
-    return add( getIndividual.getOntModel.resolveProperty(ontProperty), asIterable( values ) )
-
-  def add(ontProperty: String, values: Iterable[_ <: RDFNode]): Individual = {
-    return add(getIndividual.getOntModel.resolveProperty(ontProperty), values)
+  def add(@NotNull ontProperty: String, @NotNull values: Iterable[_ <: RDFNode]): Individual = {
+    return add(getOntModel.resolveProperty(ontProperty), values)
   }
 
-  def add(ontProperty: Property, values: Iterable[Object], dataType: RDFDatatype): Individual = {
+  def add(@NotNull ontProperty: Property, @NotNull values: Iterable[Object], @NotNull dataType: RDFDatatype): Individual = {
     if (values != null) {
       for (value <- values) {
-        val dataValue : RDFNode = getIndividual.getOntModel.createTypedLiteral( value, dataType )
+        val dataValue: RDFNode = getOntModel.createTypedLiteral(value, dataType)
         add(ontProperty, dataValue)
       }
     }
-    return getIndividual
+    return this
   }
 
-  def remove(ontProperty: Property, value: RDFNode): Individual = {
-    getIndividual.removeProperty(ontProperty, value)
-    return getIndividual
+  def remove(@NotNull ontProperty: Property, @NotNull value: RDFNode): Individual = {
+    removeProperty(ontProperty, value)
+    return this
   }
 
-  def removeThese(ontProperty: Property, values: Iterable[_ <: RDFNode]): Individual = {
+  def removeThese(@NotNull ontProperty: Property, @NotNull values: Iterable[_ <: RDFNode]): Individual = {
     if (values != null) {
       for (value <- values) {
         remove(ontProperty, value)
       }
     }
-    return getIndividual
+    return this
   }
 
-
-
-
-  def remove(ontProperty: String, value: RDFNode): Individual = {
-    return remove(getIndividual.getOntModel.resolveProperty(ontProperty), value)
+  def remove(@NotNull ontProperty: String, @NotNull value: RDFNode): Individual = {
+    return remove(getOntModel.resolveProperty(ontProperty), value)
   }
 
-  def removeThese(ontProperty: String, values: Iterable[_ <: RDFNode]): Individual = {
-    return removeThese(getIndividual.getOntModel.resolveProperty(ontProperty), values)
+  def removeThese(@NotNull ontProperty: String, @NotNull values: Iterable[_ <: RDFNode]): Individual = {
+    return removeThese(getOntModel.resolveProperty(ontProperty), values)
   }
 
-
-
-
-
-  //add
-  def add(values: Pair[Any, Any]*): Individual = {
-    values.foreach {
-      case (ontProperty, value) =>
-        process( asProperty( ontProperty ), value, { (ontProperty, value) => getIndividual.addProperty( ontProperty, value ) } )
-    }
-    return getIndividual
-  }
-
-  //remove
-  def remove(values: Pair[Any, Any]*): Individual = {
-    values.foreach {
-      case (ontProperty, value) =>
-        process( asProperty( ontProperty ), value, { (ontProperty, value) => getIndividual.removeProperty( ontProperty, value ) } )
-    }
-    return getIndividual
-  }
-
-  def removeAll(ontProperties: Property*): Individual = {
+  def remove(@NotNull ontProperties: AnyRef*): SemachinaIndividual = {
     ontProperties.foreach {
-      ontProperty => getIndividual.removeAll(asProperty(ontProperty))
-    }
-    return getIndividual
-  }
-
-  //other actions
-  protected def map1[V <: Object](transform: Object => V): Map1[Object, V] = {
-    new Map1[Object, V] {
-      def map1(value: AnyRef): V = {
-        return transform(value)
+      ontProperty => ontProperty match {
+        case str: String => removeAll(getOntModel.resolveProperty(str))
+        case prop: Property => removeAll(prop)
       }
     }
+    return this
   }
 
-  protected def asProperty(ontProperty: Any): Property = {
-    ontProperty match {
-      case str : String => {
-        val ontModel = getIndividual.getOntModel
-        val prop = ontModel.resolveProperty( str )
-        if( prop == null ) {
-          throw new IllegalArgumentException("Must be String or Property: " + ontProperty)
-        }
-        return prop
-      }
-      case prop : Property => prop
-      case _ => throw new IllegalArgumentException("Must be String or Property: " + ontProperty)
-    }
-  }
-
-  protected def process(ontProperty: Property, value: Any, action: (Property, RDFNode) => Unit) {
-    value match {
-      case node: RDFNode => action( ontProperty, node )
-      case iterator: java.lang.Iterable[_] => iterator.foreach{ process( ontProperty, _ , action ) }
-      case iterator: Iterable[_] => iterator.foreach { process( ontProperty, _ , action ) }
-      //case product: Product => process( ontProperty, product.productIterator, action )
-      case any : Any => action( ontProperty, getIndividual.getOntModel.createTypedLiteral( any ) )
-      case _ => throw new IllegalArgumentException("Something is broken: " + ontProperty.toString() + " : " + value )
-    }
+  protected def path(propPath: String): NodeIterator = {
+    var path: Path = PathParser.parse(propPath, getOntModel.asInstanceOf[PrefixMapping])
+    return PathEval.walkForwards(getOntModel, this, path)
   }
 }

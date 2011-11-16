@@ -3,40 +3,29 @@ package org.semachina.jena.ontology
 import impl.SemachinaOntModelAdapter
 import com.hp.hpl.jena.enhanced.EnhGraph
 import com.hp.hpl.jena.ontology._
+import org.semachina.jena.query.Arq
+
 /**
- * Created by IntelliJ IDEA.
- * User: sgopalan
- * Date: 8/21/11
- * Time: 2:26 PM
- * To change this template use File | Settings | File Templates.
+ * Defines the basic methods for a Semachina OntModel
  */
 
 object SemachinaOntModel {
 
-   def apply(ontModel: OntModel) = asSemachinaOntModelTrait( ontModel )
+  def apply(ontModel: OntModel) = asSemachinaOntModelTrait(ontModel)
 
-   implicit def asSemachinaOntModelTrait(ontModel: OntModel): SemachinaOntModel = {
+  implicit def asSemachinaOntModelTrait(ontModel: OntModel): SemachinaOntModel = {
     if (ontModel.isInstanceOf[SemachinaOntModel]) {
-      return ontModel.asInstanceOf[SemachinaOntModel]
+      ontModel.asInstanceOf[SemachinaOntModel]
     }
     else {
-      return new SemachinaOntModelAdapter(ontModel)
+      new SemachinaOntModelAdapter(ontModel)
     }
   }
 }
 
-trait SemachinaOntModel extends URIResolver with OntModelReader with OntModelWriter with OntModelConfiguration {
+trait SemachinaOntModel extends OntModelConfiguration with OntModelTransaction with Arq {
 
-  protected val ontModel: OntModel
-  protected val enhGraph: EnhGraph
+  def getEnhGraph: EnhGraph
 
-  def getEnhGraph: EnhGraph = {
-    return this.enhGraph
-  }
-
-  def getOntModel: OntModel = {
-    return this.ontModel
-  }
-
-  def getURIResolver = this
+  def getOntModel: OntModel
 }

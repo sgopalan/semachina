@@ -18,8 +18,16 @@ import java.sql.SQLException
 import java.sql.Connection
 import org.mindswap.pellet.jena.PelletReasonerFactory
 
-class SDBConnector(dbLayout: String  = "layout2/index", dbUrl: String, dbDriver: String, dbType: String, dbUser: String, dbPassword: String, reload: Boolean) {
-    /**
+class SDBConnector(
+                    dbLayout: String = "layout2/index",
+                    dbUrl: String,
+                    dbDriver: String,
+                    dbType: String,
+                    dbUser: String,
+                    dbPassword: String,
+                    reload: Boolean) {
+
+  /**
    * This store already exists in the database, and has statements
    */
   final val STORE_HAS_STATEMENTS: Int = -2

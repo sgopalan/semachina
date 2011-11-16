@@ -5,7 +5,11 @@ import org.joda.time.Period
 import org.joda.time.format.ISOPeriodFormat
 import org.semachina.jena.datatype.SemachinaBaseDatatype
 
-class DurationDatatype extends SemachinaBaseDatatype[Period] (
-  XSD.duration.getURI,
-  { lexicalForm: String => ISOPeriodFormat.standard.parsePeriod(lexicalForm) },
-  { cast: Period => ISOPeriodFormat.standard.print(cast) } )
+class DurationDatatype extends SemachinaBaseDatatype[Period](
+  typeURI = XSD.duration.getURI,
+  parser = {
+    lexicalForm: String => ISOPeriodFormat.standard.parsePeriod(lexicalForm)
+  },
+  lexer = {
+    cast: Period => ISOPeriodFormat.standard.print(cast)
+  })

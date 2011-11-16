@@ -5,6 +5,7 @@ import org.specs.SpecificationWithJUnit
 import com.hp.hpl.jena.rdf.model.ModelFactory
 import com.hp.hpl.jena.datatypes.DatatypeFormatException
 import com.hp.hpl.jena.shared.impl.JenaParameters
+import _root_.java.lang.Integer
 
 /**
  * Created by IntelliJ IDEA.

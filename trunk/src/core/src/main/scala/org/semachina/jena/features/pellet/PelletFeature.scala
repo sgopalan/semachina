@@ -12,7 +12,6 @@ import org.mindswap.pellet.jena.BuiltinTerm
 import org.mindswap.pellet.jena.PelletInfGraph
 import org.mindswap.pellet.utils.progress.ProgressMonitor
 import scala.collection.JavaConversions._
-import org.semachina.jena.utils.ExtendedIteratorWrapper._
 import org.semachina.jena.features.Feature
 
 object PelletFeature {
@@ -53,14 +52,15 @@ class PelletFeature extends Feature {
       System.out.println("Data is inconsistent:")
       explanation.setNsPrefixes(pelletModel)
       explanation.write(System.out, "TTL")
-      explanation.listStatements.foreach { stmt =>
-        if (isIndividualAssertion(stmt)) {
-          System.out.println("Remove statement: " + stmt.asTriple.toString(pelletModel))
-          var subModels: ExtendedIterator[OntModel] = pelletModel.listSubModels
-          while (subModels.hasNext) {
-            subModels.next.remove(stmt)
+      explanation.listStatements.foreach {
+        stmt =>
+          if (isIndividualAssertion(stmt)) {
+            System.out.println("Remove statement: " + stmt.asTriple.toString(pelletModel))
+            var subModels: ExtendedIterator[OntModel] = pelletModel.listSubModels
+            while (subModels.hasNext) {
+              subModels.next.remove(stmt)
+            }
           }
-        }
       }
       pelletGraph.getLoader.setKB(pelletGraph.getKB)
       pelletModel.rebind
