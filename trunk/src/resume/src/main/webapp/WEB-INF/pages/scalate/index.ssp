@@ -1,0 +1,117 @@
+<%
+    import org.semachina.jena.dsl.SemachinaDSL._
+    import scala.collection.JavaConversions._
+    import java.util.Date
+    import com.hp.hpl.jena.ontology.{OntClass, Individual, OntModel}
+%>
+<%@ var resumeModel: OntModel %>
+<%@ var resume: Individual %>
+
+<%
+    implicit var model = resumeModel
+    var me = resume.get("cv:aboutPerson")
+
+    var formatter = new java.text.SimpleDateFormat("MMM yyyy")
+%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+     <title>${ resume.value[String]("cv:cvTitle") }</title>
+
+     <link rel="stylesheet" type="text/css" media="all" href="/css/resume.css" />
+</head>
+
+<body>
+
+    <div id="page-wrap">
+    
+        <img src="/images/cthulu.png" alt="Photo of Cthulu" id="pic" />
+    
+        <div id="contact-info" class="vcard">
+        
+            <!-- Microformats! -->
+        
+            <h1 class="fn">${ me.value[String]("vcard:fn") }</h1>
+        
+            <p>
+                Address: <span class="tel">${me.value[String]("vcard:adr/rdfs:label")}</span><br/>
+                Cell: <span class="tel">${ me.value[String]("vcard:tel/rdf:value".?).get }</span><br />
+                Email: <a class="email" href="mailto:${ me.value[String]("vcard:email/rdf:value") }">${ me.value[String]("vcard:email/rdf:value") }</a>
+            </p>
+        </div>
+                
+        <div id="objective">
+            <p>${ resume.value[String]("cv:cvDescription") }</p>
+        </div>
+        
+        <div class="clear"></div>
+        
+        <dl>
+            <dd class="clear"></dd>
+
+            <dt>Education</dt>
+            <%
+                var schools = resume.list("cv:hasEducation").sort((e1, e2) => (e1.value[Date]("cv:eduStartDate").compareTo(e2.value[Date]("cv:eduStartDate"))))
+            %>
+            #for (edu <- schools )
+                <dd>
+                    <h2>${ edu.value[String]("cv:studiedIn/cv:Name")} - ${ edu.value[String]("cv:studiedIn/cv:Locality") } <span>(${ formatter.format( edu.value[Date]("cv:eduStartDate") ) } -  ${ formatter.format( edu.value[Date]("cv:eduGradDate") )})</span></h2>
+                    <p><strong>Degree:</strong> ${ edu.value[String]("cv:degreeType/rdfs:label") }</p>
+                    <p><strong>Major:</strong> ${ edu.value[String]("cv:eduMajor") }</p><br />
+                </dd>
+            #end
+
+            <dd class="clear"></dd>
+            
+            <dt>Skills</dt>
+            <dd>
+                <h2>Office skills</h2>
+                <p>Office and records management, database administration, event organization, customer support, travel coordination</p>
+                
+                <h2>Computer skills</h2>
+                <p>Microsoft productivity software (Word, Excel, etc), Adobe Creative Suite, Windows</p>
+            </dd>
+            
+            <dd class="clear"></dd>
+            
+            <dt>Experience</dt>
+            <dd>
+            <%
+                var workHistory = resume.list("cv:hasWorkHistory").sort((e1, e2) => (e2.value[Date]("cv:startDate").compareTo(e1.value[Date]("cv:endDate"))))
+            %>
+            #for (work <- workHistory )
+                <h2>${ work.value[String]("cv:employedIn/cv:Name") } - ${ work.value[String]("cv:employedIn/cv:Locality") } <span>(${ formatter.format( work.value[Date]("cv:startDate") ) } -  ${ formatter.format( work.value[Date]("cv:endDate") )})</span></h2>
+                <p><span>${ work.value[String]("cv:jobTitle") } </span></p>
+                <p>${ work.value[String]("cv:jobDescription") }</p>
+                <ul>
+                    <li>... important milestones ${ work.value[String]( "cv:hasWorkHistory/cv:cvTitle" ) }...</li>
+                </ul>
+            #end
+            </dd>
+            
+            <dd class="clear"></dd>
+            
+            <dt>Hobbies</dt>
+            <dd>World Domination, Deep Sea Diving, Murder Most Foul</dd>
+            
+            <dd class="clear"></dd>
+            
+            <dt>References</dt>
+            <dd>Available on request</dd>
+            
+            <dd class="clear"></dd>
+        </dl>
+        
+        <div class="clear"></div>
+    
+    </div>
+
+</body>
+
+</html>

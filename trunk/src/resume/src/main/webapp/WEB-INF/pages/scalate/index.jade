@@ -1,0 +1,57 @@
+<%
+    import org.semachina.jena.dsl.SemachinaDSL._
+    import scala.collection.JavaConversions._
+    import java.util.Date
+    import com.hp.hpl.jena.ontology.{OntClass, Individual, OntModel}
+%>
+<%@ var resumeModel: OntModel %>
+<%@ var resume: Individual %>
+
+<%
+    implicit var model = resumeModel
+    var me = resume.get("cv:aboutPerson")
+
+    var formatter = new java.text.SimpleDateFormat("MMM yyyy")
+%>
+
+!!! 5
+html(lang="en")
+  head
+    meta{ :http-equiv => "Content-Type" :content => "text/html" :charset => "utf-8"}
+    title=${ resume.value[String]("cv:cvTitle") }
+    link { :rel => "stylesheet" :type => "text/css" :media => "all" :href => "/css/resume.css" }
+  body
+    #page-wrap
+        img{ :src => "/images/cthulu.png" :alt => "Photo of Cthulu" :id => "pic" }
+        #contact-info.vcard
+            <!-- Microformats! -->
+            h1.fn ${ me.value[String]("vcard:fn") }
+            p
+                Address: span.tel \#{me.value[String]("vcard:adr/rdfs:label")}
+                br
+                Cell: span.tel \#{ me.value[String]("vcard:tel/rdf:value") }
+                br
+                Email: a.email{ :href => "mailto:\#{ me.value[String]("vcard:email/rdf:value") }"}
+                    \#{ me.value[String]("vcard:email/rdf:value") }
+        #objective
+            p ${ resume.value[String]("cv:cvDescription") }
+        .clear
+        dl
+            dd.clear
+            dt Education
+            <%
+                var schools = resume.list("cv:hasEducation")
+                    .sort((e1, e2) =>
+                        (e1.value[Date]("cv:eduStartDate").compareTo(e2.value[Date]("cv:eduStartDate"))))
+            %>
+            #for (edu <- schools )
+                dd
+                    h2 \#{ edu.value[String]("cv:studiedIn/cv:Name")} - \#{ edu.value[String]("cv:studiedIn/cv:Locality") }
+                        span (\#{ formatter.format( edu.value[Date]("cv:eduStartDate") ) } -  \#{ formatter.format( edu.value[Date]("cv:eduGradDate") )})
+                    p
+                        <strong>Degree:</strong> \#{ edu.value[String]("cv:degreeType/rdfs:label") }
+                    p
+                        <strong>Major:</strong> \#{ edu.value[String]("cv:eduMajor") }
+                    br
+                </dd>
+            #end
