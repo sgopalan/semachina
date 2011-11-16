@@ -5,20 +5,17 @@ import org.semachina.jena.ontology.SemachinaOntModel
 import com.hp.hpl.jena.enhanced.EnhGraph
 
 /**
- * Created by IntelliJ IDEA.
- * User: sgopalan
- * Date: 8/21/11
- * Time: 6:37 PM
- * To change this template use File | Settings | File Templates.
+ * Adapter for existing OntModels to take advantage of Semachina
  */
-
 object SemachinaOntModelAdapter {
-  def apply(ontModel : OntModel) = new SemachinaOntModelAdapter( ontModel )
+  def apply(ontModel: OntModel) = new SemachinaOntModelAdapter(ontModel)
 
-  implicit def toOntModel(adapter:SemachinaOntModelAdapter) : OntModel = adapter.ontModel
+  implicit def toOntModel(adapter: SemachinaOntModelAdapter): OntModel = adapter.getOntModel
 }
 
-class SemachinaOntModelAdapter(val ontModel : OntModel) extends SemachinaOntModel {
+class SemachinaOntModelAdapter(val self: OntModel) extends Proxy with SemachinaOntModel {
 
-  val enhGraph = ontModel.asInstanceOf[EnhGraph]
+  def getEnhGraph = self.asInstanceOf[EnhGraph]
+
+  def getOntModel = self
 }

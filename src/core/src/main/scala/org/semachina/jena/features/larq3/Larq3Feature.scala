@@ -2,19 +2,14 @@ package org.semachina.jena.features.larq3
 
 import com.hp.hpl.jena.ontology.OntModel
 import com.hp.hpl.jena.rdf.model.StmtIterator
-import com.hp.hpl.jena.sparql.pfunction.PropertyFunctionRegistry
-import org.apache.jena.larq.IndexBuilderModel
-import org.apache.jena.larq.IndexBuilderString
-import org.apache.jena.larq.IndexLARQ
-import org.apache.jena.larq.LARQ
-import org.apache.jena.larq.pfunction.textMatch
-import org.apache.lucene.analysis.SimpleAnalyzer
-import org.apache.lucene.index.IndexWriter
-import org.apache.lucene.index.IndexWriterConfig
-import org.apache.lucene.store.Directory
-import org.apache.lucene.util.Version
 import org.semachina.jena.features.Feature
-import java.io.IOException
+import org.apache.jena.larq.pfunction.textMatch
+import org.apache.jena.larq.{LARQ, IndexBuilderString, IndexLARQ, IndexBuilderModel}
+import org.apache.lucene.analysis.standard.StandardAnalyzer
+import org.apache.lucene.index.IndexWriter
+import org.apache.lucene.store.{RAMDirectory, Directory}
+import org.apache.lucene.index.IndexWriter.MaxFieldLength
+import org.semachina.jena.config.SemachinaConfiguration
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,7 +23,7 @@ object Larq3Feature {
   val KEY: String = "larq3-feature"
 }
 
-class Larq3Feature(fsd: Directory,
+class Larq3Feature(fsd: Directory = new RAMDirectory,
                    textMatchURI: String = "http://jena.hpl.hp.com/ARQ/property#TextMatch3") extends Feature {
 
   val key: String = Larq3Feature.KEY
@@ -42,11 +37,15 @@ class Larq3Feature(fsd: Directory,
     if (fsd == null) {
       throw new IllegalStateException("LARQ directory should not be null")
     }
-    var registry: PropertyFunctionRegistry = PropertyFunctionRegistry.get
-    if (!registry.isRegistered(this.textMatchURI)) {
-      registry.put(this.textMatchURI, classOf[textMatch])
-    }
-    ib = new IndexBuilderString
+
+    val indexWriter =
+      new IndexWriter(fsd, new StandardAnalyzer(LARQ.LUCENE_VERSION), MaxFieldLength.UNLIMITED)
+
+    SemachinaConfiguration.registerPropertyFunction(textMatchURI, classOf[textMatch])
+
+    ib = new IndexBuilderString(indexWriter)
+    ib.closeWriter()
+
     index = ib.getIndex
     LARQ.setDefaultIndex(index)
   }
@@ -65,7 +64,8 @@ class Larq3Feature(fsd: Directory,
   }
 
   def index(statements: StmtIterator): Unit = {
-    var indexWriter: IndexWriter = new IndexWriter(fsd, new IndexWriterConfig(Version.LUCENE_31, new SimpleAnalyzer(Version.LUCENE_31)))
+    var indexWriter =
+      new IndexWriter(fsd, new StandardAnalyzer(LARQ.LUCENE_VERSION), MaxFieldLength.UNLIMITED)
     ib = new IndexBuilderString(indexWriter)
     ib.indexStatements(statements)
     ib.closeWriter

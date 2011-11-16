@@ -7,10 +7,15 @@ import scala.collection.JavaConversions._
 import org.semachina.jena.datatype.SemachinaBaseDatatype
 
 object MonthDayDatatype {
-  val monthDayFormat = ISODateTimeFormat.forFields( Seq( DateTimeFieldType.monthOfYear(), DateTimeFieldType.dayOfMonth() ), true, true )
+  val monthDayFormat = ISODateTimeFormat.forFields(Seq(DateTimeFieldType.monthOfYear(), DateTimeFieldType.dayOfMonth()), true, true)
 }
 
-class MonthDayDatatype extends SemachinaBaseDatatype[MonthDay] (
-  XSD.gMonthDay.getURI,
-  { lexicalForm: String => new MonthDay( MonthDayDatatype.monthDayFormat.parseDateTime( lexicalForm ) ) },
-  { cast : MonthDay => MonthDayDatatype.monthDayFormat.print( cast )})
+class MonthDayDatatype extends SemachinaBaseDatatype[MonthDay](
+  typeURI = XSD.gMonthDay.getURI,
+  parser = {
+    lexicalForm: String =>
+      new MonthDay(MonthDayDatatype.monthDayFormat.parseDateTime(lexicalForm))
+  },
+  lexer = {
+    cast: MonthDay => MonthDayDatatype.monthDayFormat.print(cast)
+  })

@@ -6,19 +6,24 @@ import org.joda.time.LocalDate
 import org.joda.time.format.ISODateTimeFormat
 import java.util.Date
 import org.semachina.jena.datatype.SemachinaBaseDatatype
+import org.semachina.jena.binder.ObjectBinder
 
 class DateDatatype extends SemachinaBaseDatatype[Date](
-  XSD.date.getURI,
-  { lexicalForm: String  => ISODateTimeFormat.date.parseDateTime(lexicalForm).toDate },
-  { cast: Date => ISODateTimeFormat.date.print(new DateTime(cast.getTime) ) } ) {
+  typeURI = XSD.date.getURI,
+  parser = {
+    lexicalForm: String => ISODateTimeFormat.date.parseDateTime(lexicalForm).toDate
+  },
+  lexer = {
+    cast: Date => ISODateTimeFormat.date.print(new DateTime(cast.getTime))
+  }) {
 
-  override def cannonicalise(value: AnyRef): Date = {
-    if (value.isInstanceOf[LocalDate]) {
-      return (value.asInstanceOf[LocalDate]).toDateTimeAtStartOfDay.toDate
-    }
-    else if (value.isInstanceOf[DateTime]) {
-      return (value.asInstanceOf[DateTime]).toDate
-    }
-    return super.cannonicalise(value)
-  }
+  addObjectBinder(
+    ObjectBinder[LocalDate, Date]({
+      localDate: LocalDate =>
+        localDate.toDateTimeAtStartOfDay.toDate
+    }))
+
+  addObjectBinder(ObjectBinder[DateTime, Date]({
+    dateTime: DateTime => dateTime.toDate
+  }))
 }

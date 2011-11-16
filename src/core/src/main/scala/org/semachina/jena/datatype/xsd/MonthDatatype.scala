@@ -5,20 +5,25 @@ import org.joda.time.format.ISODateTimeFormat
 import org.joda.time.{Months, DateTimeFieldType}
 import scala.collection.JavaConversions._
 import org.semachina.jena.datatype.SemachinaBaseDatatype
+import org.semachina.jena.binder.ObjectBinder
 
 object MonthDatatype {
-  val monthFormat = ISODateTimeFormat.forFields( Seq( DateTimeFieldType.monthOfYear() ), true, true )
+  val monthFormat =
+    ISODateTimeFormat.forFields(Seq(DateTimeFieldType.monthOfYear()), true, true)
 }
 
-class MonthDatatype extends SemachinaBaseDatatype[Months] (
-  XSD.gMonth.getURI,
-  { lexicalForm: String => Months.months( MonthDatatype.monthFormat.parseDateTime( lexicalForm ).getMonthOfYear ) },
-  { cast: Months => MonthDatatype.monthFormat.print( cast.getMonths ) }) {
+class MonthDatatype extends SemachinaBaseDatatype[Months](
+  typeURI = XSD.gMonth.getURI,
+  parser = {
+    lexicalForm: String =>
+      Months.months(MonthDatatype.monthFormat.parseDateTime(lexicalForm).getMonthOfYear)
+  },
+  lexer = {
+    cast: Months => MonthDatatype.monthFormat.print(cast.getMonths)
+  }) {
 
-  override def cannonicalise(value: AnyRef): Months = {
-    if (value.isInstanceOf[Number]) {
-      return Months.months( (value.asInstanceOf[Number]).intValue )
-    }
-    return super.cannonicalise(value)
-  }
+  addObjectBinder(
+    ObjectBinder[Number, Months]({
+      number: Number => Months.months(number.intValue)
+    }))
 }
