@@ -1,4 +1,4 @@
-package org.semachina.jena.ontology
+package org.semachina.jena.enhanced
 
 import _root_.java.util.Date
 import org.junit._
@@ -12,6 +12,7 @@ import com.hp.hpl.jena.vocabulary.XSD
 import com.hp.hpl.jena.ontology.{OntModel, ProfileRegistry, OntModelSpec}
 import org.semachina.jena.ontology.impl.SemachinaOntModelImpl
 import org.semachina.jena.config.SemachinaBuilder
+import org.semachina.jena.ontology.ReadWriteContext
 
 /**
  * Created by IntelliJ IDEA.

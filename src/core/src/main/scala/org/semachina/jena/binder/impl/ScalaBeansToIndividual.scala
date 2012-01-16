@@ -67,7 +67,7 @@ trait ScalaBeansToIndividual extends ToIndividualBinder {
 
 
   protected def findIdStrategy(bean: Any): Option[IdStrategy] = {
-    val beanClass = bean.getClass
+    val beanClass = bean.getClass()
     for {
       property <- descriptorOf(beanClass).properties
       if (property.scalaType.erasure.isAssignableFrom(classOf[IdStrategy]))
@@ -86,18 +86,29 @@ trait ScalaBeansToIndividual extends ToIndividualBinder {
 
     val rdfNodes: Iterable[RDFNode] = if (value == null) null
     else value match {
+
+      // is it an option
       case option: Option[Any] => {
         option match {
           case some: Some[Any] => Seq[RDFNode](toRDFNode(some.get, rdfPropertyAnnotation))
           case _ => Seq.empty[RDFNode]
         }
       }
+      // is it a scala iterable
       case iterable: Iterable[_] => {
         iterable.collect {
           case innerOption: Option[Any] => toRDFNode(innerOption.get, rdfPropertyAnnotation)
           case inner: Any => toRDFNode(inner, rdfPropertyAnnotation)
         }
       }
+      // is it a java iterable
+      case iterable: _root_.java.lang.Iterable[_] => {
+        iterable.collect {
+          case innerOption: Option[Any] => toRDFNode(innerOption.get, rdfPropertyAnnotation)
+          case inner: Any => toRDFNode(inner, rdfPropertyAnnotation)
+        }
+      }
+      // is it an array of any sort
       case array: Array[Any] => array.collect {
         case innerOption: Option[Any] => toRDFNode(innerOption.get, rdfPropertyAnnotation)
         case inner: Any => toRDFNode(inner, rdfPropertyAnnotation)

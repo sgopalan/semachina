@@ -1,11 +1,10 @@
-package org.semachina.jena
+package org.semachina.jena.dsl
 
-import config.{SemachinaConfiguration, SemachinaBuilder}
-import org.specs.SpecificationWithJUnit
+import org.specs2._
 import org.semachina.jena.dsl.SemachinaDSL._
+import org.semachina.jena.config.{SemachinaBuilder, SemachinaConfiguration}
 
-class BasicJenaDSLTest extends SpecificationWithJUnit("SemachinaConfiguration Specification") {
-  description = "Evaluate Basic Jena DSL"
+class BasicJenaDSLTest extends mutable.SpecificationWithJUnit {
 
   val baseURI = "http://www.w3.org/2006/vcard/ns"
   val prefix = "vcard"
@@ -43,17 +42,17 @@ class BasicJenaDSLTest extends SpecificationWithJUnit("SemachinaConfiguration Sp
     "Get of individual from a string " in {
       implicit val ontModel = getOntModel
 
-      indivURI.& must notBeNull
+      indivURI.& must not beNull
     }
     "Get of ontClass from a string " in {
       implicit val ontModel = getOntModel
 
-      shortURI.$ must notBeNull
+      shortURI.$ must not beNull
     }
     "Get of property from a string " in {
       implicit val ontModel = getOntModel
 
-      "vcard:adr".PROP must notBeNull
+      "vcard:adr".PROP must not beNull
     }
   }
 }

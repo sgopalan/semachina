@@ -1,6 +1,5 @@
 package org.semachina.jena.config
 
-import com.hp.hpl.jena.rdf.model.{RDFNode, Model}
 import com.hp.hpl.jena.ontology.{OntModel, OntModelSpec}
 import com.hp.hpl.jena.enhanced.{BuiltinPersonalities, Personality}
 import com.hp.hpl.jena.shared.PrefixMapping
@@ -9,6 +8,7 @@ import org.semachina.jena.ontology.impl.SemachinaOntModelImpl
 import scala.collection.mutable.ListBuffer
 import javax.validation.constraints.NotNull
 import org.semachina.jena.features.Feature
+import com.hp.hpl.jena.rdf.model.{RDFNode, Model}
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,11 +24,11 @@ case class SemachinaBuilder(
                              @NotNull private val prefixes: PrefixMapping = SemachinaConfiguration.prefixMapping,
                              @NotNull private val personality: Personality[RDFNode] = SemachinaConfiguration.personality) {
 
-  lazy private val readURIs = new ListBuffer[String]
-  lazy private val subModels = new ListBuffer[OntModel]
-  lazy private val subModelURIs = new ListBuffer[String]
-  lazy private val features = new ListBuffer[Feature]
-  private var rebindModel = false
+  lazy val readURIs = new ListBuffer[String]
+  lazy val subModels = new ListBuffer[OntModel]
+  lazy val subModelURIs = new ListBuffer[String]
+  lazy val features = new ListBuffer[Feature]
+  var rebindModel = true
 
 
   lazy val standardPersonality: SemachinaBuilder = copy(personality = BuiltinPersonalities.model)
@@ -36,7 +36,7 @@ case class SemachinaBuilder(
 
   lazy val standardPrefixes: SemachinaBuilder = copy(prefixes = PrefixMapping.Standard)
   lazy val extendedPrefixes: SemachinaBuilder = copy(prefixes = PrefixMapping.Extended)
-  lazy val semachinaPrefxes: SemachinaBuilder = copy(prefixes = SemachinaConfiguration.prefixMapping)
+  lazy val semachinaPrefixes: SemachinaBuilder = copy(prefixes = SemachinaConfiguration.prefixMapping)
 
 
   /**

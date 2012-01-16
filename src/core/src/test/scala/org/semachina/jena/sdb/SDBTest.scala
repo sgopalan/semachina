@@ -31,7 +31,7 @@ class SDBTest {
     sdbConnector.deleteSDBStore
     sdbConnector.tryToCreateSDBStore
 
-    val model = sdbConnector.getModel(null)
+    val model = sdbConnector.getModel()
 
     println("SDB: ")
     model.write(System.out, "N3")

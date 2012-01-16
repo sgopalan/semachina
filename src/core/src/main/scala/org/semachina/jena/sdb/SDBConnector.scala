@@ -128,7 +128,7 @@ class SDBConnector(
    *                  retrieve the default graph
    * @return the Model object
    */
-  def getModel(modelName: String): Model = {
+  def getModel(modelName: String = null): Model = {
     var store: Store = getStore
     var model: Model = null
     if (modelName == null || modelName.length == 0) {
@@ -372,7 +372,7 @@ class SDBConnector(
    *                  retrieve the default graph
    * @return the Model object
    */
-  def getJenaModel(modelName: String): Model = {
+  def getJenaModel(modelName: String = null): Model = {
     var store: Store = getSDBStore
     var model: Model = null
     if (modelName == null || modelName.length == 0) {

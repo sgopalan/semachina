@@ -3,7 +3,6 @@ package org.semachina.jena.ontology
 import com.hp.hpl.jena.shared.PrefixMapping
 import com.hp.hpl.jena.sparql.path.{PathEval, PathParser, Path}
 import com.hp.hpl.jena.rdf.model._
-import com.hp.hpl.jena.ontology.Individual
 import com.hp.hpl.jena.util.iterator.{ExtendedIterator, Map1, WrappedIterator}
 import impl.SemachinaIndividualImpl
 import org.semachina.jena.ontology.SemachinaOntModel._
@@ -12,6 +11,8 @@ import javax.validation.constraints.NotNull
 import org.semachina.jena.ontology.naming.IdStrategy
 import com.hp.hpl.jena.util.ResourceUtils
 import org.semachina.jena.config.SemachinaConfiguration
+import org.semachina.jena.binder.IndividualBinder
+import com.hp.hpl.jena.ontology.Individual
 
 /**
  * Created by IntelliJ IDEA.
@@ -227,6 +228,13 @@ trait SemachinaIndividual extends Individual {
     var iterator: NodeIterator = PathEval.walkForwards(getOntModel, this, path)
     return WrappedIterator.create(iterator.mapWith(nodeToValueConverter))
   }
+
+  def bind[V <: AnyRef](implicit m: Manifest[V]): V = {
+    val binder = IndividualBinder.default(getOntModel)
+    binder.toBean[V](this)(m)
+  }
+
+  def >>[V <: AnyRef](implicit m: Manifest[V]): V = bind[V](m)
 
   def value[V <: Object](propOrPath: String)(implicit m: Manifest[V]): V = {
     var ontProperty: Property = getOntModel.resolveProperty(propOrPath)
