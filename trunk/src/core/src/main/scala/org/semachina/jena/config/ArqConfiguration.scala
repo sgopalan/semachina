@@ -1,4 +1,4 @@
-package org.semachina.jena.query
+package org.semachina.jena.config
 
 import com.hp.hpl.jena.sparql.core.describe.{DescribeHandlerRegistry, DescribeHandlerFactory}
 import com.hp.hpl.jena.sparql.function.{FunctionRegistry, FunctionFactory}

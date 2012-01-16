@@ -22,7 +22,7 @@ import org.semachina.jena.ontology.URIResolver
 object SemachinaDSL extends SemachinaDSL
 
 /**
- * @seeAlso http://www.scala-notes.org/2010/06/avoid-structural-types-when-pimping-libraries/
+ * @see http://www.scala-notes.org/2010/06/avoid-structural-types-when-pimping-libraries/
  */
 trait SemachinaDSL {
   /**
@@ -130,6 +130,9 @@ trait SemachinaDSL {
 
   implicit def toURIResolverWrapper(aUri: String)(implicit ontModel: OntModel) =
     URIResolver.toURIResolverWrapper(aUri)(ontModel)
+
+  implicit def toBindingWrapper(bean: AnyRef)(implicit ontModel: OntModel) =
+    new BindingWrapper(bean, ontModel)
 
   def +&(types: String*)(implicit ontModel: OntModel): SemachinaIndividual = {
     val semachina = toSemachinaOntModel(ontModel)

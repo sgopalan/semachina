@@ -68,7 +68,7 @@ class LarqFeatureTest {
         var str = ""
         var varnames = soln.getResultVars.toList
         varnames.foreach {
-          name: String => println(name + ": " + soln.getLiteral(name) + ", ")
+          name: String => println(name + ": " + soln.getResource(name) + ", ")
         }
     }
 

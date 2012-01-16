@@ -4,12 +4,12 @@ import com.hp.hpl.jena.ontology.OntModel
 import com.hp.hpl.jena.rdf.model.StmtIterator
 import org.semachina.jena.features.Feature
 import org.apache.jena.larq.pfunction.textMatch
-import org.apache.jena.larq.{LARQ, IndexBuilderString, IndexLARQ, IndexBuilderModel}
 import org.apache.lucene.analysis.standard.StandardAnalyzer
 import org.apache.lucene.index.IndexWriter
 import org.apache.lucene.store.{RAMDirectory, Directory}
 import org.apache.lucene.index.IndexWriter.MaxFieldLength
 import org.semachina.jena.config.SemachinaConfiguration
+import org.apache.jena.larq._
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,41 +37,61 @@ class Larq3Feature(fsd: Directory = new RAMDirectory,
     if (fsd == null) {
       throw new IllegalStateException("LARQ directory should not be null")
     }
-
-    val indexWriter =
-      new IndexWriter(fsd, new StandardAnalyzer(LARQ.LUCENE_VERSION), MaxFieldLength.UNLIMITED)
-
     SemachinaConfiguration.registerPropertyFunction(textMatchURI, classOf[textMatch])
 
-    ib = new IndexBuilderString(indexWriter)
-    ib.closeWriter()
+    ib = buildIndexBuilder()
 
-    index = ib.getIndex
-    LARQ.setDefaultIndex(index)
   }
 
-  override def close: Unit = {
+  def closeIndex: Unit = {
+    if (ib != null) {
+      ib.closeWriter();
+      ib = null
+      ontModel.unregister(ib)
+    }
+
     if (index != null) {
       index.close
     }
+  }
+
+  override def close: Unit = {
+    closeIndex
+
     if (fsd != null) {
       fsd.close
     }
   }
 
   def reindex: Unit = {
+    closeIndex
+
     index(getOntModel.listStatements)
   }
 
   def index(statements: StmtIterator): Unit = {
-    var indexWriter =
-      new IndexWriter(fsd, new StandardAnalyzer(LARQ.LUCENE_VERSION), MaxFieldLength.UNLIMITED)
-    ib = new IndexBuilderString(indexWriter)
+    //check ib
+
     ib.indexStatements(statements)
-    ib.closeWriter
-    var oldIndex: IndexLARQ = index
-    index = ib.getIndex
+    ib.flushWriter()
+  }
+
+  protected def buildIndexBuilder(): IndexBuilderModel = {
+    val indexWriter =
+      new IndexWriter(fsd, new StandardAnalyzer(LARQ.LUCENE_VERSION), MaxFieldLength.UNLIMITED)
+
+    ib = new IndexBuilderSubject(indexWriter)
+    setIndex(ib)
+    ontModel.register(ib)
+    return ib
+  }
+
+  protected def setIndex(indexBuilder: IndexBuilderModel) = {
+    var oldIndex = this.index
+
+    this.index = indexBuilder.getIndex
     LARQ.setDefaultIndex(index)
+
     if (oldIndex != null) {
       oldIndex.close
     }

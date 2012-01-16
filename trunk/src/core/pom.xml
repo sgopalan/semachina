@@ -53,7 +53,7 @@
             <artifactId>scripster_2.9.1</artifactId>
         </dependency>
         -->
-        <!-- Sindice -->
+        <!-- Sindice
         <dependency>
             <groupId>org.sindice.siren</groupId>
             <artifactId>siren-core</artifactId>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>org.sindice.siren</groupId>
             <artifactId>siren-qparser</artifactId>
-        </dependency>
+        </dependency> -->
 
         <!-- Jena / Arq -->
         <dependency>
@@ -78,13 +78,8 @@
             <artifactId>jena-sesame</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.hp.hpl.jena</groupId>
+            <groupId>org.apache.jena</groupId>
             <artifactId>larq</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>thewebsemantic</groupId>
-            <artifactId>jenabean</artifactId>
         </dependency>
 
         <!-- Jena TDB and SDB -->

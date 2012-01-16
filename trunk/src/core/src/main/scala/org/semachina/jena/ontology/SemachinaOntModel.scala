@@ -4,6 +4,7 @@ import impl.SemachinaOntModelAdapter
 import com.hp.hpl.jena.enhanced.EnhGraph
 import com.hp.hpl.jena.ontology._
 import org.semachina.jena.query.Arq
+import org.semachina.jena.binder.IndividualBinder
 
 /**
  * Defines the basic methods for a Semachina OntModel
@@ -28,4 +29,9 @@ trait SemachinaOntModel extends OntModelConfiguration with OntModelTransaction w
   def getEnhGraph: EnhGraph
 
   def getOntModel: OntModel
+
+  def toIndividual(bean: AnyRef): SemachinaIndividual = {
+    val binder = IndividualBinder.default(getOntModel)
+    binder.toIndividual(bean)
+  }
 }

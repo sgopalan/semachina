@@ -1,4 +1,4 @@
-package org.semachina.jena.ontology
+package org.semachina.jena.query
 
 import org.junit._
 import Assert._
@@ -7,7 +7,7 @@ import org.openjena.atlas.io.IndentedWriter
 import com.hp.hpl.jena.rdf.model.Resource
 import com.hp.hpl.jena.ontology.{ProfileRegistry, OntModelSpec}
 import org.semachina.jena.ontology.impl.SemachinaOntModelImpl
-import org.semachina.jena.query.SemachinaQuerySolution
+
 
 /**
  * Created by IntelliJ IDEA.

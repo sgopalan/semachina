@@ -7,17 +7,17 @@ import com.hp.hpl.jena.shared.PrefixMapping
 import org.semachina.jena.enhanced.SemachinaImplementation
 import org.semachina.jena.datatype.SemachinaBaseDatatype
 import com.hp.hpl.jena.rdf.model.{RDFNode, ModelFactory}
-import org.semachina.jena.query.ArqConfiguration
 import com.hp.hpl.jena.enhanced.{Implementation, BuiltinPersonalities, Personality}
 import com.hp.hpl.jena.ontology._
 import org.semachina.jena.binder.ObjectBinderManager
 import org.openjena.riot.SysRIOT
+import org.semachina.jena.ontology.impl.SemachinaOntModelImpl
 
 object SemachinaConfiguration
   extends SemachinaConfiguration with ArqConfiguration with ObjectBinderManager {
 
   //always load the default semachina profile first
-  DefaultSemachinaProfile(this)
+  reloadDefault
 
   //load subsequent profiles as needed
   def apply(profiles: SemachinaProfile*) = {
@@ -28,13 +28,29 @@ object SemachinaConfiguration
     }
     this
   }
+
+  def getResource(path: String) =
+    classOf[SemachinaConfiguration].getResource(path)
+
+  def reloadDefault = {
+    ontDocumentManager.clearCache()
+    DefaultSemachinaProfile(this)
+  }
 }
 
 /**
  * This trait consolidates much of the Jena Configuration within
  * the library
  *
- * The configurations include
+ * The framework-level configurations are:
+ * - JenaParameters
+ * - TypeManager
+ * - BuiltinPersonalities
+ * - SysRIOT
+ *
+ * The runtime configurations include:
+ * - OntDocumentManager
+ * - PrefixMapping
  */
 trait SemachinaConfiguration {
 
@@ -60,7 +76,7 @@ trait SemachinaConfiguration {
    * delaying validation of literals against datatype type constraints until
    * the first access. </p>
    */
-  def setEnableEagerLiteralValidation(enable: Boolean) {
+  def setEnableEagerLiteralValidation(enable: Boolean) = {
     JenaParameters.enableEagerLiteralValidation = enable
     this
   }
@@ -77,7 +93,7 @@ trait SemachinaConfiguration {
    * At the time of writing is unclear if such identification would be sanctioned
    * by the RDF working group. </p>
    */
-  def setEnablePlainLiteralSameAsString(enable: Boolean) {
+  def setEnablePlainLiteralSameAsString(enable: Boolean) = {
     JenaParameters.enablePlainLiteralSameAsString = enable
     this
   }
@@ -109,7 +125,7 @@ trait SemachinaConfiguration {
    * leading and trailing white space is silently trimmed when parsing an
    * XSD numberic typed literal.
    */
-  def setEnableWhitespaceCheckingOfTypedLiterals(enable: Boolean) {
+  def setEnableWhitespaceCheckingOfTypedLiterals(enable: Boolean) = {
     JenaParameters.enableWhitespaceCheckingOfTypedLiterals = enable
     this
   }
@@ -123,7 +139,7 @@ trait SemachinaConfiguration {
    * all triples involving such hidden nodes will be removed from the output - any
    * indirect consequences will, however, still be visible.
    */
-  def setEnableFilteringOfHiddenInfNodes(enable: Boolean) {
+  def setEnableFilteringOfHiddenInfNodes(enable: Boolean) = {
     JenaParameters.enableFilteringOfHiddenInfNodes = enable
     this
   }
@@ -132,7 +148,7 @@ trait SemachinaConfiguration {
    * If this flag is true (default) then attmempts to build an OWL inference
    * graph over another OWL inference graph will log a warning message.
    */
-  def setEnableOWLRuleOverOWLRuleWarnings(enable: Boolean) {
+  def setEnableOWLRuleOverOWLRuleWarnings(enable: Boolean) = {
     JenaParameters.enableOWLRuleOverOWLRuleWarnings = enable
     this
   }
@@ -145,7 +161,7 @@ trait SemachinaConfiguration {
    * breaks the contract that anonIDs should be unique on the same machine: they
    * will only be unique for this single JVM run.
    */
-  def setDisableBNodeUIDGeneration(disable: Boolean) {
+  def setDisableBNodeUIDGeneration(disable: Boolean) = {
     JenaParameters.disableBNodeUIDGeneration = disable
     this
   }
@@ -184,17 +200,11 @@ trait SemachinaConfiguration {
 
   def registerDatatype[L <: Object](
                                      typeURI: String,
-                                     javaClass: Class[L] = null,
                                      lexer: L => String = {
                                        (it: L) => it.toString
                                      },
                                      parser: String => L,
                                      validator: L => Boolean = null)(implicit m: Manifest[L]) = {
-
-    var clazz = javaClass
-    if (clazz == null) {
-      clazz = m.erasure.asInstanceOf[Class[L]]
-    }
 
     val dataType = new SemachinaBaseDatatype[L](typeURI, parser, lexer, validator)
     typeMapper.registerDatatype(dataType)
@@ -221,18 +231,9 @@ trait SemachinaConfiguration {
 
   def shortForm(longURI: String) = prefixMapping.shortForm(longURI)
 
-  def load(uri: String, ontModel: OntModel = null): OntModel = {
-
-    //establish working model
-    var workingModel = ontModel
-    if (ontModel == null) {
-      workingModel = SemachinaBuilder().build
-    }
-
-    //load import and return model
-    ontDocumentManager.loadImport(workingModel, uri)
-    workingModel.setNsPrefixes(prefixMapping)
-
-    return workingModel
+  def load(uri: String): OntModel = {
+    val subModel = new SemachinaOntModelImpl(OntModelSpec.OWL_MEM, personality)
+    subModel.read(uri)
+    return subModel
   }
 }
