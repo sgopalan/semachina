@@ -73,14 +73,6 @@
             <groupId>com.hp.hpl.jena</groupId>
             <artifactId>arq</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.openjena</groupId>
-            <artifactId>jena-sesame</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.jena</groupId>
-            <artifactId>larq</artifactId>
-        </dependency>
 
         <!-- Jena TDB and SDB -->
         <dependency>
@@ -98,6 +90,37 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+        </dependency>
+
+        <!-- Jena / Arq -->
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-arq</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjena</groupId>
+            <artifactId>jena-sesame</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>larq</artifactId>
+        </dependency>
+
+        <!-- TDB / SDB -->
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-tdb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-sdb</artifactId>
         </dependency>
 
         <!-- Pellet -->
