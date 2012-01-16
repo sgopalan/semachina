@@ -14,6 +14,7 @@
     <modules>
         <module>core</module>
         <module>resume</module>
+        <module>sandbox</module>
     </modules>
     <repositories>
         <repository>
@@ -114,7 +115,7 @@
     <properties>
         <scala.version>2.9.1</scala.version>
         <maven.scala.plugin.version>2.13.1</maven.scala.plugin.version>
-        <org.springframework.version>3.0.5.RELEASE</org.springframework.version>
+        <org.springframework.version>3.1.0.RELEASE</org.springframework.version>
         <org.springframework.webflow.version>2.1.0.RELEASE</org.springframework.webflow.version>
         <slf4j-version>1.6.2</slf4j-version>
         <logback-version>0.9.29</logback-version>
@@ -258,22 +259,17 @@
             <dependency>
                 <groupId>org.apache.lucene</groupId>
                 <artifactId>lucene-core</artifactId>
-                <version>3.0.3</version>
+                <version>3.4.0</version>
             </dependency>
 
             <dependency>
-                <groupId>com.hp.hpl.jena</groupId>
+                <groupId>org.apache.jena</groupId>
                 <artifactId>larq</artifactId>
-                <version>0.1.5-SNAPSHOT</version>
+                <version>0.2.2-incubating-SNAPSHOT</version>
             </dependency>
 
-            <dependency>
-                <groupId>thewebsemantic</groupId>
-                <artifactId>jenabean</artifactId>
-                <version>1.0.7-patch</version>
-            </dependency>
 
-            <!-- Sindice -->
+            <!-- Sindice
             <dependency>
                 <groupId>org.sindice.siren</groupId>
                 <artifactId>siren-core</artifactId>
@@ -284,7 +280,7 @@
                 <groupId>org.sindice.siren</groupId>
                 <artifactId>siren-qparser</artifactId>
                 <version>0.2.1-SNAPSHOT</version>
-            </dependency>
+            </dependency> -->
 
             <!-- TDB / SDB -->
             <dependency>
@@ -477,6 +473,7 @@
                         <useManifestOnlyJar>false</useManifestOnlyJar>
                         <includes>
                             <include>**/*Test.*</include>
+                            <include>**/*Specification.*</include>
                         </includes>
                         <excludes>
                             <exclude>**/SomeTestThatDoesntWorkYetTest.*</exclude>
@@ -489,15 +486,6 @@
                     <version>${war-plugin-version}</version>
                     <configuration>
                         <attachClasses>true</attachClasses>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>com.googlecode.t7mp</groupId>
-                    <artifactId>maven-t7-plugin</artifactId>
-                    <version>0.9.6</version>
-                    <configuration>
-                        <tomcatVersion>${tomcat.version}</tomcatVersion>
                     </configuration>
                 </plugin>
 
