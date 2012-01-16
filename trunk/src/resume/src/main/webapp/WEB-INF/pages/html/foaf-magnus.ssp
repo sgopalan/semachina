@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+    <meta http-equiv="content-language" content="en">
+    <meta http-equiv="content-style-type" content="text/css">
+    <title>FOAF profile of Magnus Knuth</title>
+    <meta name="description" content="FOAF profile of Magnus Knuth">
+    <!-- meta name="keywords" content="" / -->
+    <!-- meta name="geo.region" content="XX-XX" / -->
+    <!-- meta name="geo.placename" content="Xxxxxxxx" / -->
+    <!-- meta name="geo.position" content="##.###;##.###" / -->
+    <!-- meta name="ICBM" content="##.###, ##.###" / -->
+    <meta name="date" content="">
+    <!-- meta name="robots" content="index,follow" / -->
+    <!-- meta http-equiv="cache-control" content="max-age=7" / -->
+    <!-- link rel="shortcut icon" href="/favicon.ico" / -->
+
+    <link href="foaf-magnus/slim_base.css" rel="stylesheet" type="text/css" media="all">
+    <link href="foaf-magnus/all.css" rel="stylesheet" type="text/css" media="all">
+    <link href="foaf-magnus/icons.css" rel="stylesheet" type="text/css" media="all">
+    <link href="foaf-magnus/ribbons.css" rel="stylesheet" type="text/css" media="all">
+
+    <!--[if lte IE 7]>
+        <link href="/foafpressapp/core/templates/../../styles/default/patches/ie7.css" rel="stylesheet" type="text/css" media="all" />
+    <![endif]-->
+    <!--[if lte IE 6]>
+        <link href="/foafpressapp/core/templates/../../styles/default/patches/ie6.css" rel="stylesheet" type="text/css" media="all" />
+    <![endif]-->
+
+    <link rel="alternate" type="application/rdf+xml" href="http://magnus.13mm.de/foaf.rdf">
+<link rel="alternate" type="text/turtle" href="http://magnus.13mm.de/foaf.tt">
+<link rel="alternate" type="text/plain" href="http://magnus.13mm.de/foaf.nt">
+<link rel="alternate" type="application/rss+xml" href="http://magnus.13mm.de/foaf.rss">
+
+    </head>
+<body class="foaf_Person">
+    
+    <div id="header">
+        <div class="page_margins">
+            <div class="supercontent">
+            <h1>Magnus Knuth</h1>
+<div class="depiction"><img src="foaf-magnus/4a1667546.13199762,2.jpg" alt="Portait of Magnus Knuth"></div>
+<div id="websites"><h2 class="hideme">Websites</h2><ul>
+<li class="to-from to-13mm_de"><a href="http://13mm.de/">13mm.de</a></li>
+<li class="to-from to-uni-potsdam_de to-hpi_uni-potsdam_de"><a href="http://www.hpi.uni-potsdam.de/">HPI</a></li>
+<li class="to-from to-uni-potsdam_de to-hpi_uni-potsdam_de"><a href="http://www.hpi.uni-potsdam.de/meinel/team/mitarbeiter_meinel/magnus_knuth.html">HPI workpage</a></li>
+</ul></div>
+<div id="profiles"><h2>Profiles</h2><ul>
+<li class="to-from to-xing_com to-www_xing_com"><a href="http://www.xing.com/profile/Magnus_Knuth">Xing</a></li>
+<li class="to-from to-linkedin_com to-de_linkedin_com"><a href="http://de.linkedin.com/in/magnusknuth">LinkedIn</a></li>
+<li class="to-from to-google_com to-plus_google_com"><a href="http://plus.google.com/110023917170761258773">Google+</a></li>
+<li class="to-from to-delicious_com to-www_delicious_com"><a href="http://www.delicious.com/mgns">Delicious</a></li>
+<li class="to-from to-identi_ca"><a href="http://identi.ca/mgns">Identica</a></li>
+<li class="to-from to-last_fm to-www_last_fm"><a href="http://www.last.fm/user/maegnues">Last.fm</a></li>
+<li class="to-from to-bibsonomy_org to-www_bibsonomy_org"><a href="http://www.bibsonomy.org/user/mgns">Bibsonomy</a></li>
+<li class="to-from to-citeulike_org to-www_citeulike_org"><a href="http://www.citeulike.org/user/mgns">CiteULike</a></li>
+</ul></div>
+            </div>
+        </div>
+    </div> <!-- /#header -->
+    <div id="main">
+        <div class="page_margins page">
+            <hr class="topseparation">
+            <div class="subcolumns">
+                <div class="c40l">
+                    <div class="subcl">
+                        <h2>Activity</h2>
+<div class="section" id="activity">
+<ul class="big-icons">
+<li class="to-from from-delicious_com from-feeds_delicious_com to-openjena_org to-www_openjena_org"><em class="hideme">Delicious/mgns/SemanticWeb:</em> <a href="http://www.openjena.org/wiki/Fuseki">Fuseki - Jena Wiki</a> (1320336569)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-sourceforge_net to-aperture_sourceforge_net"><em class="hideme">Delicious/mgns/SemanticWeb:</em> <a href="http://aperture.sourceforge.net/">Aperture Framework</a> (1320154737)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> The #<span class="tag"><a href="http://identi.ca/tag/donaudampfschifffahrtsgesellschaftskapit%C3%A4n" rel="tag">Donaudampfschifffahrtsgesellschaftskapitän</a></span> does not need multi word, comma separated #<span class="tag"><a href="http://identi.ca/tag/tagging" rel="tag">tagging</a></span>, me neither. #<span class="tag"><a href="http://identi.ca/tag/delicious" rel="tag">delicious</a></span> (1318585190)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> I want the #<span class="tag"><a href="http://identi.ca/tag/identica" rel="tag">identica</a></span> #<span class="tag"><a href="http://identi.ca/tag/im" rel="tag">im</a></span> inegration back. Now! #<span class="tag"><a href="http://identi.ca/tag/jabber" rel="tag">jabber</a></span> (1318431042)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> Well proven vs. clumsy #<span class="tag"><a href="http://identi.ca/tag/usability" rel="tag">Usability</a></span> respectively #<span class="tag"><a href="http://identi.ca/tag/delicious" rel="tag">Delicious</a></span> before vs. after the "update" #<span class="tag"><a href="http://identi.ca/tag/fail" rel="tag">fail</a></span> (1317817581)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> Nice article in #<span class="tag"><a href="http://identi.ca/tag/diezeit" rel="tag">DieZeit</a></span> about #<span class="tag"><a href="http://identi.ca/tag/facebook" rel="tag">Facebook</a></span> #<span class="tag"><a href="http://identi.ca/tag/timeline" rel="tag">Timeline.</a></span> #<span class="tag"><a href="http://identi.ca/tag/postprivacy" rel="tag">postprivacy</a></span> #<span class="tag"><a href="http://identi.ca/tag/spackeria" rel="tag">Spackeria</a></span> (1317736475)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-google_com to-code_google_com"><em class="hideme">Delicious/mgns/Programming:</em> <a href="http://code.google.com/p/uimafit/">uimafit - uimaFIT is a library that provides factories, injection, and testing utilities for UIMA - Google Project Hosting</a> (1317386594)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> Even #<span class="tag"><a href="http://identi.ca/tag/disambiguation" rel="tag">disambiguation</a></span> is ambiguous <a href="http://en.wikipedia.org/wiki/Disambiguation_(disambiguation)" title="http://en.wikipedia.org/wiki/Disambiguation_(disambiguation)" rel="nofollow external">http://en.wikipedia.org/wiki/Disambiguation_(disambiguation)</a> (1317211402)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-google_com to-code_google_com"><em class="hideme">Delicious/mgns/SemanticWeb:</em> <a href="https://code.google.com/p/mrg/wiki/Introduction">Introduction - mrg - RDF Graph API - Google Project Hosting</a></li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> RT @<span class="vcard"><a href="http://identi.ca/user/50872" class="url" title="Arbeitskreis Vorratsdatenspeicherung"><span class="fn nickname">akvorrat</span></a></span> Noch 8.000 Unterschriften nötig, damit wir im Bundestag gehört werden: <a href="http://is.gd/NkfEPC" title="http://www.vorratsdatenspeicherung.de/content/view/478/55/lang,de/" rel="nofollow external">http://is.gd/NkfEPC</a> Starke Kurve! <a href="http://is.gd/QKyBg" title="http://is.gd/QKyBg" rel="nofollow external">http://is.gd/QKyBg</a> ... (1315991524)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> FYI: A #<span class="tag"><a href="http://identi.ca/tag/knowledgecamp" rel="tag">KnowledgeCamp</a></span> takes place on 16./17. Sept in #<span class="tag"><a href="http://identi.ca/tag/potsdam" rel="tag">Potsdam</a></span> <a href="http://knowledgecamp.mixxt.org/" title="http://knowledgecamp.mixxt.org/" rel="nofollow external">http://knowledgecamp.mixxt.org/</a> #<span class="tag"><a href="http://identi.ca/tag/barcamp" rel="tag">barcamp</a></span> (1315991091)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-w3_org to-www_w3_org"><em class="hideme">Delicious/mgns/SemanticWeb:</em> <a href="http://www.w3.org/TR/cooluris/">Cool URIs for the Semantic Web</a> (1315941055)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-djangoproject_com to-www_djangoproject_com"><em class="hideme">Delicious/mgns/Programming:</em> <a href="https://www.djangoproject.com/">Django | The Web framework for perfectionists with deadlines</a> (1315941031)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-rhok_org to-www_rhok_org"><em class="hideme">Delicious/mgns/Programming:</em> <a href="http://www.rhok.org/">Random Hacks of Kindness</a> (1315904279)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> #<span class="tag"><a href="http://identi.ca/tag/dbpedia" rel="tag">DBpedia</a></span> Spotlight won the Best Paper Award at #<span class="tag"><a href="http://identi.ca/tag/isemantics2011" rel="tag">isemantics2011</a></span> Congrats! <a href="http://tinyurl.com/3bfz89b" title="http://www.wiwiss.fu-berlin.de/en/institute/pwo/bizer/research/publications/Mendes-Jakob-GarciaSilva-Bizer-DBpediaSpotlight-ISEM2011.pdf" class="attachment" id="attachment-53064809" rel="nofollow external">http://tinyurl.com/3bfz89b</a> (1315574233)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> Hab mein Geldtaschel im Bus vom Airport liegen lassen, ...der Fahrer hat es eine Runde später wieder mitgebracht. So gut ist Österreich! Thx (1315343143)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> From #<span class="tag"><a href="http://identi.ca/tag/ecmlpkdd2011" rel="tag">ECML_PKDD_2011</a></span> : This month new version of #<span class="tag"><a href="http://identi.ca/tag/weka" rel="tag">Weka</a></span> will contain stream classification module MOA <a href="http://moa.cs.waikato.ac.nz/details/" title="http://moa.cs.waikato.ac.nz/details/" rel="nofollow external">http://moa.cs.waikato.ac.nz/details/</a> (1315300393)</li>
+<li class="to-from from-bibsonomy_org from-www_bibsonomy_org to-bibsonomy_org to-www_bibsonomy_org"><em class="hideme">BibSonomy publications for /user/mgns:</em> <a href="http://www.bibsonomy.org/bibtex/2d55a728d0e171c983a2f7211784c0a77/mgns">RISQ! Renowned Individuals Semantic Quiz – A Jeopardy like Quiz Game for Ranking Facts</a> (1315212857)</li>
+<li class="to-from from-bibsonomy_org from-www_bibsonomy_org to-bibsonomy_org to-www_bibsonomy_org"><em class="hideme">BibSonomy publications for /user/mgns:</em> <a href="http://www.bibsonomy.org/bibtex/2dac1ea80d17e18272a9b5875533c46cf/mgns">The Generation of User Interest Profiles from Semantic Quiz Games</a> (1315212590)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> Arrived in Athens. Stepped out the metro, it was hot, in front of me the Akropolis and i smelled Souflaki. (1315150695)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-librdf_org"><em class="hideme">Delicious/mgns/SemanticWeb:</em> <a href="http://librdf.org/rasqal/roqet.html">Roqet - Rasqal RDF query utility</a> (1313655835)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> Unberechenbar: @s_bahn_berlin Umsteigen von der S1 in die S7 in #<span class="tag"><a href="http://identi.ca/tag/wannsee" rel="tag">Wannsee</a></span> dauert entweder 15 Sek oder 15 Min. (1313582099)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> Received a parcel with 3 TB of new video. Happy unwrapping. (1312531141)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> Schade schade, Into-the-Wald ist gecancelled. (1312112083)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> Join the #<span class="tag"><a href="http://identi.ca/tag/dbpedia" rel="tag">DBpedia</a></span> Mapping Creation Sprint since there is still much missing <a href="http://tinyurl.com/6jmakl7" title="http://comments.gmane.org/gmane.comp.web.semantic.dbpedia.general/2733" rel="nofollow external">http://tinyurl.com/6jmakl7</a> (1310740168)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> Very interesting #<span class="tag"><a href="http://identi.ca/tag/linkeddata" rel="tag">LinkedData</a></span> miniproject proposals at #<span class="tag"><a href="http://identi.ca/tag/sssw2011" rel="tag">SSSW2011</a></span> <a href="http://bit.ly/oFcSSJ" title="http://sssw.org/2011/miniprojects.php" rel="nofollow external">http://bit.ly/oFcSSJ</a> (1310720621)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-w3_org to-www_w3_org"><em class="hideme">Delicious/mgns/SemanticWeb:</em> <a href="http://www.w3.org/TR/2011/CR-mediaont-10-20110707/">Ontology for Media Resources 1.0</a> (1310168800)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-mondeca_com to-labs_mondeca_com"><em class="hideme">Delicious/mgns/SemanticWeb:</em> <a href="http://labs.mondeca.com/dataset/lov/index.html">Linked Open Vocabularies (LOV)</a> (1309731778)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-schemapedia_com"><em class="hideme">Delicious/mgns/SemanticWeb:</em> <a href="http://schemapedia.com/">Schemapedia</a> (1309731486)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> @<span class="vcard"><a href="http://identi.ca/user/13114" class="url" title="Michael Haschke"><span class="fn nickname">haschek</span></a></span> Alternatively you can pick it up (locally-only) in Aurora, IL. <a href="http://bit.ly/kK5vNu" title="http://cgi.ebay.com/Google-Plus-Invite-NEW-LOOPHOLE-NO-WAITING-TIME-/260811827408?pt=LH_DefaultDomain_0&amp;hash=item3cb998a8d0" rel="nofollow external">http://bit.ly/kK5vNu</a> (1309632898)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-ufl_edu to-astro_ufl_edu"><em class="hideme">Delicious/mgns/Programming:</em> <a href="http://www.astro.ufl.edu/~warner/prog/python.html">Python Basics</a> (1308906513)</li>
+<li class="to-from from-bibsonomy_org from-www_bibsonomy_org to-bibsonomy_org to-www_bibsonomy_org"><em class="hideme">BibSonomy publications for /user/mgns:</em> <a href="http://www.bibsonomy.org/bibtex/236f22782ea66f1cb951faea20690cf9c/mgns">Persona: A contextualized and personalized Web search</a> (1308875883)</li>
+<li class="to-from from-bibsonomy_org from-www_bibsonomy_org to-bibsonomy_org to-www_bibsonomy_org"><em class="hideme">BibSonomy publications for /user/mgns:</em> <a href="http://www.bibsonomy.org/bibtex/2bc9283db63d96babd393158309b5c773/mgns">Ontological User Profiling in Recommender Systems</a> (1308873410)</li>
+<li class="to-from from-bibsonomy_org from-www_bibsonomy_org to-bibsonomy_org to-www_bibsonomy_org"><em class="hideme">BibSonomy publications for /user/mgns:</em> <a href="http://www.bibsonomy.org/bibtex/2e5e639b9c0f20682c657a5480136356a/mgns">Learning implicit user interest hierarchy for context in personalization</a> (1308873192)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> Play WhoKnows? <a href="http://bit.ly/fIfNAz" title="http://apps.facebook.com/whoknows_/" rel="nofollow external">http://bit.ly/fIfNAz</a> and if you tell me your !<span class="vcard"><a href="http://identi.ca/group/373/id" class="url" title="Facebook Group (facebook)"><span class="fn nickname">Facebook</span></a></span> name, I can tell you your area of expertise. !<span class="vcard"><a href="http://identi.ca/group/35221/id" class="url" title="Games With A Purpose (purposegames)"><span class="fn nickname">PurposeGames</span></a></span> #<span class="tag"><a href="http://identi.ca/tag/profiles" rel="tag">Profiles</a></span> (1308835993)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-mulgara_org to-www_mulgara_org"><em class="hideme">Delicious/mgns/SemanticWeb:</em> <a href="http://www.mulgara.org/">Welcome to the Mulgara Project!</a> (1307738861)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> Yesterday at our local "#<span class="tag"><a href="http://identi.ca/tag/ipv6" rel="tag">IPv6</a></span> Control Center": see us observing the state of the internet. <a href="http://bit.ly/lIS1m1" title="http://www.zdf.de/ZDFmediathek/beitrag/video/1356330/Testlauf-fuer-das-Internet-der-Zukunft" rel="nofollow external">http://bit.ly/lIS1m1</a> (1307611289)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-ac_nz to-waikato_ac_nz"><em class="hideme">Delicious/mgns/Programming:</em> <a href="http://www.cs.waikato.ac.nz/ml/weka/">Weka 3 - Data Mining with Open Source Machine Learning Software in Java</a> (1307547722)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> Happy IPv6 day! (1307530719)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> The team made some thumbdrives containing a VM with installed social apps for testing in open space at #<span class="tag"><a href="http://identi.ca/tag/fsw2011" rel="tag">FSW2011.</a></span> Is there one left? (1307265478)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-wheelersoftware_com"><em class="hideme">Delicious/mgns/Programming:</em> <a href="http://wheelersoftware.com/articles/spring-web-flow-2.0.html">Tutorial: Build a Shopping Cart with Spring Web Flow 2.0</a> (1305579187)</li>
+<li class="to-from from-bibsonomy_org from-www_bibsonomy_org to-bibsonomy_org to-www_bibsonomy_org"><em class="hideme">BibSonomy publications for /user/mgns:</em> <a href="http://www.bibsonomy.org/bibtex/23421c40179b8b334491b34bcd21ce7d5/mgns">The Path is the Destination - Enabling a New Search Paradigm with Linked Data</a> (1305578483)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> RISQ! game started !<span class="vcard"><a href="http://identi.ca/group/373/id" class="url" title="Facebook Group (facebook)"><span class="fn nickname">Facebook</span></a></span> page <a href="http://tinyurl.com/risqfb" title="http://www.facebook.com/pages/RISQ/102621779828113" rel="nofollow external">http://tinyurl.com/risqfb</a> App is coming! (1305551213)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> WhoKnows game is back on !<span class="vcard"><a href="http://identi.ca/group/373/id" class="url" title="Facebook Group (facebook)"><span class="fn nickname">Facebook</span></a></span>: <a href="http://bit.ly/fIfNAz" title="http://apps.facebook.com/whoknows_/" rel="nofollow external">http://bit.ly/fIfNAz</a> (1305239564)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-nodebeginner_org"><em class="hideme">Delicious/mgns/Programming:</em> <a href="http://nodebeginner.org/">The Node Beginner Book » A comprehensive Node.js tutorial</a> (1304510365)</li>
+<li class="to-from from-bibsonomy_org from-www_bibsonomy_org to-bibsonomy_org to-www_bibsonomy_org"><em class="hideme">BibSonomy publications for /user/mgns:</em> <a href="http://www.bibsonomy.org/bibtex/2c92b234c6f89dfd0e8e6f0d66b58fc5b/mgns">OCRSpell: an interactive spelling correction system for OCR errors in text</a> (1302679846)</li>
+<li class="to-from from-delicious_com from-feeds_delicious_com to-norvig_com"><em class="hideme">Delicious/mgns/Programming:</em> <a href="http://norvig.com/spell-correct.html">How to Write a Spelling Corrector</a> (1302472235)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> Deleting about 10TB duplicated data on the server makes feeling released, in the truest sense of word. (1302179163)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> We are at #<span class="tag"><a href="http://identi.ca/tag/cebit" rel="tag">CeBit.</a></span> Today is quite calm, so come to #<span class="tag"><a href="http://identi.ca/tag/hpi" rel="tag">HPI</a></span> Hall 9 C15. (1299240185)</li>
+<li class="to-from from-identi_ca to-identi_ca"><em class="hideme">:</em> peak oil 2010 <a href="http://bit.ly/hUx13H" title="http://www.l-iz.de/Wirtschaft/Metropolregion/2010/12/Spritmangel-Bundeswehr-Bundesregierung-malt-sich-Energiezukunft-schoen.html" rel="nofollow external">http://bit.ly/hUx13H</a> (1296813719)</li>
+</ul></div>
+                    </div>
+                </div>
+                <div class="c60r">
+                    <div class="subcr subcontent">
+                        <div class="subcolumns">
+                            <div class="c50l"><div class="subcl">
+<h2>About me</h2>
+<h3>Interests</h3>
+<ul class="inline">
+<li class="inline"><a href="http://magnus.13mm.de/foaf.html#103b850abb89c034ccc2a2d2e6756fe3">Semantic Web</a></li>
+<li class="inline"><a href="http://magnus.13mm.de/foaf.html#9c5024057e9ccbe95513d251d4e34ee7">Formal ontology</a></li>
+<li class="inline"><a href="http://magnus.13mm.de/foaf.html#2e7152656983d7919f50e9fa4d586b5d">Knowledge management</a></li>
+<li class="inline"><a href="http://magnus.13mm.de/foaf.html#2e7b4aeb9e1de6b3b2eb6ce2107235fb">Adaptive hypermedia</a></li>
+<li class="inline"><a href="http://magnus.13mm.de/foaf.html#0e188c223e8db43f466520117d6f4b31">Semantic search</a></li>
+<li class="inline"><a href="foaf-magnus/FOAF profile of Magnus Knuth.htm">Longboarding</a></li>
+</ul>
+<h3>Projects</h3>
+<ul class="inline">
+<li class="inline"><a href="http://magnus.13mm.de/foaf.html#5e055bfb839f67a206e15544142ec83c">Semantic Media Explorer</a></li>
+<li class="inline"><a href="http://magnus.13mm.de/foaf.html#478d5039696b3c4432e87c62b784dda5">MEDIAGLOBE - the digital archive</a></li>
+<li class="inline"><a href="http://magnus.13mm.de/foaf.html#8129b3e3ca609a9aa33279298e81c6a4">THESEUS - CONTENTUS</a></li>
+<li class="inline"><a href="http://magnus.13mm.de/foaf.html#6c1e1ff649ca328de6e7816d065d8af5">Trial Item Manager</a></li>
+</ul>
+</div></div>
+<div class="c50r"><div class="subcr">
+<div id="contacts">
+<h2>Contacts</h2>
+<h3>Work</h3>
+<dl>
+<dt>Address</dt>
+<dd>Prof.-Dr.-Helmert-Str. 2-3, Potsdam, Brandenburg, 14482, Germany</dd>
+<dt class="inline">Phone</dt>
+<dd class="inline"><a href="tel:+493315509570">+49 (0)331 55 09 570</a></dd>
+<dt class="inline">Fax</dt>
+<dd class="inline"><a href="tel:+493315509325">+49 (0)331 55 09 325</a></dd>
+<dt class="inline">Email</dt>
+<dd class="inline"><a href="mailto:magnus.knuth@hpi.uni-potsdam.de">magnus.knuth@hpi.uni-potsdam.de</a></dd>
+</dl>
+</div> <!-- /#contacts -->
+</div></div>
+                        </div>
+                        <h2>Network</h2>
+<div class="section" id="network"><ul>
+<li><div>
+<a href="http://haschek.eye48.com/gelabb/">Haschek <span class="depiction"><span><img src="foaf-magnus/285c5060285d6f23449e30784aac5f2e" alt="Michael Haschke (Haschek)"></span></span></a><br>
+<a href="http://haschek.eye48.com/gelabb/" title="Weblog"><img src="foaf-magnus/icon-weblog.png" alt=""></a>
+<a href="http://haschek.eye48.com/" title="Resource"><img src="foaf-magnus/icon-resource.png" alt=""></a>
+&nbsp;</div></li>
+<li><div>
+<a href="http://sebastian.tramp.name/">Sebastian Tramp <span class="depiction"><span><img src="foaf-magnus/jpegPhoto.php" alt="default picture"></span></span></a><br>
+<a href="http://sebastian.tramp.name/" title="Resource"><img src="foaf-magnus/icon-resource.png" alt=""></a>
+&nbsp;</div></li>
+<li><div>
+<a href="http://www.hpi.uni-potsdam.de/meinel/sack.html">Harald Sack <span class="depiction"><span><img src="foaf-magnus/harald_min.jpg" alt=""></span></span></a><br>
+<a href="http://www.hpi.uni-potsdam.de/meinel/sack.html" title="Homepage"><img src="foaf-magnus/icon-homepage.png" alt="Homepage"></a>
+<a href="http://www.hpi.uni-potsdam.de/fileadmin/hpi/FG_ITS/lecturenotes/Semantic_Web/foaf.rdf#me" title="Resource"><img src="foaf-magnus/icon-resource.png" alt=""></a>
+&nbsp;</div></li>
+<li><div>
+<a href="http://jhercher.de/">Johannes Hercher <span class="depiction"><span><img src="foaf-magnus/c521259550.png" alt=""></span></span></a><br>
+<a href="http://jhercher.de/" title="Homepage"><img src="foaf-magnus/icon-homepage.png" alt="jhercher.de"></a>
+<a href="http://johannes.jhercher.de/" title="Resource"><img src="foaf-magnus/icon-resource.png" alt=""></a>
+&nbsp;</div></li>
+<li><div>
+<a href="http://quasthoffs.de/matthias/">Matthias Quasthoff <span class="depiction"><span><img src="foaf-magnus/about.jpg" alt=""></span></span></a><br>
+<a href="http://quasthoffs.de/matthias/" title="Homepage"><img src="foaf-magnus/icon-homepage.png" alt="Homepage"></a>
+<a href="http://quasthoffs.de/matthias" title="Resource"><img src="foaf-magnus/icon-resource.png" alt=""></a>
+&nbsp;</div></li>
+<li><div>
+<a href="http://www.michael-martin.info/">Michael Martin <span class="depiction"><span><img src="foaf-magnus/portrait_micha.jpg" alt=""></span></span></a><br>
+<a href="http://www.michael-martin.info/" title="Homepage"><img src="foaf-magnus/icon-homepage.png" alt="Homepage"></a>
+<a href="http://www.michael-martin.info/" title="Weblog"><img src="foaf-magnus/icon-weblog.png" alt=""></a>
+<a href="http://michael-martin.info/rdf/foaf.rdf#me" title="Resource"><img src="foaf-magnus/icon-resource.png" alt=""></a>
+&nbsp;</div></li>
+<li><div>
+<a href="http://www.informatik.uni-leipzig.de/~auer">Sören Auer <span class="depiction"><span><img src="foaf-magnus/jpegPhoto(1).php" alt=""></span></span></a><br>
+<a href="http://www.informatik.uni-leipzig.de/~auer" title="Homepage"><img src="foaf-magnus/icon-homepage.png" alt="Homepage"></a>
+<a href="http://www.informatik.uni-leipzig.de/~auer/foaf.rdf#me" title="Resource"><img src="foaf-magnus/icon-resource.png" alt=""></a>
+&nbsp;</div></li>
+<li><div>
+<a href="http://bblfish.net/">Henry J. Story <span class="depiction"><span><img src="foaf-magnus/373663745_e2066a4950.jpg" alt=""></span></span></a><br>
+<a href="http://bblfish.net/" title="Homepage"><img src="foaf-magnus/icon-homepage.png" alt="Homepage"></a>
+<a href="http://bblfish.net/blog/" title="Weblog"><img src="foaf-magnus/icon-weblog.png" alt=""></a>
+<a href="http://bblfish.net/people/henry/card#me" title="Resource"><img src="foaf-magnus/icon-resource.png" alt=""></a>
+&nbsp;</div></li>
+<li><div>
+<a href="http://www.leobard.net/">Leo Sauermann <span class="depiction"><span><img src="foaf-magnus/leo.jpg" alt=""></span></span></a><br>
+<a href="http://www.leobard.net/" title="Homepage"><img src="foaf-magnus/icon-homepage.png" alt="Homepage"></a>
+<a href="http://leobard.twoday.net/" title="Weblog"><img src="foaf-magnus/icon-weblog.png" alt=""></a>
+<a href="http://www.leobard.net/rdf/foaf.xml#me" title="Resource"><img src="foaf-magnus/icon-resource.png" alt=""></a>
+&nbsp;</div></li>
+</ul></div> <!-- /#network -->
+                                                <div class="subcolumns">
+                            <div class="c50l">
+                                <div class="subcl">
+                                    <h2>Interests</h2>
+<div class="section" id="interests">
+<ul>
+<li id="103b850abb89c034ccc2a2d2e6756fe3">
+<h3>Semantic Web</h3>
+<p>
+The Semantic Web is a "web of data" that facilitates machines to understand the semantics, or meaning, of information on the World Wide Web. It extends the network of hyperlinked human-readable web pages by inserting machine-readable metadata about pages and how they are related to each other, enabling automated agents to access the Web more intelligently and perform tasks on behalf of users.<br>
+<a class="to-from" href="http://en.wikipedia.org/wiki/Semantic_Web">Semantic Web</a>
+</p>
+</li>
+<li id="9c5024057e9ccbe95513d251d4e34ee7">
+<h3>Formal ontology</h3>
+<p>
+A formal ontology is an ontology with a structure that is guided and defined through axioms. The goal of a formal ontology is to provide an unbiased view on reality. Formal ontologies are founded upon a specific formal upper level ontology, which provides consistency checks for the entire ontology and, if applied properly, allows the modeler to avoid possibly erroneous ontological assumptions encountered in modeling large-scale ontologies.<br>
+<a class="to-from" href="http://en.wikipedia.org/wiki/Formal_ontology">Formal ontology</a>
+</p>
+</li>
+<li id="2e7152656983d7919f50e9fa4d586b5d">
+<h3>Knowledge management</h3>
+<p>
+Knowledge Management (KM) comprises a range of strategies and practices used in an organization to identify, create, represent, distribute, and enable adoption of insights and experiences. Such insights and experiences comprise knowledge, either embodied in individuals or embedded in organizational processes or practice.<br>
+<a class="to-from" href="http://en.wikipedia.org/wiki/Knowledge_management">Knowledge management</a>
+</p>
+</li>
+<li id="2e7b4aeb9e1de6b3b2eb6ce2107235fb">
+<h3>Adaptive hypermedia</h3>
+<p>
+In contrast to traditional e-learning/electronic learning, e-business, and e-government systems, whereby all users are offered or even directed a standard series of hyperlinks, adaptive hypermedia (AH) tailors what the user sees to the learner's goals, abilities, interests, knowledge, etc.<br>
+<a class="to-from" href="http://en.wikipedia.org/wiki/Adaptive_hypermedia">Adaptive hypermedia</a>
+</p>
+</li>
+<li id="0e188c223e8db43f466520117d6f4b31">
+<h3>Semantic search</h3>
+<p>
+Semantic search seeks to improve search accuracy by understanding searcher intent and the contextual meaning of terms as they appear in the searchable dataspace, whether on the Web or within a closed system, to generate more relevant results. Author Seth Grimes lists "11 approaches that join semantics to search", and Hildebrand et al. provide an overview that lists semantic search systems and identifies other uses of semantics in the search process. Guha et al.<br>
+<a class="to-from" href="http://en.wikipedia.org/wiki/Semantic_search">Semantic search</a>
+</p>
+</li>
+<li id="87fe080e6452f22d016d6528adaeea3b">
+<h3>Longboarding</h3>
+<p>
+Longboarding is the act of riding on a longboard. Longboarding is an offshoot of street skating, but, like all board sports, its roots lie in surfing. Developed as a single sport on the west coast in the 1950s, longboarding and street skateboarding became popular with the youth of the time; by the 1990s, Longboards and Skateboards branched off into their respective disciplines. With the right setup, a longboard can give the feeling of surfing on hard smooth surfaces.<br>
+<a class="to-from" href="http://en.wikipedia.org/wiki/Longboarding">Longboarding</a>
+</p>
+</li>
+</ul></div>
+                                                                    </div>
+                            </div>
+                            <div class="c50r">
+                                <div class="subcr">
+                                    <h2>Projects</h2>
+<div class="section" id="projects">
+<ul>
+<li id="5e055bfb839f67a206e15544142ec83c">
+<h3>Semantic Media Explorer</h3>
+<p>
+The Semantic Media Explorer combines the latest media analysis processes, such as automatic scene segmentation, intelligent character recognition, and the ability to recognize genres and faces in videos.<br>
+<a class="to-from" href="http://www.hpi.uni-potsdam.de/meinel/forschung/future_internet/semantic_technologies/semantic_media_explorer.html">Semantic Media Explorer</a>
+</p>
+</li>
+<li id="478d5039696b3c4432e87c62b784dda5">
+<h3>MEDIAGLOBE - the digital archive</h3>
+<p>
+MEDIAGLOBE deals with digitization, analysis, and semantic retrieval of historical, documentary audiovisual content<br>
+<a class="to-from" href="http://www.projekt-mediaglobe.de/">MEDIAGLOBE - the digital archive</a>
+</p>
+</li>
+<li id="8129b3e3ca609a9aa33279298e81c6a4">
+<h3>THESEUS - CONTENTUS</h3>
+<p>
+The purpose of CONTENTUS is to develop basic technologies with which to access, archive and search for multi-media cultural assets and works of art.<br>
+<a class="to-from" href="http://theseus-programm.de/en-us/theseus-application-scenarios/contentus/default.aspx">THESEUS - CONTENTUS</a>
+</p>
+</li>
+<li id="6c1e1ff649ca328de6e7816d065d8af5">
+<h3>Trial Item Manager</h3>
+<p>
+A semantic web application (written in Java) for the specification of metadata items in clinical research<br>
+<a class="to-from" href="http://tim.zks.uni-leipzig.de/">Trial Item Manager</a>
+</p>
+</li>
+</ul></div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                </div>
+            </div>
+        </div>
+    </div> <!-- /#main -->
+
+    <div id="footer">
+        <a href="http://magnus.13mm.de/foaf.html#footer" class="ribbon" id="ribbon_foaf_Person" title="This is a foaf:Person">&nbsp;</a>
+        <div class="page_margins">
+            <div class="subcontent">
+            <p><strong>This is a <a href="http://xmlns.com/foaf/0.1/Person">foaf:Person</a>
+            rendered by <a href="http://foafpress.org/">Foafpress</a></strong>,
+            using <a href="http://eye48.com/go/spcms">SPCMS</a>,
+            <a href="http://arc.semsol.org/">ARC 2</a>,
+            <a href="http://www.yaml.de/">YAML</a><!--,
+            <a href="http://jquery.com/">jQuery</a> -->
+            and <a href="http://www.komodomedia.com/download/#social-network-icon-pack">Komodo SNIP</a>.
+            <a id="jointhesemweblogo" href="http://www.w3.org/2001/sw/" title="W3C Semantic Web Logo (Join the Semantic Web!)"><span class="hideme">Join the Semantic Web!</span></a></p>
+            <p>Show resource as <a href="http://magnus.13mm.de/foaf.rdf">application/rdf+xml</a>, <a href="http://magnus.13mm.de/foaf.tt">text/turtle</a>, <a href="http://magnus.13mm.de/foaf.nt">text/plain</a>, <a href="http://magnus.13mm.de/foaf.rss">application/rss+xml</a></p>
+            </div>
+        </div>
+    </div> <!-- /#footer -->
+
+
+
+</body></html>
