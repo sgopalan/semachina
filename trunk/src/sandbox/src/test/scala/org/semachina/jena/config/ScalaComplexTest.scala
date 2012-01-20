@@ -39,12 +39,15 @@ import org.semachina.jena.config.JenaBuilderContext
   val ontModel = createOntologyModel(jenaContext)
 """
 
-  @Test def testdef1 = {
+  @Test
+  def testdef1 = {
+  /**
     // simple, one time, expression
     val ctx = ScalaScriptContext()
     ctx.set("jenaContext", new JenaBuilderContext(personality = BuiltinPersonalities.model))
     val value = ScalaScript (SS).eval(ctx).getOrThrow.asInstanceOf[OntModel]
     assertNotNull(value)
+   */
   }
 }
 
