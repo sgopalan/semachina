@@ -39,7 +39,7 @@ class Larq3Feature(fsd: Directory = new RAMDirectory,
     }
     SemachinaConfiguration.registerPropertyFunction(textMatchURI, classOf[textMatch])
 
-    ib = buildIndexBuilder()
+    ib = getIndexBuilder()
 
   }
 
@@ -71,14 +71,17 @@ class Larq3Feature(fsd: Directory = new RAMDirectory,
 
   def index(statements: StmtIterator): Unit = {
     //check ib
-
+    ib = getIndexBuilder()
     ib.indexStatements(statements)
     ib.flushWriter()
   }
 
-  protected def buildIndexBuilder(): IndexBuilderModel = {
-    val indexWriter =
-      new IndexWriter(fsd, new StandardAnalyzer(LARQ.LUCENE_VERSION), MaxFieldLength.UNLIMITED)
+  protected def getIndexBuilder(): IndexBuilderModel = {
+    if( ib != null ) {
+      return ib
+    }
+
+    val indexWriter = IndexWriterFactory.create(fsd)
 
     ib = new IndexBuilderSubject(indexWriter)
     setIndex(ib)

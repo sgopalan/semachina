@@ -65,24 +65,9 @@
         </dependency> -->
 
         <!-- Jena / Arq -->
-        <dependency>
-            <groupId>com.hp.hpl.jena</groupId>
-            <artifactId>jena</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hp.hpl.jena</groupId>
-            <artifactId>arq</artifactId>
-        </dependency>
+
 
         <!-- Jena TDB and SDB -->
-        <dependency>
-            <groupId>com.hp.hpl.jena</groupId>
-            <artifactId>tdb</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hp.hpl.jena</groupId>
-            <artifactId>sdb</artifactId>
-        </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -104,13 +89,13 @@
         </dependency>
 
         <dependency>
-            <groupId>org.openjena</groupId>
-            <artifactId>jena-sesame</artifactId>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-larq</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.jena</groupId>
-            <artifactId>larq</artifactId>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
         </dependency>
 
         <!-- TDB / SDB -->
