@@ -1,0 +1,1 @@
+a prototype application that combines RDF, OWL, Flex, and Grails
